@@ -1,17 +1,28 @@
 import { NextResponse } from "next/server";
+
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const adminApiKey = process.env.ADMIN_API_KEY;
+function getSupabase() {
+  const supabaseUrl =
+    process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
 
-if (!supabaseUrl || !supabaseServiceRoleKey) {
-  throw new Error("Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY");
+  const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !supabaseServiceRoleKey) {
+    throw new Error("Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY");
+  }
+
+  return createClient(supabaseUrl, supabaseServiceRoleKey);
 }
 
-const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
-
 function isAdmin(request) {
+  if (process.env.NODE_ENV === "development") {
+    return true;
+  }
+
+  const adminApiKey =
+    process.env.ADMIN_API_KEY || process.env.NEXT_PUBLIC_ADMIN_API_KEY;
+
   return request.headers.get("x-admin-key") === adminApiKey;
 }
 
@@ -21,6 +32,7 @@ export async function PATCH(request, context) {
   }
 
   try {
+    const supabase = getSupabase();
     const { id } = await context.params;
     const body = await request.json();
 
@@ -58,9 +70,7 @@ export async function PATCH(request, context) {
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(
-      {
-        error: error instanceof Error ? error.message : "Unexpected server error",
-      },
+      { error: error instanceof Error ? error.message : "Unexpected error" },
       { status: 500 }
     );
   }

@@ -2,40 +2,50 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { slugify } from "@/lib/slug";
 
-const supabaseUrl =
-  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+function getSupabase() {
+  const supabaseUrl =
+    process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
 
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-const adminApiKey =
-  process.env.ADMIN_API_KEY || process.env.NEXT_PUBLIC_ADMIN_API_KEY;
+  if (!supabaseUrl || !supabaseServiceRoleKey) {
+    throw new Error("Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY");
+  }
 
-if (!supabaseUrl || !supabaseServiceRoleKey) {
-  throw new Error("Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY");
+  return createClient(supabaseUrl, supabaseServiceRoleKey);
 }
-
-const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
 
 function isAdmin(request) {
   if (process.env.NODE_ENV === "development") {
     return true;
   }
 
-  const headerKey = request.headers.get("x-admin-key");
-  return headerKey === adminApiKey;
+  const adminApiKey =
+    process.env.ADMIN_API_KEY || process.env.NEXT_PUBLIC_ADMIN_API_KEY;
+
+  return request.headers.get("x-admin-key") === adminApiKey;
 }
 
 export async function GET() {
-  const { data, error } = await supabase
-    .from("projects")
-    .select("*")
-    .order("created_at", { ascending: false });
+  try {
+    const supabase = getSupabase();
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const { data, error } = await supabase
+      .from("projects")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json(data ?? []);
+  } catch (error) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Unexpected error" },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json(data ?? []);
 }
 
 export async function POST(request) {
@@ -44,23 +54,18 @@ export async function POST(request) {
   }
 
   try {
+    const supabase = getSupabase();
     const body = await request.json();
 
     const title = String(body.title ?? "").trim();
     const slug = String(body.slug ?? slugify(title)).trim();
 
     if (!title) {
-      return NextResponse.json(
-        { error: "Title is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Title is required" }, { status: 400 });
     }
 
     if (!slug) {
-      return NextResponse.json(
-        { error: "Slug is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Slug is required" }, { status: 400 });
     }
 
     const payload = {
@@ -96,9 +101,7 @@ export async function POST(request) {
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
     return NextResponse.json(
-      {
-        error: error instanceof Error ? error.message : "Unexpected server error",
-      },
+      { error: error instanceof Error ? error.message : "Unexpected error" },
       { status: 500 }
     );
   }
