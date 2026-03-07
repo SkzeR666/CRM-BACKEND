@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { cookies } from "next/headers";
 import { slugify } from "@/lib/slug";
+import {
+  ADMIN_COOKIE_NAME,
+  isValidAdminSession,
+} from "@/lib/admin-session";
 
 function getSupabase() {
   const supabaseUrl =
@@ -15,15 +20,15 @@ function getSupabase() {
   return createClient(supabaseUrl, supabaseServiceRoleKey);
 }
 
-function isAdmin(request) {
+async function isAdmin() {
   if (process.env.NODE_ENV === "development") {
     return true;
   }
 
-  const adminApiKey =
-    process.env.ADMIN_API_KEY || process.env.NEXT_PUBLIC_ADMIN_API_KEY;
+  const cookieStore = await cookies();
+  const sessionValue = cookieStore.get(ADMIN_COOKIE_NAME)?.value;
 
-  return request.headers.get("x-admin-key") === adminApiKey;
+  return isValidAdminSession(sessionValue);
 }
 
 export async function GET() {
@@ -49,7 +54,7 @@ export async function GET() {
 }
 
 export async function POST(request) {
-  if (!isAdmin(request)) {
+  if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

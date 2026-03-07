@@ -108,7 +108,6 @@ export function PropertyForm() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-admin-key": process.env.NEXT_PUBLIC_ADMIN_API_KEY || "",
         },
         body: JSON.stringify({
           ...values,
@@ -117,10 +116,16 @@ export function PropertyForm() {
         }),
       });
 
-      const data = await response.json();
+      let data = null;
+
+      try {
+        data = await response.json();
+      } catch {
+        data = null;
+      }
 
       if (!response.ok) {
-        throw new Error(data.error || "Erro ao salvar imóvel");
+        throw new Error(data?.error || "Erro ao salvar imóvel");
       }
 
       setMessage("Imóvel cadastrado com sucesso.");
