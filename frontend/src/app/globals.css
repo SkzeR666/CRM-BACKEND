@@ -208,37 +208,37 @@ textarea {
 
 .body-lg {
   font-size: var(--body-lg);
-  line-height: 1;
+  line-height: 1.4;
   font-weight: 400;
 }
 
 .body-md {
   font-size: var(--body-md);
-  line-height: 1;
+  line-height: 1.4;
   font-weight: 400;
 }
 
 .body-sm {
   font-size: var(--body-sm);
-  line-height: 1;
+  line-height: 1.4;
   font-weight: 400;
 }
 
 .label-lg {
   font-size: var(--label-lg);
-  line-height: 1;
+  line-height: 1.25;
   font-weight: 600;
 }
 
 .label-md {
   font-size: var(--label-md);
-  line-height: 1;
+  line-height: 1.25;
   font-weight: 500;
 }
 
 .label-sm {
   font-size: var(--label-sm);
-  line-height: 1;
+  line-height: 1.2;
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: none;
@@ -246,7 +246,7 @@ textarea {
 
 .caption {
   font-size: var(--caption);
-  line-height: 1;
+  line-height: 1.3;
   font-weight: 400;
 }
 

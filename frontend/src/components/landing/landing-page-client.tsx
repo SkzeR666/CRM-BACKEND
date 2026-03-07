@@ -4,7 +4,16 @@ import { useState } from "react";
 import { HeroBanner } from "@/components/landing/hero-banner";
 import { PropertyFilters } from "@/components/landing/property-filters";
 import { FeaturedProperties } from "@/components/landing/featured-properties";
-import { featuredProperties, PropertyItem } from "@/data/landing";
+import { TestimonialsSection } from "@/components/landing/testimonials-section";
+import { FaqSection } from "@/components/landing/faq-section";
+import {
+  featuredProperties,
+  PropertyItem,
+  testimonials,
+  faqs,
+} from "@/data/landing";
+import { SiteFooter } from "@/components/layout/site-footer";
+import { Reveal } from "@/components/animations/reveal";
 
 export function LandingPageClient() {
   const [filteredProperties, setFilteredProperties] =
@@ -17,12 +26,28 @@ export function LandingPageClient() {
         imageAlt="Empreendimento residencial em destaque"
       />
 
-      <PropertyFilters
-        properties={featuredProperties}
-        onFilteredResults={setFilteredProperties}
-      />
+      <Reveal delay={0.05}>
+        <PropertyFilters
+          properties={featuredProperties}
+          onFilteredResults={setFilteredProperties}
+        />
+      </Reveal>
 
-      <FeaturedProperties properties={filteredProperties} />
+      <Reveal delay={0.08}>
+        <FeaturedProperties properties={filteredProperties} />
+      </Reveal>
+
+      <Reveal delay={0.1}>
+        <TestimonialsSection testimonials={testimonials} />
+      </Reveal>
+
+      <Reveal delay={0.12}>
+        <FaqSection items={faqs} />
+      </Reveal>
+
+      <Reveal delay={0.14}>
+        <SiteFooter />
+      </Reveal>
     </>
   );
 }

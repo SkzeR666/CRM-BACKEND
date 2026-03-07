@@ -65,3 +65,79 @@ export const featuredProperties: PropertyItem[] = [
     imageSrc: "/images/property-4.jpg",
   },
 ];
+
+export type TestimonialItem = {
+  id: string;
+  title: string;
+  content: string;
+  name: string;
+  role: string;
+  avatarSrc: string;
+  rating: number;
+};
+
+export type FaqItem = {
+  id: string;
+  question: string;
+  answer: string;
+};
+
+export const testimonials: TestimonialItem[] = [
+  {
+    id: "1",
+    title: "Trabalho incrível!",
+    content:
+      "Consegui encontrar meu lar com muita clareza e acolhimento durante todo o processo. O atendimento foi muito atencioso e transparente.",
+    name: "João Carlos",
+    role: "Taubaté, SP",
+    avatarSrc: "/images/avatar-1.jpg",
+    rating: 5,
+  },
+  {
+    id: "2",
+    title: "Atendimento eficiente",
+    content:
+      "Recebi todo o suporte necessário para escolher minha opção e seguir com mais confiança. O processo foi muito mais simples do que eu imaginava.",
+    name: "Mariana Souza",
+    role: "Taubaté, SP",
+    avatarSrc: "/images/avatar-2.jpg",
+    rating: 4,
+  },
+  {
+    id: "3",
+    title: "Equipe de confiança",
+    content:
+      "A turma deu atenção durante todo o processo. Tiraram minhas dúvidas e explicaram cada etapa com muita segurança e cuidado.",
+    name: "Carlos Henrique",
+    role: "Pindamonhangaba, SP",
+    avatarSrc: "/images/avatar-3.jpg",
+    rating: 4,
+  },
+];
+
+export const faqs: FaqItem[] = [
+  {
+    id: "1",
+    question: "Como posso agendar uma visita ao imóvel?",
+    answer:
+      "Você pode entrar em contato pelo WhatsApp ou pelo formulário da página. Nossa equipe organiza a visita conforme sua disponibilidade.",
+  },
+  {
+    id: "2",
+    question: "Vocês ajudam com financiamento imobiliário?",
+    answer:
+      "Sim. Podemos orientar sobre opções de financiamento, documentação necessária e próximos passos para facilitar sua decisão.",
+  },
+  {
+    id: "3",
+    question: "Os imóveis anunciados estão atualizados?",
+    answer:
+      "Nossa equipe busca manter tudo atualizado com frequência. Mesmo assim, antes da visita confirmamos disponibilidade e condições do imóvel.",
+  },
+  {
+    id: "4",
+    question: "Posso usar o filtro para encontrar imóveis pelo meu perfil?",
+    answer:
+      "Sim. Você pode filtrar por região, tipo, preço, suítes, vagas e quartos para encontrar opções mais alinhadas ao que procura.",
+  },
+];

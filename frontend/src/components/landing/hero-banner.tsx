@@ -10,7 +10,7 @@ export function HeroBanner({ imageSrc, imageAlt }: HeroBannerProps) {
   return (
     <section aria-label="Destaque principal">
       <Container>
-        <div className="h-[800px] overflow-hidden rounded-[10px]">
+        <div className="overflow-hidden rounded-[10px] border border-subtle h-[340px] sm:h-[460px] md:h-[800px]">
           <Image
             src={imageSrc}
             alt={imageAlt}
