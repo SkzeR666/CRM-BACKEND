@@ -6,23 +6,19 @@ export async function createLead(input: unknown) {
   assertSupabaseAdminEnv();
   const data = CreateLeadSchema.parse(input);
 
-  const interesse_project_id = data.interesse_project_id ?? data.project_id ?? null;
-
   const { data: created, error } = await supabaseAdmin
     .from("leads")
     .insert({
-      nome: data.nome,
-      telefone: data.telefone,
+      name: data.name,
+      phone: data.phone,
       email: data.email ?? null,
-      cidade: data.cidade ?? null,
-      renda: data.renda ?? null,
-
-      origem: data.origem ?? "site",
-      status: "novo",
-
-      // ✅ coluna certa no DB
-      interesse_project_id,
-
+      city: data.city ?? null,
+      income: data.income ?? null,
+      source: data.source ?? "site",
+      status: data.status ?? "new",
+      interested_project_id: data.interested_project_id ?? null,
+      next_step: data.next_step ?? null,
+      next_step_at: data.next_step_at ?? null,
       utm_source: data.utm_source ?? null,
       utm_medium: data.utm_medium ?? null,
       utm_campaign: data.utm_campaign ?? null,
@@ -55,7 +51,7 @@ export async function listLeads(params: {
 
   if (params.q?.trim()) {
     const q = params.q.trim();
-    query = query.or(`nome.ilike.%${q}%,telefone.ilike.%${q}%`);
+    query = query.or(`name.ilike.%${q}%,phone.ilike.%${q}%`);
   }
 
   const { data, error } = await query.range(offset, offset + limit - 1);
@@ -66,12 +62,6 @@ export async function listLeads(params: {
 export async function updateLead(id: string, input: unknown) {
   assertSupabaseAdminEnv();
   const patch = UpdateLeadSchema.parse(input) as Record<string, unknown>;
-
-  // Se vier alias project_id, converte pra coluna real
-  if (patch.project_id && !patch.interesse_project_id) {
-    patch.interesse_project_id = patch.project_id;
-  }
-  delete patch.project_id;
 
   const { data, error } = await supabaseAdmin
     .from("leads")

@@ -7,14 +7,29 @@ import { createProject, listProjects } from "@/lib/services/projects.service";
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const cidade = searchParams.get("cidade") ?? undefined;
-    const mcmv = searchParams.get("mcmv") ?? undefined;
+    const city =
+      searchParams.get("city") ?? searchParams.get("cidade") ?? undefined;
+    const status = searchParams.get("status") ?? undefined;
+    const type = searchParams.get("type") ?? undefined;
+    const is_featured =
+      searchParams.get("is_featured") ??
+      searchParams.get("featured") ??
+      searchParams.get("mcmv") ??
+      undefined;
+
     const limit = parsePositiveInt(searchParams.get("limit"), "limit", {
       min: 1,
       max: 200,
     });
 
-    const projects = await listProjects({ cidade, mcmv, limit });
+    const projects = await listProjects({
+      city,
+      status,
+      type,
+      is_featured,
+      limit,
+    });
+
     return ok({ projects });
   } catch (error: unknown) {
     return fail(error, getErrorStatus(error, 400));

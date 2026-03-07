@@ -2,7 +2,13 @@ import "server-only";
 import { assertSupabaseAdminEnv, supabaseAdmin } from "@/lib/supabase/admin";
 import { CreateProjectSchema, UpdateProjectSchema } from "@/schemas/projects.schema";
 
-export async function listProjects(params: { cidade?: string; mcmv?: string; limit?: number }) {
+export async function listProjects(params: {
+  city?: string;
+  status?: string;
+  type?: string;
+  is_featured?: string;
+  limit?: number;
+}) {
   assertSupabaseAdminEnv();
   const limit = Math.min(params.limit ?? 50, 200);
 
@@ -12,9 +18,11 @@ export async function listProjects(params: { cidade?: string; mcmv?: string; lim
     .order("created_at", { ascending: false })
     .limit(limit);
 
-  if (params.cidade) query = query.eq("cidade", params.cidade);
-  if (params.mcmv === "true") query = query.eq("mcmv", true);
-  if (params.mcmv === "false") query = query.eq("mcmv", false);
+  if (params.city) query = query.eq("city", params.city);
+  if (params.status) query = query.eq("status", params.status);
+  if (params.type) query = query.eq("type", params.type);
+  if (params.is_featured === "true") query = query.eq("is_featured", true);
+  if (params.is_featured === "false") query = query.eq("is_featured", false);
 
   const { data, error } = await query;
   if (error) throw new Error(error.message);
@@ -59,7 +67,7 @@ export async function updateProject(id: string, input: unknown) {
     .maybeSingle();
 
   if (error) throw new Error(error.message);
-  if (!data) throw new Error("Projeto não encontrado.");
+  if (!data) throw new Error("Project not found.");
   return data;
 }
 

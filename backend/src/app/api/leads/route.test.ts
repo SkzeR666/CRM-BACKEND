@@ -27,8 +27,8 @@ function buildPostRequest(ip = "127.0.0.1") {
       "x-forwarded-for": ip,
     },
     body: JSON.stringify({
-      nome: "Test User",
-      telefone: "11999999999",
+      name: "Test User",
+      phone: "11999999999",
     }),
   });
 }
