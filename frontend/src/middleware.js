@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { ADMIN_COOKIE_NAME, isValidAdminSession } from "@/lib/admin-session";
+import { ADMIN_COOKIE_NAME } from "@/lib/admin-session";
 
 export function middleware(request) {
   const { pathname } = request.nextUrl;
@@ -12,7 +12,7 @@ export function middleware(request) {
   }
 
   const sessionCookie = request.cookies.get(ADMIN_COOKIE_NAME)?.value;
-  const isAuthenticated = isValidAdminSession(sessionCookie);
+  const isAuthenticated = Boolean(sessionCookie);
 
   if (isAdminLogin && isAuthenticated) {
     return NextResponse.redirect(new URL("/admin/imoveis", request.url));
