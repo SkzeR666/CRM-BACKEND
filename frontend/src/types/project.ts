@@ -29,3 +29,7 @@ export type CreateProjectPayload = {
   city?: string;
   status?: ProjectStatus;
 };
+
+export type UpdateProjectPayload = Partial<CreateProjectPayload> & {
+  slug?: string;
+};

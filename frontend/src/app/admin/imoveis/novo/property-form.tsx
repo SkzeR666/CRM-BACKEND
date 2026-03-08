@@ -2,10 +2,23 @@
 
 import { FormEvent, useMemo, useState } from "react";
 import { createProject } from "@/lib/api/projects";
-import { slugify } from "@/lib/slug";
 import type { ProjectStatus } from "@/types/project";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
 
 const ADMIN_KEY_STORAGE = "crm_admin_api_key";
+
+function slugify(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
 
 type FormValues = {
   title: string;
@@ -21,22 +34,22 @@ const initialValues: FormValues = {
   status: "available",
 };
 
-export function NewProjectForm() {
+export function PropertyFormLocal() {
   const [values, setValues] = useState<FormValues>(initialValues);
-  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const resolvedSlug = useMemo(
+  const finalSlug = useMemo(
     () => (values.slug ? slugify(values.slug) : slugify(values.title)),
-    [values.slug, values.title]
+    [values.slug, values.title],
   );
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    setLoading(true);
     setMessage("");
     setIsError(false);
+    setIsLoading(true);
 
     try {
       const adminKey = window.localStorage.getItem(ADMIN_KEY_STORAGE) ?? undefined;
@@ -44,81 +57,64 @@ export function NewProjectForm() {
       await createProject(
         {
           title: values.title,
-          slug: resolvedSlug,
+          slug: finalSlug,
           city: values.city || undefined,
           status: values.status,
         },
-        { adminKey }
+        { adminKey },
       );
 
       setValues(initialValues);
       setMessage("Projeto criado com sucesso.");
     } catch (error) {
       setIsError(true);
-      setMessage(error instanceof Error ? error.message : "Falha ao criar projeto.");
+      setMessage(error instanceof Error ? error.message : "Erro ao criar projeto.");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }
 
   return (
-    <form className="stack" onSubmit={handleSubmit}>
-      <label className="label" htmlFor="title">
-        Titulo
-      </label>
-      <input
-        id="title"
-        className="input"
+    <form className="space-y-4" onSubmit={handleSubmit}>
+      <Input
+        label="Titulo"
         value={values.title}
         onChange={(event) => setValues((prev) => ({ ...prev, title: event.target.value }))}
-        placeholder="Residencial Aurora"
         required
       />
 
-      <label className="label" htmlFor="slug">
-        Slug
-      </label>
-      <input
-        id="slug"
-        className="input"
+      <Input
+        label="Slug"
         value={values.slug}
         onChange={(event) => setValues((prev) => ({ ...prev, slug: event.target.value }))}
-        placeholder="residencial-aurora"
+        hint="Opcional. Se vazio, usa o titulo automaticamente."
       />
-      <p className="muted">Slug final: {resolvedSlug || "-"}</p>
 
-      <label className="label" htmlFor="city">
-        Cidade
-      </label>
-      <input
-        id="city"
-        className="input"
+      <Input
+        label="Cidade"
         value={values.city}
         onChange={(event) => setValues((prev) => ({ ...prev, city: event.target.value }))}
-        placeholder="Taubate"
       />
 
-      <label className="label" htmlFor="status">
-        Status
-      </label>
-      <select
-        id="status"
-        className="input"
+      <Select
+        label="Status"
         value={values.status}
-        onChange={(event) =>
-          setValues((prev) => ({ ...prev, status: event.target.value as ProjectStatus }))
-        }
+        onChange={(event) => setValues((prev) => ({ ...prev, status: event.target.value as ProjectStatus }))}
       >
         <option value="available">available</option>
         <option value="reserved">reserved</option>
         <option value="sold">sold</option>
-      </select>
+      </Select>
 
-      <button className="button" type="submit" disabled={loading}>
-        {loading ? "Salvando..." : "Criar projeto"}
-      </button>
+      <p className="text-sm text-muted-foreground">Slug final: {finalSlug || "-"}</p>
 
-      {message ? <p className={isError ? "error" : "success"}>{message}</p> : null}
+      <Button type="submit" variant="primary" className="w-full" disabled={isLoading || !finalSlug}>
+        {isLoading ? "Criando..." : "Criar imovel"}
+      </Button>
+
+      {message ? (
+        <p className={isError ? "text-sm text-red-500" : "text-sm text-green-600"}>{message}</p>
+      ) : null}
     </form>
   );
 }

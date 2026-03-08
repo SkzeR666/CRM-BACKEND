@@ -1,8 +1,9 @@
 import { apiRequest } from "@/lib/api/http";
-import type { CreateProjectPayload, Project } from "@/types/project";
+import type { CreateProjectPayload, Project, UpdateProjectPayload } from "@/types/project";
 
 type ListProjectsResponse = { projects: Project[] };
 type CreateProjectResponse = { project: Project };
+type GetProjectResponse = { project: Project };
 
 type ListOptions = {
   city?: string;
@@ -13,6 +14,14 @@ type ListOptions = {
 };
 
 type CreateOptions = {
+  adminKey?: string;
+};
+
+type UpdateOptions = {
+  adminKey?: string;
+};
+
+type DeleteOptions = {
   adminKey?: string;
 };
 
@@ -37,6 +46,24 @@ export async function listProjects(options: ListOptions = {}) {
   }
 }
 
+export async function getProjectBySlug(slug: string) {
+  try {
+    const data = await apiRequest<GetProjectResponse>(`/api/projects/by-slug/${slug}`);
+    return data.project;
+  } catch {
+    return null;
+  }
+}
+
+export async function getProjectById(id: string) {
+  try {
+    const data = await apiRequest<GetProjectResponse>(`/api/projects/${id}`);
+    return data.project;
+  } catch {
+    return null;
+  }
+}
+
 export async function createProject(payload: CreateProjectPayload, options: CreateOptions = {}) {
   const data = await apiRequest<CreateProjectResponse>("/api/projects", {
     method: "POST",
@@ -45,4 +72,25 @@ export async function createProject(payload: CreateProjectPayload, options: Crea
   });
 
   return data.project;
+}
+
+export async function updateProject(
+  id: string,
+  payload: UpdateProjectPayload,
+  options: UpdateOptions = {}
+) {
+  const data = await apiRequest<CreateProjectResponse>(`/api/projects/${id}`, {
+    method: "PATCH",
+    headers: options.adminKey ? { "x-admin-key": options.adminKey } : undefined,
+    body: payload,
+  });
+
+  return data.project;
+}
+
+export async function deleteProject(id: string, options: DeleteOptions = {}) {
+  return apiRequest<{ ok: boolean }>(`/api/projects/${id}`, {
+    method: "DELETE",
+    headers: options.adminKey ? { "x-admin-key": options.adminKey } : undefined,
+  });
 }
