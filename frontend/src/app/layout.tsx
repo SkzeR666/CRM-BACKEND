@@ -8,17 +8,15 @@ const urbanist = Urbanist({
 });
 
 export const metadata: Metadata = {
-  title: "Samfre Imóveis",
-  description: "Samfre Imóveis",
+  title: "CRM Frontend",
+  description: "Frontend desacoplado consumindo a API oficial do backend",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang="pt-BR">
       <body className={urbanist.variable}>{children}</body>
     </html>
   );

@@ -1,20 +1,48 @@
-import { AdminLoginForm } from "@/components/admin/admin-login-form";
+"use client";
+
+import { useState } from "react";
+
+const ADMIN_KEY_STORAGE = "crm_admin_api_key";
 
 export default function AdminLoginPage() {
-  return (
-    <main className="min-h-screen bg-base px-4 py-10 text-primary">
-      <div className="mx-auto max-w-md pt-20">
-        <div className="rounded-[10px] border border-subtle bg-surface p-6 md:p-8">
-          <div className="mb-6">
-            <h1 className="heading-lg text-primary">Login admin</h1>
-            <p className="body-sm text-secondary mt-2">
-              Acesse a área administrativa para cadastrar e editar imóveis.
-            </p>
-          </div>
+  const [value, setValue] = useState(() => {
+    if (typeof window === "undefined") return "";
+    return window.localStorage.getItem(ADMIN_KEY_STORAGE) ?? "";
+  });
+  const [message, setMessage] = useState("");
 
-          <AdminLoginForm />
-        </div>
-      </div>
+  function handleSave(event: React.FormEvent) {
+    event.preventDefault();
+    window.localStorage.setItem(ADMIN_KEY_STORAGE, value.trim());
+    setMessage("Chave salva no navegador para chamadas administrativas da API.");
+  }
+
+  return (
+    <main className="page-shell">
+      <section className="card stack">
+        <h1 className="title">Configurar chave administrativa</h1>
+        <p className="muted">
+          Esta tela salva localmente a chave usada no header <code>x-admin-key</code> para ambiente de
+          desenvolvimento.
+        </p>
+
+        <form className="stack" onSubmit={handleSave}>
+          <label className="label" htmlFor="admin-key">
+            Admin API key
+          </label>
+          <input
+            id="admin-key"
+            className="input"
+            value={value}
+            onChange={(event) => setValue(event.target.value)}
+            placeholder="Cole sua ADMIN_API_KEY"
+          />
+          <button className="button" type="submit">
+            Salvar chave local
+          </button>
+          {message ? <p className="success">{message}</p> : null}
+        </form>
+      </section>
     </main>
   );
 }

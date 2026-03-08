@@ -41,6 +41,18 @@ export async function getProjectBySlug(slug: string) {
   return data ?? null;
 }
 
+export async function getProjectById(id: string) {
+  assertSupabaseAdminEnv();
+  const { data, error } = await supabaseAdmin
+    .from("projects")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  return data ?? null;
+}
+
 export async function createProject(input: unknown) {
   assertSupabaseAdminEnv();
   const data = CreateProjectSchema.parse(input);
