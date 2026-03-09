@@ -22,9 +22,9 @@
   --overlay-strong: color-mix(in srgb, #000000 52%, transparent);
   --header-control-size: 53px;
   --header-mobile-control-size: 44px;
-  --lh-tight: 1.1;
-  --lh-ui: 1.2;
-  --lh-body: 1.45;
+  --lh-tight: normal;
+  --lh-ui: normal;
+  --lh-body: normal;
   --admin-bg: #f5f5f2;
   --admin-surface: #ecece7;
   --admin-surface-alt: #ffffff;
@@ -103,6 +103,18 @@ body {
   line-height: var(--lh-body);
 }
 
+:is(.samfer-app, .admin-app) :is(h1, h2, h3, h4, h5, h6) {
+  line-height: normal;
+}
+
+:is(.samfer-app, .admin-app) :is(p, li, input, select, textarea, button, a, span, small, strong) {
+  line-height: normal;
+}
+
+:is(.samfer-app, .admin-app) :where(h1, h2, h3, h4, h5, h6) + :where(p, ul, ol, form, table, .samfer-filter-grid, .samfer-card-grid, .admin-filter-row, .admin-table-shell, .admin-kanban, .admin-form-grid, .admin-form-summary) {
+  margin-top: 14px;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -176,6 +188,7 @@ textarea {
   font-size: 22px;
   font-weight: 600;
   letter-spacing: -0.22px;
+  transform: translateY(-1px);
 }
 
 .samfer-back-link {
@@ -185,6 +198,12 @@ textarea {
   font-size: 22px;
   font-weight: 600;
   letter-spacing: -0.22px;
+}
+
+.samfer-back-link span {
+  display: inline-flex;
+  align-items: center;
+  transform: translateY(-1px);
 }
 
 .samfer-header-actions {
@@ -264,7 +283,11 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 20px 0;
+  padding: 24px 0;
+}
+
+.samfer-section > .samfer-title + * {
+  margin-top: 8px;
 }
 
 .samfer-title {
@@ -273,7 +296,7 @@ textarea {
   font-size: 36px;
   font-weight: 700;
   letter-spacing: -0.36px;
-  line-height: 1.1;
+  line-height: normal;
 }
 
 .samfer-title span {
@@ -819,6 +842,7 @@ textarea {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  padding-bottom: 6px;
 }
 
 .samfer-results-head h2 {
@@ -946,10 +970,10 @@ textarea {
 }
 
 .samfer-detail-summary {
-  padding: 32px;
+  padding: 40px 44px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 22px;
   height: 100%;
   transition: transform 0.24s ease;
 }
@@ -981,6 +1005,14 @@ textarea {
   line-height: var(--lh-body);
 }
 
+.samfer-detail-summary h1 + h2 {
+  margin-top: -6px;
+}
+
+.samfer-detail-summary h2 + p {
+  margin-top: -8px;
+}
+
 .samfer-text-strong {
   color: var(--text) !important;
   font-size: 16px !important;
@@ -990,21 +1022,24 @@ textarea {
   width: 100%;
   border: 0;
   border-top: 1px solid var(--line);
+  margin: -2px 0 2px;
 }
 
 .samfer-detail-summary ul {
   margin: 0;
-  padding-left: 18px;
+  padding-left: 20px;
   color: var(--text-2);
   font-size: 14px;
   line-height: var(--lh-body);
+  display: grid;
+  gap: 6px;
 }
 
 .samfer-detail-cta {
-  padding: 24px;
+  padding: 28px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 18px;
   height: 100%;
   transition: transform 0.24s ease;
 }
@@ -1042,6 +1077,7 @@ textarea {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
+  margin-top: 4px;
 }
 
 .samfer-detail-cta-actions > * {
@@ -1507,10 +1543,11 @@ textarea {
   font-weight: 600;
   letter-spacing: -0.02em;
   transition: transform 0.2s ease, filter 0.2s ease;
+  transform: translateY(-1px);
 }
 
 .admin-header-brand:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   filter: brightness(1.03);
 }
 
@@ -1569,17 +1606,17 @@ textarea {
 .admin-content {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
 }
 
 .admin-title-block {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--surface-alt);
-  padding: 22px 24px;
+  padding: 30px 32px;
 }
 
 .admin-title-block h1 {
@@ -1601,15 +1638,19 @@ textarea {
   max-width: 72ch;
 }
 
+.admin-title-block h1 + p {
+  margin-top: 2px;
+}
+
 .admin-filter-row {
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr auto;
-  gap: 14px;
+  gap: 16px;
   align-items: stretch;
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--surface-alt);
-  padding: 12px;
+  padding: 16px;
 }
 
 .admin-filter-row.is-compact {
@@ -1621,7 +1662,7 @@ textarea {
 }
 
 .admin-filter-control {
-  min-height: 64px;
+  min-height: 68px;
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--surface);
@@ -1641,7 +1682,7 @@ textarea {
   outline: none;
   font-size: 14px;
   font-weight: 500;
-  line-height: 1.25;
+  line-height: normal;
 }
 
 .admin-filter-control select {
@@ -1672,13 +1713,13 @@ textarea {
 
 .admin-filter-actions {
   display: inline-flex;
-  gap: 10px;
+  gap: 12px;
   align-items: stretch;
 }
 
 .admin-primary-btn,
 .admin-secondary-btn {
-  min-height: 64px;
+  min-height: 68px;
   border-radius: 5px;
   border: 1px solid transparent;
   padding: 0 18px;
@@ -1763,7 +1804,7 @@ textarea {
   border-radius: 10px;
   overflow: auto;
   background: var(--surface-alt);
-  padding: 10px;
+  padding: 16px;
 }
 
 .admin-table-meta {
@@ -1771,7 +1812,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 4px 6px 10px;
+  padding: 2px 6px 16px;
 }
 
 .admin-table-meta p {
@@ -1981,7 +2022,7 @@ textarea {
 .admin-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 28px;
   width: 100%;
 }
 
@@ -2118,10 +2159,10 @@ textarea {
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--surface-alt);
-  padding: 16px 20px;
+  padding: 20px 22px;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 18px;
+  gap: 10px 22px;
 }
 
 .admin-form-summary p {
@@ -2138,11 +2179,11 @@ textarea {
 .admin-form-section {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 22px;
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--surface-alt);
-  padding: 22px;
+  padding: 30px 28px;
 }
 
 .admin-form-section h2 {
@@ -2157,7 +2198,7 @@ textarea {
 }
 
 .admin-section-text {
-  margin: -2px 0 0;
+  margin: 2px 0 0;
   color: var(--text-2);
   font-size: 13px;
   line-height: var(--lh-body);
@@ -2166,7 +2207,7 @@ textarea {
 .admin-form-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 14px;
+  gap: 18px;
 }
 
 .admin-form-grid.two-col {
@@ -2206,7 +2247,7 @@ textarea {
   color: inherit;
   font-size: 14px;
   font-weight: 500;
-  line-height: 1.28;
+  line-height: normal;
   padding: 0;
 }
 
@@ -2296,18 +2337,18 @@ textarea {
 .admin-kanban {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  gap: 18px;
 }
 
 .admin-kanban-column {
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--surface-alt);
-  min-height: 420px;
-  padding: 10px;
+  min-height: 480px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
 }
 
 .admin-kanban-column-head {
@@ -2339,17 +2380,17 @@ textarea {
 .admin-kanban-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
 }
 
 .admin-kanban-card {
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--surface);
-  padding: 12px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   cursor: grab;
 }
 
