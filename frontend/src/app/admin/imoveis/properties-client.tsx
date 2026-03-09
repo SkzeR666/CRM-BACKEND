@@ -200,7 +200,7 @@ export function AdminPropertiesPageClient({ theme }: Props) {
     <AdminAuthGuard>
       <div className={`admin-app ${theme === "dark" ? "is-dark" : ""}`}>
         <div className="admin-shell">
-          <AdminHeader theme={theme} />
+          <AdminHeader theme={theme} section="imoveis" />
 
           <main className="admin-content">
             <section className="admin-title-block samfer-animate">

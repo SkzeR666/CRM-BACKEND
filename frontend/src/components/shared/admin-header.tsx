@@ -13,9 +13,18 @@ type AdminHeaderProps = {
   backHref?: string;
   backLabel?: string;
   showLogout?: boolean;
+  showNav?: boolean;
+  section?: "imoveis" | "leads";
 };
 
-export function AdminHeader({ theme, backHref, backLabel, showLogout = true }: AdminHeaderProps) {
+export function AdminHeader({
+  theme,
+  backHref,
+  backLabel,
+  showLogout = true,
+  showNav = true,
+  section = "imoveis",
+}: AdminHeaderProps) {
   const router = useRouter();
 
   async function handleLogout() {
@@ -38,6 +47,22 @@ export function AdminHeader({ theme, backHref, backLabel, showLogout = true }: A
           <Link href={withTheme("/admin/imoveis", theme)} className="admin-header-brand">
             SAMFER ADMIN
           </Link>
+          {showNav ? (
+            <nav className="admin-header-nav" aria-label="Navegacao do admin">
+              <Link
+                href={withTheme("/admin/imoveis", theme)}
+                className={`admin-header-link ${section === "imoveis" ? "is-active" : ""}`}
+              >
+                Imoveis
+              </Link>
+              <Link
+                href={withTheme("/admin/leads", theme)}
+                className={`admin-header-link ${section === "leads" ? "is-active" : ""}`}
+              >
+                Leads
+              </Link>
+            </nav>
+          ) : null}
         </div>
 
         <div className="admin-header-actions">

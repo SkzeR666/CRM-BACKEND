@@ -15,7 +15,12 @@ export default async function AdminNewPropertyPage({ searchParams }: Props) {
     <AdminAuthGuard>
       <div className={`admin-app ${theme === "dark" ? "is-dark" : ""}`}>
         <div className="admin-shell">
-          <AdminHeader theme={theme} backHref="/admin/imoveis" backLabel="Voltar para lista" />
+          <AdminHeader
+            theme={theme}
+            section="imoveis"
+            backHref="/admin/imoveis"
+            backLabel="Voltar para lista"
+          />
           <main className="admin-content">
             <section className="admin-title-block samfer-animate">
               <h1>

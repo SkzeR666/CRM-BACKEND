@@ -22,7 +22,13 @@ export default async function AdminLoginPage({ searchParams }: Props) {
   return (
     <div className={`admin-app ${theme === "dark" ? "is-dark" : ""}`}>
       <div className="admin-shell">
-        <AdminHeader theme={theme} backHref="/" backLabel="Voltar para site" showLogout={false} />
+        <AdminHeader
+          theme={theme}
+          backHref="/"
+          backLabel="Voltar para site"
+          showLogout={false}
+          showNav={false}
+        />
         <main className="admin-content">
           <section className="admin-title-block samfer-animate">
             <h1>
