@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   className?: string;
@@ -11,11 +11,16 @@ type Props = {
 export function SamferSubmitButton({ className, defaultLabel, loadingLabel }: Props) {
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (!loading) return;
+    const timer = window.setTimeout(() => setLoading(false), 2500);
+    return () => window.clearTimeout(timer);
+  }, [loading]);
+
   return (
     <button
       type="submit"
       className={className}
-      disabled={loading}
       aria-busy={loading}
       onClick={() => setLoading(true)}
     >
