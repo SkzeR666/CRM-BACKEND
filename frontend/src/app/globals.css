@@ -14,6 +14,9 @@
   --on-primary: #0c1a12;
   --star-bg: #f4edd0;
   --star-color: #c7b15a;
+  --lh-tight: 1.1;
+  --lh-ui: 1.2;
+  --lh-body: 1.45;
 }
 
 .samfer-app.is-dark {
@@ -48,6 +51,7 @@ body {
   color: var(--text);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  line-height: var(--lh-body);
 }
 
 a {
@@ -108,22 +112,7 @@ textarea {
   font-size: 22px;
   font-weight: 600;
   letter-spacing: -0.22px;
-}
-
-.samfer-back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: -0.22px;
-}
-
-.samfer-menu {
-  display: inline-flex;
-  gap: 16px;
-  font-size: 14px;
-  font-weight: 500;
+  line-height: var(--lh-tight);
 }
 
 .samfer-header-actions {
@@ -139,6 +128,7 @@ textarea {
   border: 1px solid transparent;
   cursor: pointer;
   transition: transform 0.2s ease, filter 0.2s ease;
+  line-height: var(--lh-ui);
 }
 
 .samfer-primary-btn:hover,
@@ -234,6 +224,7 @@ textarea {
   justify-content: space-between;
   font-size: 14px;
   font-weight: 500;
+  line-height: var(--lh-ui);
 }
 
 .samfer-select-card {
@@ -266,6 +257,11 @@ textarea {
 .samfer-input-card p {
   margin: 0;
   color: var(--text-2);
+  line-height: var(--lh-body);
+}
+
+.samfer-input-card span {
+  line-height: var(--lh-ui);
 }
 
 .samfer-input-card input {
@@ -275,6 +271,7 @@ textarea {
   color: var(--text);
   outline: none;
   font-size: 16px;
+  line-height: var(--lh-ui);
 }
 
 .samfer-input-card textarea {
@@ -302,6 +299,7 @@ textarea {
   padding: 0 42px 0 16px;
   outline: none;
   cursor: pointer;
+  line-height: var(--lh-ui);
 }
 
 .samfer-wide-cta {
@@ -312,6 +310,7 @@ textarea {
   color: var(--on-primary);
   font-size: 16px;
   font-weight: 600;
+  line-height: var(--lh-ui);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -375,12 +374,14 @@ textarea {
   margin: 0;
   font-size: 28px;
   letter-spacing: -0.28px;
+  line-height: var(--lh-tight);
 }
 
 .samfer-property-content p {
   margin: 0;
   color: var(--text-2);
   font-size: 16px;
+  line-height: var(--lh-body);
 }
 
 .samfer-pills {
@@ -399,6 +400,17 @@ textarea {
   font-size: 12px;
   letter-spacing: 0.12px;
   padding: 10px 12px;
+  line-height: var(--lh-ui);
+}
+
+.samfer-pills svg,
+.samfer-stars svg,
+.samfer-user img,
+.samfer-filter-chip strong,
+.samfer-faq-trigger svg,
+.samfer-icon-btn svg {
+  display: block;
+  flex-shrink: 0;
 }
 
 .samfer-property-bottom {
@@ -411,12 +423,14 @@ textarea {
 .samfer-property-bottom small {
   color: var(--text-2);
   font-size: 12px;
+  line-height: var(--lh-ui);
 }
 
 .samfer-property-bottom strong {
   display: block;
   font-size: 34px;
   letter-spacing: -0.34px;
+  line-height: var(--lh-tight);
 }
 
 .samfer-property-link {
@@ -430,6 +444,7 @@ textarea {
   color: var(--on-primary);
   font-size: 14px;
   font-weight: 500;
+  line-height: var(--lh-ui);
 }
 
 .samfer-testimonials {
@@ -467,12 +482,14 @@ textarea {
 .samfer-testimonial h3 {
   margin: 0;
   font-size: 18px;
+  line-height: var(--lh-ui);
 }
 
 .samfer-testimonial p {
   margin: 0;
   font-size: 14px;
   color: var(--text-2);
+  line-height: var(--lh-body);
 }
 
 .samfer-user {
@@ -515,11 +532,13 @@ textarea {
 .samfer-faq-item h3 {
   margin: 0;
   font-size: 16px;
+  line-height: var(--lh-ui);
 }
 
 .samfer-faq-item p {
   margin: 0;
   font-size: 14px;
+  line-height: var(--lh-body);
 }
 
 .samfer-faq-trigger {
@@ -560,7 +579,6 @@ textarea {
   align-items: stretch;
 }
 
-.samfer-message,
 .samfer-contact-grid .samfer-wide-cta {
   grid-column: span 2;
 }
@@ -598,6 +616,7 @@ textarea {
   align-items: center;
   gap: 8px;
   font-size: 13px;
+  line-height: var(--lh-ui);
 }
 
 .samfer-filter-chip strong {
@@ -616,6 +635,7 @@ textarea {
   justify-content: center;
   font-size: 13px;
   font-weight: 600;
+  line-height: var(--lh-ui);
 }
 
 .samfer-results-head {
@@ -630,6 +650,7 @@ textarea {
   margin: 0;
   font-size: 36px;
   letter-spacing: -0.36px;
+  line-height: var(--lh-tight);
 }
 
 .samfer-results-head h2 span {
@@ -640,6 +661,7 @@ textarea {
   margin: 0;
   font-size: 36px;
   letter-spacing: -0.36px;
+  line-height: var(--lh-tight);
 }
 
 .samfer-results-head h1 span {
@@ -667,6 +689,7 @@ textarea {
   margin: 0;
   color: var(--text-2);
   font-size: 14px;
+  line-height: var(--lh-body);
 }
 
 .samfer-empty-card {
@@ -754,6 +777,7 @@ textarea {
   margin: 0;
   font-size: 36px;
   letter-spacing: -0.36px;
+  line-height: var(--lh-tight);
 }
 
 .samfer-detail-eyebrow {
@@ -766,12 +790,14 @@ textarea {
 .samfer-detail-summary h2 {
   margin: 0;
   font-size: 22px;
+  line-height: var(--lh-ui);
 }
 
 .samfer-detail-summary p {
   margin: 0;
   color: var(--text-2);
   font-size: 14px;
+  line-height: var(--lh-body);
 }
 
 .samfer-text-strong {
@@ -790,6 +816,7 @@ textarea {
   padding-left: 18px;
   color: var(--text-2);
   font-size: 14px;
+  line-height: var(--lh-body);
 }
 
 .samfer-detail-cta {
@@ -803,12 +830,14 @@ textarea {
   margin: 0;
   font-size: 28px;
   letter-spacing: -0.28px;
+  line-height: var(--lh-tight);
 }
 
 .samfer-detail-cta p {
   margin: 0;
   color: var(--text-2);
   font-size: 14px;
+  line-height: var(--lh-body);
 }
 
 .samfer-detail-cta img {
@@ -840,12 +869,14 @@ textarea {
 .samfer-floor-card h3 {
   margin: 0;
   font-size: 20px;
+  line-height: var(--lh-ui);
 }
 
 .samfer-floor-card p {
   margin: 4px 0 0;
   color: var(--text-2);
   font-size: 14px;
+  line-height: var(--lh-body);
 }
 
 .samfer-floor-card img {
@@ -870,6 +901,7 @@ textarea {
   text-align: center;
   font-size: 16px;
   font-weight: 600;
+  line-height: var(--lh-ui);
 }
 
 .samfer-price-highlight {
@@ -909,6 +941,7 @@ textarea {
   margin: 0 0 8px;
   font-size: 14px;
   color: var(--text-2);
+  line-height: var(--lh-body);
 }
 
 .samfer-footer-bottom {
@@ -923,6 +956,7 @@ textarea {
   margin: 0;
   font-size: 12px;
   color: var(--text-2);
+  line-height: var(--lh-ui);
 }
 
 .samfer-breadcrumb ol {
@@ -995,20 +1029,6 @@ textarea {
   line-height: 1.1;
 }
 
-.samfer-form-message {
-  grid-column: span 2;
-  margin: 0;
-  font-size: 13px;
-}
-
-.samfer-form-message.success {
-  color: #1e9f5f;
-}
-
-.samfer-form-message.error {
-  color: #cf3e3e;
-}
-
 .samfer-sr-only {
   position: absolute;
   width: 1px;
@@ -1032,6 +1052,7 @@ textarea {
   gap: 8px;
   color: var(--text);
   font-size: 14px;
+  line-height: var(--lh-ui);
 }
 
 .samfer-sort-label select {
@@ -1054,6 +1075,7 @@ textarea {
   display: inline-flex;
   color: var(--text-2);
   font-size: 13px;
+  line-height: var(--lh-ui);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -1074,10 +1096,6 @@ textarea {
 }
 
 @media (max-width: 1240px) {
-  .samfer-menu {
-    display: none;
-  }
-
   .samfer-card-grid,
   .samfer-testimonials,
   .samfer-floor-grid,
@@ -1121,7 +1139,6 @@ textarea {
     min-width: 0;
   }
 
-  .samfer-back-link,
   .samfer-logo {
     font-size: 17px;
     max-width: 100%;
@@ -1170,7 +1187,6 @@ textarea {
   }
 
   .samfer-grid-span,
-  .samfer-message,
   .samfer-contact-grid .samfer-wide-cta,
   .samfer-contact-message {
     grid-column: auto;
@@ -1262,10 +1278,6 @@ textarea {
 
   .samfer-clear-filters-btn {
     white-space: nowrap;
-  }
-
-  .samfer-form-message {
-    grid-column: auto;
   }
 
   .samfer-hero-title {

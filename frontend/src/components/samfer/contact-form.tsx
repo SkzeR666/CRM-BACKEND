@@ -7,8 +7,6 @@ import { trackSamferEvent } from "@/lib/analytics";
 type Props = {
   projectId?: string;
   source: string;
-  contextLabel?: string;
-  compact?: boolean;
 };
 
 type LeadPayload = {
@@ -22,7 +20,7 @@ type LeadPayload = {
   next_step?: string;
 };
 
-export function SamferContactForm({ projectId, source, contextLabel, compact = false }: Props) {
+export function SamferContactForm({ projectId, source }: Props) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -76,7 +74,7 @@ export function SamferContactForm({ projectId, source, contextLabel, compact = f
   }
 
   return (
-    <form className={`samfer-contact-grid samfer-animate ${compact ? "is-compact" : ""}`} onSubmit={handleSubmit}>
+    <form className="samfer-contact-grid samfer-animate" onSubmit={handleSubmit}>
       <label className="samfer-input-card no-icon">
         <span>Nome completo *</span>
         <input
@@ -132,7 +130,7 @@ export function SamferContactForm({ projectId, source, contextLabel, compact = f
         {loading ? "Enviando..." : "Enviar Email"}
       </button>
       <span className="samfer-sr-only" aria-live="polite">
-        {loading ? "Enviando contato" : contextLabel || "Atendimento comercial para compra de imóvel"}
+        {loading ? "Enviando contato" : "Atendimento comercial para compra de imóvel"}
       </span>
     </form>
   );

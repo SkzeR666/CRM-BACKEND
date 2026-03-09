@@ -1,13 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 
-const navItems = [
-  { label: "Imoveis", href: "/imoveis" },
-  { label: "Empreendimentos", href: "/#destaques" },
-  { label: "Financiamento", href: "/#contato" },
-  { label: "Sobre", href: "/#sobre" },
-];
-
 export function LandingHeader() {
   return (
     <>
@@ -17,14 +10,6 @@ export function LandingHeader() {
             <Link href="/" className="text-[11px] font-semibold tracking-tight text-foreground md:text-[22px] md:tracking-[-0.22px]">
               SAMFER IMOVEIS
             </Link>
-
-            <nav className="hidden items-center gap-4 md:flex" aria-label="Navegacao principal">
-              {navItems.map((item) => (
-                <Link key={item.href} href={item.href} className="text-[14px] font-medium text-foreground transition hover:text-primary">
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
 
             <div className="flex items-center gap-3">
               <Link
@@ -39,7 +24,6 @@ export function LandingHeader() {
         </header>
       </div>
 
-      {/* AJUSTE: spacer do header fixo */}
       <div className="h-[96px] md:h-[148px]" aria-hidden />
     </>
   );

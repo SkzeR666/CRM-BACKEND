@@ -164,7 +164,7 @@ export default async function HomePage({ searchParams }: Props) {
 
           <section className="samfer-section" id="financiamento">
             <SectionTitle before="Entre em " highlight="contato conosco" />
-            <SamferContactForm source="home-page" contextLabel="Atendimento comercial para compra de imóvel" />
+            <SamferContactForm source="home-page" />
           </section>
         </main>
 
