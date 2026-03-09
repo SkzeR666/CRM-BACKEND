@@ -97,7 +97,7 @@ export default async function HomePage({ searchParams }: Props) {
 
           <SamferMobileFilterOverlay triggerLabel="Buscar imóveis" overlayTitle="Buscar imóveis">
             <section className="samfer-section" aria-labelledby="busca-heading">
-              <SectionTitle before="Veja opções " highlight="ideais" after=" para o seu perfil" />
+              <SectionTitle before="Veja opções " highlight="ideais" after=" para o seu " trailingHighlight="perfil" />
               <form className="samfer-filter-grid samfer-animate" method="GET" action="/imoveis" id="busca-heading">
                 <input type="hidden" name="theme" value={theme} />
                 <SamferFilterSelect
