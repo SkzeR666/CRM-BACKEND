@@ -116,13 +116,13 @@ export default async function PropertiesPage({ searchParams }: Props) {
   const currentPage = Math.max(1, Number(params.page || "1") || 1);
 
   const serverResult = await listProjects({
-    limit: 300,
+    limit: 200,
     city: params.city,
     status: params.status,
     type: params.type,
   });
 
-  const allOptionsResult = await listProjects({ limit: 300 });
+  const allOptionsResult = await listProjects({ limit: 200 });
 
   const suites = toNumberOrNull(params.suites);
   const parkingSpots = toNumberOrNull(params.parkingSpots);

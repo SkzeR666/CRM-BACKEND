@@ -4,7 +4,7 @@ import { toAbsoluteUrl } from "@/lib/seo";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-  const projectsResult = await listProjects({ limit: 500 });
+  const projectsResult = await listProjects({ limit: 200 });
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {

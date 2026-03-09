@@ -9,6 +9,7 @@ type ListOptions = {
   city?: string;
   status?: string;
   type?: string;
+  is_featured?: boolean;
   featured?: boolean;
   limit?: number;
 };
@@ -27,12 +28,15 @@ type DeleteOptions = {
 
 export async function listProjects(options: ListOptions = {}) {
   try {
+    const featured =
+      typeof options.is_featured === "boolean" ? options.is_featured : options.featured;
+
     const data = await apiRequest<ListProjectsResponse>("/api/projects", {
       query: {
         city: options.city,
         status: options.status,
         type: options.type,
-        featured: options.featured,
+        is_featured: featured,
         limit: options.limit,
       },
     });

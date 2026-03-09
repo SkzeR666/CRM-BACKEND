@@ -42,7 +42,7 @@ export default async function HomePage({ searchParams }: Props) {
   const theme = resolveTheme(params.theme);
 
   const [featuredResult, allResult] = await Promise.all([
-    listProjects({ limit: 6, featured: true }),
+    listProjects({ limit: 6, is_featured: true }),
     listProjects({ limit: 120 }),
   ]);
 
