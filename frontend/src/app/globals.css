@@ -152,6 +152,11 @@ textarea {
   display: inline-flex;
   gap: 16px;
   align-items: center;
+  flex-shrink: 0;
+}
+
+.samfer-contact-label-short {
+  display: none;
 }
 
 .samfer-primary-btn,
@@ -1899,8 +1904,14 @@ textarea {
 }
 
 @media (max-width: 860px) {
+  .samfer-app,
   .admin-app {
     min-height: 100dvh;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .admin-app {
     padding: 0;
   }
 
@@ -1913,11 +1924,14 @@ textarea {
   }
 
   .admin-header-shell {
+    min-height: 72px;
+    height: 72px;
     border-radius: 0;
     border-left: 0;
     border-right: 0;
     padding: 10px 12px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    gap: 8px;
   }
 
   .admin-content {
@@ -1925,25 +1939,40 @@ textarea {
   }
 
   .admin-header-left {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   .admin-header-nav {
-    width: 100%;
+    width: auto;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .admin-header-nav::-webkit-scrollbar {
+    display: none;
   }
 
   .admin-header-brand {
-    font-size: 18px;
+    font-size: 17px;
+    min-height: 40px;
+    white-space: nowrap;
   }
 
   .admin-header-link {
-    min-height: 42px;
-    padding: 0 12px;
+    min-height: 40px;
+    padding: 0 10px;
+    font-size: 11px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .admin-theme-toggle {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
   }
 
   .admin-title-block h1,
@@ -1973,16 +2002,16 @@ textarea {
 
   .admin-primary-btn,
   .admin-secondary-btn {
-    min-height: 54px;
+    min-height: 46px;
   }
 
   .admin-primary-btn.is-large,
   .admin-secondary-btn.is-large {
-    min-height: 56px;
+    min-height: 54px;
   }
 
   .admin-danger-btn {
-    min-height: 56px;
+    min-height: 54px;
   }
 
   .admin-active-filters {
@@ -2052,7 +2081,6 @@ textarea {
   }
 
   .samfer-app {
-    min-height: 100dvh;
     padding: 0;
   }
 
@@ -2066,11 +2094,11 @@ textarea {
   }
 
   .samfer-header {
-    min-height: 94px;
-    height: auto;
+    min-height: 72px;
+    height: 72px;
     padding: 12px;
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-wrap: nowrap;
+    gap: 8px;
     top: 0;
     border-radius: 0;
     border-left: 0;
@@ -2078,7 +2106,7 @@ textarea {
   }
 
   .samfer-header-left {
-    flex: 1 1 auto;
+    flex: 1 1 0;
     min-width: 0;
   }
 
@@ -2099,21 +2127,31 @@ textarea {
   }
 
   .samfer-header-actions {
-    margin-left: 0;
+    margin-left: auto;
     gap: 8px;
-    width: 100%;
+    width: auto;
   }
 
   .samfer-primary-btn,
   .samfer-secondary-btn {
-    height: 46px;
-    padding: 0 14px;
-    font-size: 12px;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 11px;
+    white-space: nowrap;
   }
 
   .samfer-icon-btn {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  .samfer-contact-label-full {
+    display: none;
+  }
+
+  .samfer-contact-label-short {
+    display: inline;
   }
 
   .samfer-hero {

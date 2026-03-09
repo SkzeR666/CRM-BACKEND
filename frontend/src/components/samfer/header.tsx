@@ -31,7 +31,8 @@ export function SamferHeader({ theme, title, backHref, contactHref }: Props) {
 
       <div className="samfer-header-actions">
         <SamferContactLink href={specialistHref} className="samfer-primary-btn" location="header_specialist">
-          Falar com especialista
+          <span className="samfer-contact-label-full">Falar com especialista</span>
+          <span className="samfer-contact-label-short">Especialista</span>
         </SamferContactLink>
         <ThemeToggle theme={theme} />
       </div>
