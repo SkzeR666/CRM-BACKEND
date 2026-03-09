@@ -102,13 +102,9 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
   const propertyJsonLd = buildPropertyJsonLd(project);
   const featureItems = getFeatureItems(project);
 
-  const floorPlans = [
-    { title: "Planta Tipo A", details: "2 dormitórios • 42 m²" },
-    { title: "Planta Tipo B", details: "2 dormitórios • 44 m²" },
-    { title: "Planta Tipo C", details: "Variante compacta" },
-  ];
-
   const price = typeof project.price === "number" ? formatPrice(project.price) : "Sob consulta";
+  const mapQuery = [project.title, project.neighborhood, project.city, project.state, "Brasil"].filter(Boolean).join(", ");
+  const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&output=embed`;
 
   return (
     <div className={`samfer-app ${theme === "dark" ? "is-dark" : ""}`}>
@@ -162,7 +158,13 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
               <aside className="samfer-detail-cta">
               <h3>Fale com nossa equipe</h3>
               <p>Estamos aqui para apoiar sua decisão com clareza e segurança.</p>
-              <Image src={samferImages.map} alt="Mapa da localização" width={900} height={420} sizes="(max-width: 860px) 100vw, 460px" />
+              <iframe
+                className="samfer-detail-map"
+                title={`Mapa do imóvel ${project.title}`}
+                src={mapEmbedUrl}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
               <div className="samfer-detail-cta-actions">
                 <SamferContactLink
                   href={whatsappHref}
@@ -182,26 +184,6 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
               </div>
               </aside>
             </MotionReveal>
-          </section>
-
-          <section className="samfer-section" id="plantas">
-            <SectionTitle before="Plantas " highlight="disponíveis" />
-            <MotionStagger className="samfer-floor-grid">
-              {floorPlans.map((plan) => (
-                <MotionStaggerItem key={plan.title}>
-                  <article className="samfer-floor-card">
-                    <header>
-                      <h3>{plan.title}</h3>
-                      <p>{plan.details}</p>
-                    </header>
-                    <Image src={samferImages.floor} alt={plan.title} width={900} height={900} sizes="(max-width: 860px) 100vw, 33vw" />
-                    <a href={samferImages.floor} target="_blank" rel="noreferrer" className="samfer-primary-btn">
-                      Ver planta completa
-                    </a>
-                  </article>
-                </MotionStaggerItem>
-              ))}
-            </MotionStagger>
           </section>
 
           <section className="samfer-section">

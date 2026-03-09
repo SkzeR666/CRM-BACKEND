@@ -151,7 +151,7 @@ textarea {
   border-bottom: 1px solid var(--border);
   background: color-mix(in srgb, var(--surface-alt) 90%, transparent);
   backdrop-filter: blur(7.5px);
-  padding: 10px max(20px, calc((100vw - 1440px) / 2 + 18px));
+  padding: 10px max(18px, calc((100vw - 1440px) / 2));
   box-shadow: none;
   transition: height 0.35s cubic-bezier(0.22, 1, 0.36, 1), padding 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -161,7 +161,7 @@ textarea {
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  padding: 10px max(20px, calc((100vw - 1440px) / 2 + 18px));
+  padding: 10px max(18px, calc((100vw - 1440px) / 2));
 }
 
 .samfer-header-left {
@@ -173,22 +173,18 @@ textarea {
 .samfer-logo {
   display: inline-flex;
   align-items: center;
-  min-height: var(--header-control-size);
   font-size: 22px;
   font-weight: 600;
   letter-spacing: -0.22px;
-  line-height: 1;
 }
 
 .samfer-back-link {
   display: inline-flex;
   align-items: center;
-  min-height: var(--header-control-size);
   gap: 10px;
   font-size: 22px;
   font-weight: 600;
   letter-spacing: -0.22px;
-  line-height: 1;
 }
 
 .samfer-header-actions {
@@ -932,8 +928,12 @@ textarea {
 
 .samfer-detail-top {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 459px;
+  grid-template-columns: minmax(0, 1.35fr) minmax(360px, 1fr);
   gap: 32px;
+}
+
+.samfer-detail-top > * {
+  min-width: 0;
 }
 
 .samfer-detail-summary,
@@ -950,6 +950,7 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  height: 100%;
   transition: transform 0.24s ease;
 }
 
@@ -1004,6 +1005,7 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  height: 100%;
   transition: transform 0.24s ease;
 }
 
@@ -1028,10 +1030,27 @@ textarea {
   border-radius: 10px;
 }
 
+.samfer-detail-map {
+  width: 100%;
+  height: 220px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--surface-alt);
+}
+
 .samfer-detail-cta-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
+}
+
+.samfer-detail-cta-actions > * {
+  width: 100%;
+}
+
+.samfer-detail-cta-actions .samfer-secondary-btn {
+  min-height: var(--header-control-size);
+  padding: 0 24px;
 }
 
 .samfer-floor-grid {
@@ -1483,11 +1502,9 @@ textarea {
 .admin-header-brand {
   display: inline-flex;
   align-items: center;
-  min-height: var(--header-control-size);
   color: var(--text);
   font-size: 22px;
   font-weight: 600;
-  line-height: 1;
   letter-spacing: -0.02em;
   transition: transform 0.2s ease, filter 0.2s ease;
 }
