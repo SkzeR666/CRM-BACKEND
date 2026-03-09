@@ -7,7 +7,7 @@ import { SamferFooter } from "@/components/samfer/footer";
 import { PropertyCard } from "@/components/samfer/property-card";
 import { SectionTitle } from "@/components/samfer/section-title";
 import { FaqList } from "@/components/samfer/faq";
-import { Testimonials } from "@/components/samfer/testimonials";
+
 import { samferImages } from "@/components/samfer/content";
 import { SamferContactForm } from "@/components/samfer/contact-form";
 import { SamferSubmitButton } from "@/components/samfer/submit-button";
@@ -155,11 +155,6 @@ export default async function HomePage({ searchParams }: Props) {
                 <PropertyCard key={project.id} project={project} theme={theme} index={index} />
               ))}
             </div>
-          </section>
-
-          <section className="samfer-section">
-            <SectionTitle before="O que nossos " highlight="clientes dizem" />
-            <Testimonials />
           </section>
 
           <section className="samfer-section">
