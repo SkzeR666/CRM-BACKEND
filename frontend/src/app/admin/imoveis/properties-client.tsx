@@ -15,18 +15,10 @@ import type { SamferTheme } from "@/lib/utils/theme";
 
 type Filters = {
   q: string;
-  status: string;
-  city: string;
 };
 
 function normalizeText(value?: string) {
   return value?.trim() ?? "";
-}
-
-function unique(values: Array<string | null | undefined>) {
-  return Array.from(new Set(values.filter(Boolean).map((value) => String(value).trim()))).sort((a, b) =>
-    a.localeCompare(b, "pt-BR", { sensitivity: "base" }),
-  );
 }
 
 function includesText(value: string | null | undefined, query: string) {
@@ -61,8 +53,6 @@ function buildQuery(filters: Filters, theme: SamferTheme) {
   const query = new URLSearchParams();
   query.set("theme", theme);
   if (filters.q) query.set("q", filters.q);
-  if (filters.status) query.set("status", filters.status);
-  if (filters.city) query.set("city", filters.city);
   return query.toString();
 }
 
@@ -74,8 +64,6 @@ export function AdminPropertiesPageClient({ theme }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [projects, setProjects] = useState<Project[]>([]);
-  const [statusOptions, setStatusOptions] = useState<string[]>([]);
-  const [cityOptions, setCityOptions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [isDeletingId, setIsDeletingId] = useState<string | null>(null);
@@ -83,8 +71,6 @@ export function AdminPropertiesPageClient({ theme }: Props) {
   const filters = useMemo<Filters>(
     () => ({
       q: normalizeText(searchParams.get("q") || ""),
-      status: normalizeText(searchParams.get("status") || ""),
-      city: normalizeText(searchParams.get("city") || ""),
     }),
     [searchParams],
   );
@@ -94,15 +80,8 @@ export function AdminPropertiesPageClient({ theme }: Props) {
     setIsLoading(true);
     setError("");
 
-    Promise.all([
-      listProjects({
-        limit: 200,
-        status: filters.status || undefined,
-        city: filters.city || undefined,
-      }),
-      listProjects({ limit: 200 }),
-    ])
-      .then(([filteredResult, allResult]) => {
+    listProjects({ limit: 200 })
+      .then((filteredResult) => {
         if (cancelled) return;
 
         if (filteredResult.error) {
@@ -112,8 +91,6 @@ export function AdminPropertiesPageClient({ theme }: Props) {
         }
 
         setProjects(filteredResult.projects);
-        setStatusOptions(unique(allResult.projects.map((project) => project.status)));
-        setCityOptions(unique(allResult.projects.map((project) => project.city)));
       })
       .catch((loadError) => {
         if (cancelled) return;
@@ -128,7 +105,7 @@ export function AdminPropertiesPageClient({ theme }: Props) {
     return () => {
       cancelled = true;
     };
-  }, [filters.city, filters.status]);
+  }, []);
 
   const filteredProjects = useMemo(() => {
     const query = filters.q.toLocaleLowerCase("pt-BR");
@@ -147,8 +124,6 @@ export function AdminPropertiesPageClient({ theme }: Props) {
     const formData = new FormData(event.currentTarget);
     const nextFilters: Filters = {
       q: normalizeText(String(formData.get("q") || "")),
-      status: normalizeText(String(formData.get("status") || "")),
-      city: normalizeText(String(formData.get("city") || "")),
     };
 
     const query = buildQuery(nextFilters, theme);
@@ -172,28 +147,26 @@ export function AdminPropertiesPageClient({ theme }: Props) {
   }
 
   async function handleDelete(project: Project) {
-    const confirmDelete = window.confirm(`Excluir o imovel "${project.title}"?`);
+    const confirmDelete = window.confirm(`Excluir o imóvel "${project.title}"?`);
     if (!confirmDelete) return;
 
     try {
       setIsDeletingId(project.id);
       const accessToken = await getAdminAccessToken();
-      if (!accessToken) throw new Error("Sessao expirada. Faca login novamente.");
+      if (!accessToken) throw new Error("Sessão expirada. Faça login novamente.");
 
       await deleteProject(project.id, { accessToken });
       setProjects((prev) => prev.filter((item) => item.id !== project.id));
     } catch (deleteError) {
-      setError(deleteError instanceof Error ? deleteError.message : "Falha ao excluir imovel.");
+      setError(deleteError instanceof Error ? deleteError.message : "Falha ao excluir imóvel.");
     } finally {
       setIsDeletingId(null);
     }
   }
 
-  const hasFilters = Boolean(filters.q || filters.status || filters.city);
+  const hasFilters = Boolean(filters.q);
   const activeFilters = [
     filters.q ? { key: "q" as const, label: `Busca: ${filters.q}` } : null,
-    filters.status ? { key: "status" as const, label: `Status: ${statusLabel(filters.status)}` } : null,
-    filters.city ? { key: "city" as const, label: `Cidade: ${filters.city}` } : null,
   ].filter(Boolean) as Array<{ key: keyof Filters; label: string }>;
 
   return (
@@ -203,35 +176,11 @@ export function AdminPropertiesPageClient({ theme }: Props) {
           <AdminHeader theme={theme} section="imoveis" />
 
           <main className="admin-content">
-            <form className="admin-filter-row samfer-animate" onSubmit={handleApply}>
+            <form className="admin-filter-row is-simple samfer-animate" onSubmit={handleApply}>
               <label className="admin-filter-control admin-filter-search">
-                <span className="samfer-sr-only">Buscar imovel</span>
-                <input name="q" defaultValue={filters.q} placeholder="Buscar imovel" />
+                <span className="samfer-sr-only">Buscar imóvel</span>
+                <input name="q" defaultValue={filters.q} placeholder="Buscar imóvel" />
                 <Search size={18} aria-hidden />
-              </label>
-
-              <label className="admin-filter-control">
-                <span className="samfer-sr-only">Status</span>
-                <select name="status" defaultValue={filters.status}>
-                  <option value="">Status</option>
-                  {statusOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {statusLabel(option)}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="admin-filter-control">
-                <span className="samfer-sr-only">Cidade</span>
-                <select name="city" defaultValue={filters.city}>
-                  <option value="">Cidade</option>
-                  {cityOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
               </label>
 
               <div className="admin-filter-actions">
@@ -241,10 +190,10 @@ export function AdminPropertiesPageClient({ theme }: Props) {
                   </button>
                 ) : null}
                 <button type="submit" className="admin-secondary-btn">
-                  Aplicar
+                  Pesquisar
                 </button>
                 <Link href={withTheme("/admin/imoveis/novo", theme)} className="admin-primary-btn">
-                  Novo imovel
+                  Novo imóvel
                 </Link>
               </div>
             </form>
@@ -269,23 +218,23 @@ export function AdminPropertiesPageClient({ theme }: Props) {
 
             <section className="admin-table-shell samfer-animate" aria-live="polite">
               <div className="admin-table-meta">
-                <p>{isLoading ? "Carregando..." : `${filteredProjects.length} imovel(is) encontrado(s)`}</p>
+                <p>{isLoading ? "Carregando..." : `${filteredProjects.length} imóvel(is) encontrado(s)`}</p>
               </div>
               <table className="admin-table">
                 <thead>
                   <tr>
-                    <th>Imovel</th>
+                    <th>Imóvel</th>
                     <th>Cidade</th>
                     <th>Status</th>
-                    <th>Preco</th>
-                    <th className="is-actions">Acoes</th>
+                    <th>Preço</th>
+                    <th className="is-actions">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
                   {isLoading ? (
                     <tr>
                       <td colSpan={5} className="admin-empty-cell">
-                        Carregando imoveis...
+                        Carregando imóveis...
                       </td>
                     </tr>
                   ) : filteredProjects.length ? (
@@ -318,7 +267,7 @@ export function AdminPropertiesPageClient({ theme }: Props) {
                   ) : (
                     <tr>
                       <td colSpan={5} className="admin-empty-cell">
-                        Nenhum imovel encontrado para os filtros aplicados.
+                        Nenhum imóvel encontrado para os filtros aplicados.
                       </td>
                     </tr>
                   )}

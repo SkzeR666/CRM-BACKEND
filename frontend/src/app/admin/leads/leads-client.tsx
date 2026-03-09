@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { DragEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -7,12 +7,12 @@ import { AdminAuthGuard } from "@/components/shared/admin-auth-guard";
 import { AdminHeader } from "@/components/shared/admin-header";
 import { getAdminAccessToken } from "@/lib/admin-auth";
 import { deleteLead, listLeads, updateLead } from "@/lib/api/leads";
-import { withTheme } from "@/lib/samfer-links";
 import type { SamferTheme } from "@/lib/utils/theme";
 import type { Lead } from "@/types/lead";
 
 type Filters = {
   q: string;
+  view: "kanban" | "list";
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -51,6 +51,7 @@ function buildQuery(filters: Filters, theme: SamferTheme) {
   const query = new URLSearchParams();
   query.set("theme", theme);
   if (filters.q) query.set("q", filters.q);
+  query.set("view", filters.view);
   return query.toString();
 }
 
@@ -71,6 +72,7 @@ export function AdminLeadsPageClient({ theme }: Props) {
   const filters = useMemo<Filters>(
     () => ({
       q: normalizeText(searchParams.get("q") || ""),
+      view: searchParams.get("view") === "list" ? "list" : "kanban",
     }),
     [searchParams]
   );
@@ -83,7 +85,7 @@ export function AdminLeadsPageClient({ theme }: Props) {
     async function load() {
       try {
         const accessToken = await getAdminAccessToken();
-        if (!accessToken) throw new Error("Sessao expirada. Faca login novamente.");
+        if (!accessToken) throw new Error("Sessão expirada. Faça login novamente.");
 
         const result = await listLeads(
           {
@@ -123,6 +125,7 @@ export function AdminLeadsPageClient({ theme }: Props) {
     const formData = new FormData(event.currentTarget);
     const nextFilters: Filters = {
       q: normalizeText(String(formData.get("q") || "")),
+      view: filters.view,
     };
 
     const query = buildQuery(nextFilters, theme);
@@ -130,7 +133,10 @@ export function AdminLeadsPageClient({ theme }: Props) {
   }
 
   function handleClear() {
-    router.push(withTheme("/admin/leads", theme));
+    const query = new URLSearchParams();
+    query.set("theme", theme);
+    query.set("view", filters.view);
+    router.push(`/admin/leads?${query.toString()}`);
   }
 
   function updateFilters(next: Filters) {
@@ -149,7 +155,7 @@ export function AdminLeadsPageClient({ theme }: Props) {
     try {
       setIsUpdatingId(lead.id);
       const accessToken = await getAdminAccessToken();
-      if (!accessToken) throw new Error("Sessao expirada. Faca login novamente.");
+      if (!accessToken) throw new Error("Sessão expirada. Faça login novamente.");
 
       const updated = await updateLead(lead.id, { status }, { accessToken });
       setLeads((prev) => prev.map((item) => (item.id === updated.id ? updated : item)));
@@ -167,7 +173,7 @@ export function AdminLeadsPageClient({ theme }: Props) {
     try {
       setIsDeletingId(lead.id);
       const accessToken = await getAdminAccessToken();
-      if (!accessToken) throw new Error("Sessao expirada. Faca login novamente.");
+      if (!accessToken) throw new Error("Sessão expirada. Faça login novamente.");
 
       await deleteLead(lead.id, { accessToken });
       setLeads((prev) => prev.filter((item) => item.id !== lead.id));
@@ -223,7 +229,7 @@ export function AdminLeadsPageClient({ theme }: Props) {
     try {
       setIsUpdatingId(leadId);
       const accessToken = await getAdminAccessToken();
-      if (!accessToken) throw new Error("Sessao expirada. Faca login novamente.");
+      if (!accessToken) throw new Error("Sessão expirada. Faça login novamente.");
 
       const updated = await updateLead(leadId, { status }, { accessToken });
       setLeads((prev) => prev.map((item) => (item.id === updated.id ? updated : item)));
@@ -242,6 +248,11 @@ export function AdminLeadsPageClient({ theme }: Props) {
     setDraggingLeadId(null);
   }
 
+  function setView(view: Filters["view"]) {
+    const query = buildQuery({ ...filters, view }, theme);
+    router.push(`/admin/leads?${query}`);
+  }
+
   return (
     <AdminAuthGuard>
       <div className={`admin-app ${theme === "dark" ? "is-dark" : ""}`}>
@@ -249,7 +260,7 @@ export function AdminLeadsPageClient({ theme }: Props) {
           <AdminHeader theme={theme} section="leads" />
 
           <main className="admin-content">
-            <form className="admin-filter-row is-compact samfer-animate" onSubmit={handleApply}>
+            <form className="admin-filter-row is-simple samfer-animate" onSubmit={handleApply}>
               <label className="admin-filter-control admin-filter-search">
                 <span className="samfer-sr-only">Buscar lead</span>
                 <input name="q" defaultValue={filters.q} placeholder="Buscar por nome, telefone ou email" />
@@ -263,7 +274,21 @@ export function AdminLeadsPageClient({ theme }: Props) {
                   </button>
                 ) : null}
                 <button type="submit" className="admin-secondary-btn">
-                  Aplicar
+                  Pesquisar
+                </button>
+                <button
+                  type="button"
+                  className={`admin-secondary-btn ${filters.view === "kanban" ? "is-active" : ""}`}
+                  onClick={() => setView("kanban")}
+                >
+                  Kanban
+                </button>
+                <button
+                  type="button"
+                  className={`admin-secondary-btn ${filters.view === "list" ? "is-active" : ""}`}
+                  onClick={() => setView("list")}
+                >
+                  Lista
                 </button>
               </div>
             </form>
@@ -286,6 +311,7 @@ export function AdminLeadsPageClient({ theme }: Props) {
 
             {error ? <p className="admin-feedback is-error">{error}</p> : null}
 
+            {filters.view === "kanban" ? (
             <section className="admin-kanban samfer-animate" aria-live="polite">
               {isLoading ? (
                 <div className="admin-empty-cell">Carregando leads...</div>
@@ -358,9 +384,66 @@ export function AdminLeadsPageClient({ theme }: Props) {
                 ))
               )}
             </section>
+            ) : (
+              <section className="admin-table-shell samfer-animate" aria-live="polite">
+                <div className="admin-table-meta">
+                  <p>{isLoading ? "Carregando..." : `${leads.length} lead(s) encontrado(s)`}</p>
+                </div>
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Lead</th>
+                      <th>Contato</th>
+                      <th>Status</th>
+                      <th>Criado em</th>
+                      <th className="is-actions">AÃ§Ãµes</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {isLoading ? (
+                      <tr>
+                        <td colSpan={5} className="admin-empty-cell">Carregando leads...</td>
+                      </tr>
+                    ) : leads.length ? (
+                      leads.map((lead) => (
+                        <tr key={lead.id}>
+                          <td>{lead.name}</td>
+                          <td>
+                            <div>
+                              <div>{lead.phone}</div>
+                              <small>{lead.email || "-"}</small>
+                            </div>
+                          </td>
+                          <td>{getStatusLabel(normalizeStatus(lead.status) || "new")}</td>
+                          <td>{formatDate(lead.created_at)}</td>
+                          <td className="admin-actions-cell">
+                            <button
+                              type="button"
+                              className="admin-row-action is-danger"
+                              onClick={() => handleDelete(lead)}
+                              disabled={isDeletingId === lead.id}
+                              aria-label={`Excluir ${lead.name}`}
+                            >
+                              <Trash2 size={14} />
+                              <span>{isDeletingId === lead.id ? "Excluindo..." : "Excluir"}</span>
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={5} className="admin-empty-cell">Nenhum lead encontrado.</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </section>
+            )}
           </main>
         </div>
       </div>
     </AdminAuthGuard>
   );
 }
+
+

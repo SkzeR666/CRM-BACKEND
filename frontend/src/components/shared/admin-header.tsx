@@ -49,23 +49,6 @@ export function AdminHeader({
           </Link>
         </div>
 
-        {showNav ? (
-          <nav className="admin-header-nav" aria-label="Navegacao do admin">
-            <Link
-              href={withTheme("/admin/imoveis", theme)}
-              className={`admin-header-link ${section === "imoveis" ? "is-active" : ""}`}
-            >
-              Imoveis
-            </Link>
-            <Link
-              href={withTheme("/admin/leads", theme)}
-              className={`admin-header-link ${section === "leads" ? "is-active" : ""}`}
-            >
-              Leads
-            </Link>
-          </nav>
-        ) : null}
-
         <div className="admin-header-actions">
           <Link href={withTheme("/", theme)} className="admin-header-link" target="_blank" rel="noreferrer">
             Ver site
@@ -78,6 +61,25 @@ export function AdminHeader({
           <AdminThemeToggle theme={theme} />
         </div>
       </div>
+
+      {showNav ? (
+        <div className="admin-header-tabs">
+          <nav className="admin-header-nav" aria-label="Navegação do admin">
+            <Link
+              href={withTheme("/admin/imoveis", theme)}
+              className={`admin-header-link ${section === "imoveis" ? "is-active" : ""}`}
+            >
+              Imóveis
+            </Link>
+            <Link
+              href={withTheme("/admin/leads", theme)}
+              className={`admin-header-link ${section === "leads" ? "is-active" : ""}`}
+            >
+              Leads
+            </Link>
+          </nav>
+        </div>
+      ) : null}
     </header>
   );
 }
