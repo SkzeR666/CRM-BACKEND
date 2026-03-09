@@ -23,6 +23,7 @@ const STATUS_LABELS: Record<string, string> = {
   won: "Fechado",
   lost: "Perdido",
 };
+const KANBAN_STATUSES = ["new", "contacted", "qualified", "negotiating", "won", "lost"] as const;
 
 function normalizeText(value?: string) {
   return value?.trim() ?? "";
@@ -166,9 +167,11 @@ export function AdminLeadsPageClient({ theme }: Props) {
   }
 
   const statusOptions = useMemo(() => {
-    const values = Array.from(new Set(leads.map((lead) => normalizeStatus(lead.status)).filter((status): status is string => Boolean(status))));
-
-    return values.length ? values : ["new"];
+    const fromLeads = Array.from(
+      new Set(leads.map((lead) => normalizeStatus(lead.status)).filter((status): status is string => Boolean(status))),
+    );
+    const extras = fromLeads.filter((status) => !KANBAN_STATUSES.includes(status as (typeof KANBAN_STATUSES)[number]));
+    return [...KANBAN_STATUSES, ...extras];
   }, [leads]);
 
   const columns = statusOptions.map((statusValue) => ({

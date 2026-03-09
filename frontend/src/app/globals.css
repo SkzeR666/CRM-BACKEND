@@ -1284,8 +1284,8 @@ textarea {
   border-radius: 16px;
   background: var(--surface-alt);
   backdrop-filter: blur(7.5px);
-  width: calc(100% - 84px);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   padding: 10px 20px;
   display: flex;
   align-items: center;
@@ -1311,8 +1311,8 @@ textarea {
 }
 
 .admin-header-tabs {
-  width: calc(100% - 84px);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -1327,6 +1327,7 @@ textarea {
 .admin-header-tabs .admin-header-link {
   min-height: 64px;
   width: 100%;
+  min-width: 0;
   border-radius: 6px;
   border: 1px solid var(--border);
   background: var(--surface-alt);
@@ -1345,7 +1346,7 @@ textarea {
 .admin-header.is-scrolled .admin-header-shell,
 .admin-header.is-scrolled .admin-header-tabs {
   width: 100%;
-  border-radius: 0;
+  border-radius: 12px;
 }
 
 .admin-header.is-scrolled .admin-header-shell {
