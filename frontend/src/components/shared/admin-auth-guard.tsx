@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getSupabaseBrowserClient, hasSupabaseClientEnv } from "@/lib/supabase/client";
 
 type Props = {
@@ -11,9 +11,13 @@ type Props = {
 export function AdminAuthGuard({ children }: Props) {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const hasEnv = hasSupabaseClientEnv();
   const [isLoading, setIsLoading] = useState(hasEnv);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const nextPath = `${pathname || "/admin/imoveis"}${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
+  const encodedNext = encodeURIComponent(nextPath);
 
   useEffect(() => {
     if (!hasEnv) return;
@@ -34,8 +38,7 @@ export function AdminAuthGuard({ children }: Props) {
       if (!mounted) return;
       setIsAuthenticated(Boolean(session));
       if (event === "SIGNED_OUT") {
-        const next = encodeURIComponent(pathname || "/admin/imoveis");
-        router.replace(`/admin/login?next=${next}`);
+        router.replace(`/admin/login?next=${encodedNext}`);
       }
     });
 
@@ -43,13 +46,12 @@ export function AdminAuthGuard({ children }: Props) {
       mounted = false;
       listener.subscription.unsubscribe();
     };
-  }, [hasEnv, pathname, router]);
+  }, [encodedNext, hasEnv, router]);
 
   useEffect(() => {
     if (!hasEnv || isLoading || isAuthenticated) return;
-    const next = encodeURIComponent(pathname || "/admin/imoveis");
-    router.replace(`/admin/login?next=${next}`);
-  }, [hasEnv, isAuthenticated, isLoading, pathname, router]);
+    router.replace(`/admin/login?next=${encodedNext}`);
+  }, [encodedNext, hasEnv, isAuthenticated, isLoading, router]);
 
   if (!hasEnv || isLoading || !isAuthenticated) {
     return (

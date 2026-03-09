@@ -6,6 +6,8 @@ import { ChevronDown, Link2, Trash2 } from "lucide-react";
 import { createProject, deleteProject, getProjectById, updateProject } from "@/lib/api/projects";
 import { getAdminAccessToken } from "@/lib/admin-auth";
 import type { Project } from "@/types/project";
+import { withTheme } from "@/lib/samfer-links";
+import type { SamferTheme } from "@/lib/utils/theme";
 
 function slugify(value: string) {
   return value
@@ -120,9 +122,10 @@ function projectToFormValues(project: Project): FormValues {
 
 type Props = {
   projectId?: string;
+  theme: SamferTheme;
 };
 
-export function PropertyFormLocal({ projectId }: Props) {
+export function PropertyFormLocal({ projectId, theme }: Props) {
   const router = useRouter();
   const isEditMode = Boolean(projectId);
   const [values, setValues] = useState<FormValues>(initialValues);
@@ -223,7 +226,7 @@ export function PropertyFormLocal({ projectId }: Props) {
       if (!accessToken) throw new Error("Sessao expirada. Faca login novamente.");
 
       await deleteProject(projectId, { accessToken });
-      router.push("/admin/imoveis");
+      router.push(withTheme("/admin/imoveis", theme));
       router.refresh();
     } catch (error) {
       setIsError(true);
@@ -507,9 +510,9 @@ export function PropertyFormLocal({ projectId }: Props) {
       </section>
 
       <div className={`admin-form-actions ${isEditMode ? "is-edit" : ""}`}>
-          <button type="button" className="admin-secondary-btn is-large" onClick={() => router.push("/admin/imoveis")}>
-            Voltar
-          </button>
+        <button type="button" className="admin-secondary-btn is-large" onClick={() => router.push(withTheme("/admin/imoveis", theme))}>
+          Voltar
+        </button>
           <button type="submit" className="admin-primary-btn is-large" disabled={isLoading || !finalSlug}>
             {isLoading ? "Salvando..." : isEditMode ? "Salvar alteracoes" : "Salvar imovel"}
         </button>

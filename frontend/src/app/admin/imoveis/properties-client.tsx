@@ -10,6 +10,8 @@ import type { Project } from "@/types/project";
 import { getAdminAccessToken } from "@/lib/admin-auth";
 import { AdminHeader } from "@/components/shared/admin-header";
 import { AdminAuthGuard } from "@/components/shared/admin-auth-guard";
+import { withTheme } from "@/lib/samfer-links";
+import type { SamferTheme } from "@/lib/utils/theme";
 
 type Filters = {
   q: string;
@@ -55,15 +57,20 @@ function statusTone(status?: string | null) {
   return "neutral";
 }
 
-function buildQuery(filters: Filters) {
+function buildQuery(filters: Filters, theme: SamferTheme) {
   const query = new URLSearchParams();
+  query.set("theme", theme);
   if (filters.q) query.set("q", filters.q);
   if (filters.status) query.set("status", filters.status);
   if (filters.city) query.set("city", filters.city);
   return query.toString();
 }
 
-export function AdminPropertiesPageClient() {
+type Props = {
+  theme: SamferTheme;
+};
+
+export function AdminPropertiesPageClient({ theme }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [projects, setProjects] = useState<Project[]>([]);
@@ -144,16 +151,16 @@ export function AdminPropertiesPageClient() {
       city: normalizeText(String(formData.get("city") || "")),
     };
 
-    const query = buildQuery(nextFilters);
+    const query = buildQuery(nextFilters, theme);
     router.push(query ? `/admin/imoveis?${query}` : "/admin/imoveis");
   }
 
   function handleClear() {
-    router.push("/admin/imoveis");
+    router.push(withTheme("/admin/imoveis", theme));
   }
 
   function updateFilters(next: Filters) {
-    const query = buildQuery(next);
+    const query = buildQuery(next, theme);
     router.push(query ? `/admin/imoveis?${query}` : "/admin/imoveis");
   }
 
@@ -191,9 +198,9 @@ export function AdminPropertiesPageClient() {
 
   return (
     <AdminAuthGuard>
-      <div className="admin-app">
+      <div className={`admin-app ${theme === "dark" ? "is-dark" : ""}`}>
         <div className="admin-shell">
-          <AdminHeader />
+          <AdminHeader theme={theme} />
 
           <main className="admin-content">
             <section className="admin-title-block samfer-animate">
@@ -243,7 +250,7 @@ export function AdminPropertiesPageClient() {
                 <button type="submit" className="admin-secondary-btn">
                   Aplicar
                 </button>
-                <Link href="/admin/imoveis/novo" className="admin-primary-btn">
+                <Link href={withTheme("/admin/imoveis/novo", theme)} className="admin-primary-btn">
                   Novo imovel
                 </Link>
               </div>
@@ -298,7 +305,7 @@ export function AdminPropertiesPageClient() {
                         </td>
                         <td>{typeof project.price === "number" ? formatPrice(project.price) : "Sob consulta"}</td>
                         <td className="admin-actions-cell">
-                          <Link href={`/admin/imoveis/${project.id}`} className="admin-row-action" aria-label={`Editar ${project.title}`}>
+                          <Link href={withTheme(`/admin/imoveis/${project.id}`, theme)} className="admin-row-action" aria-label={`Editar ${project.title}`}>
                             <PencilLine size={16} />
                             <span>Editar</span>
                           </Link>

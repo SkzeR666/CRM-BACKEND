@@ -3,8 +3,14 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getSupabaseBrowserClient, hasSupabaseClientEnv } from "@/lib/supabase/client";
+import { withTheme } from "@/lib/samfer-links";
+import type { SamferTheme } from "@/lib/utils/theme";
 
-export function AdminLoginFormLocal() {
+type Props = {
+  theme: SamferTheme;
+};
+
+export function AdminLoginFormLocal({ theme }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const hasEnv = hasSupabaseClientEnv();
@@ -14,7 +20,7 @@ export function AdminLoginFormLocal() {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const nextPath = useMemo(() => searchParams.get("next") || "/admin/imoveis", [searchParams]);
+  const nextPath = useMemo(() => searchParams.get("next") || withTheme("/admin/imoveis", theme), [searchParams, theme]);
 
   useEffect(() => {
     if (!hasEnv) return;

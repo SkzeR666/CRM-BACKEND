@@ -44,7 +44,7 @@
   --star-color: #c7b15a;
 }
 
-html.dark {
+.admin-app.is-dark {
   --admin-bg: #0b0b0b;
   --admin-surface: #151515;
   --admin-surface-alt: #1d1d1d;
