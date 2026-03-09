@@ -408,10 +408,10 @@ textarea {
 }
 
 .samfer-input-card.no-icon {
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
 }
 
 .samfer-input-card p {
