@@ -7,10 +7,11 @@
   --border: #d9d8d1;
   --line: #e7e3d8;
   --text: #111111;
-  --text-2: #4b4b46;
-  --text-3: #7a7a74;
+  --text-2: #3f3f3a;
+  --text-3: #66665f;
   --icon: #4b4b46;
   --primary: #39c27a;
+  --primary-text: #1f8f52;
   --on-primary: #0c1a12;
   --star-bg: #f4edd0;
   --star-color: #c7b15a;
@@ -47,6 +48,7 @@
   --text-3: #8a8a84;
   --icon: #e7e7e2;
   --primary: #39c27a;
+  --primary-text: #57db95;
   --on-primary: #08120c;
   --star-bg: #2b2618;
   --star-color: #c7b15a;
@@ -65,10 +67,11 @@
   --border: #2a2a2a;
   --line: #24231f;
   --text: #f4f4f1;
-  --text-2: #b8b8b2;
-  --text-3: #8a8a84;
+  --text-2: #d0d0ca;
+  --text-3: #b1b1aa;
   --icon: #e7e7e2;
   --primary: #39c27a;
+  --primary-text: #57db95;
   --on-primary: #08120c;
   --hero-title: #f7f7f5;
   --hero-shadow: 0 2px 20px rgba(0, 0, 0, 0.55);
@@ -305,7 +308,7 @@ textarea {
 }
 
 .samfer-title span {
-  color: var(--primary);
+  color: var(--primary-text);
 }
 
 .samfer-hero {
@@ -478,7 +481,7 @@ textarea {
 
 .samfer-input-card input::placeholder,
 .samfer-input-card textarea::placeholder {
-  color: color-mix(in srgb, var(--text-2) 90%, transparent);
+  color: var(--text-2);
   opacity: 1;
   transition: opacity 0.22s ease;
 }
@@ -858,7 +861,7 @@ textarea {
 }
 
 .samfer-results-head h2 span {
-  color: var(--primary);
+  color: var(--primary-text);
 }
 
 .samfer-results-head h1 {
@@ -869,7 +872,7 @@ textarea {
 }
 
 .samfer-results-head h1 span {
-  color: var(--primary);
+  color: var(--primary-text);
 }
 
 .samfer-sort {
@@ -1555,7 +1558,7 @@ textarea {
   border: 1px solid var(--border);
   border-radius: 5px;
   background: var(--surface);
-  color: var(--text-2);
+  color: var(--text);
   padding: 0 18px;
   display: inline-flex;
   align-items: center;
@@ -1626,7 +1629,7 @@ textarea {
 }
 
 .admin-title-block h1 span {
-  color: var(--primary);
+  color: var(--primary-text);
 }
 
 .admin-title-block p {
@@ -1974,15 +1977,15 @@ textarea {
 }
 
 .admin-status-pill.is-warning {
-  background: color-mix(in srgb, #f5c66b 16%, var(--surface));
-  border-color: color-mix(in srgb, #f5c66b 34%, var(--border));
-  color: color-mix(in srgb, #d1962f 80%, var(--text));
+  background: color-mix(in srgb, #f5c66b 22%, var(--surface));
+  border-color: color-mix(in srgb, #f5c66b 44%, var(--border));
+  color: color-mix(in srgb, #b97918 92%, var(--text));
 }
 
 .admin-status-pill.is-danger {
-  background: color-mix(in srgb, #ff7e7e 14%, var(--surface));
-  border-color: color-mix(in srgb, #ff7e7e 38%, var(--border));
-  color: color-mix(in srgb, #ff6464 88%, var(--text));
+  background: color-mix(in srgb, #ff7e7e 18%, var(--surface));
+  border-color: color-mix(in srgb, #ff7e7e 46%, var(--border));
+  color: color-mix(in srgb, #e64545 94%, var(--text));
 }
 
 .admin-active-filters {
@@ -2075,7 +2078,7 @@ textarea {
 }
 
 .admin-login-brand h1 span {
-  color: var(--primary);
+  color: var(--primary-text);
 }
 
 .admin-login-brand p {
@@ -2193,7 +2196,7 @@ textarea {
 }
 
 .admin-form-section h2 span {
-  color: var(--primary);
+  color: var(--primary-text);
 }
 
 .admin-section-text {
@@ -2252,7 +2255,7 @@ textarea {
 
 .admin-field input::placeholder,
 .admin-field textarea::placeholder {
-  color: color-mix(in srgb, var(--text-2) 88%, transparent);
+  color: var(--text-2);
   opacity: 1;
   transition: opacity 0.22s ease;
 }
