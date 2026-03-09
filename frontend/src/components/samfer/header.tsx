@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import type { SamferTheme } from "@/lib/utils/theme";
-import { withTheme, withThemeAndHash } from "@/lib/samfer-links";
+import { buildContactMessage, buildWhatsAppLink, withTheme } from "@/lib/samfer-links";
 import { SamferContactLink } from "./contact-link";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -16,7 +16,7 @@ type Props = {
 };
 
 export function SamferHeader({ theme, title, backHref, contactHref }: Props) {
-  const specialistHref = contactHref || withThemeAndHash("/", "financiamento", theme);
+  const specialistHref = contactHref || buildWhatsAppLink(buildContactMessage());
   const isInnerPage = Boolean(title && backHref);
   const [isScrolled, setIsScrolled] = useState(false);
 
