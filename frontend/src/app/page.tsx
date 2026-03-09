@@ -1,4 +1,5 @@
-﻿import type { Metadata } from "next";
+﻿/* eslint-disable @typescript-eslint/no-unused-vars */
+import type { Metadata } from "next";
 import Image from "next/image";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
