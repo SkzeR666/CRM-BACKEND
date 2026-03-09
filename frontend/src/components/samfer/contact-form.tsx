@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { apiRequest } from "@/lib/api/http";
+import { trackSamferEvent } from "@/lib/analytics";
 
 type Props = {
   projectId?: string;
@@ -52,8 +53,20 @@ export function SamferContactForm({ projectId, source, contextLabel, compact = f
       setPhone("");
       setEmail("");
       setMessage("Recebemos seu contato. Nossa equipe vai retornar em breve.");
+      trackSamferEvent({
+        event: "samfer_contact_submit",
+        category: "contact",
+        action: "submit_success",
+        label: source,
+      });
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : "Nao foi possivel enviar o contato.");
+      trackSamferEvent({
+        event: "samfer_contact_submit",
+        category: "contact",
+        action: "submit_error",
+        label: source,
+      });
     } finally {
       setLoading(false);
     }
@@ -100,8 +113,8 @@ export function SamferContactForm({ projectId, source, contextLabel, compact = f
         {loading ? "Enviando..." : "Quero atendimento"}
       </button>
 
-      {message ? <p className="samfer-form-message success">{message}</p> : null}
-      {error ? <p className="samfer-form-message error">{error}</p> : null}
+      {message ? <p className="samfer-form-message success" aria-live="polite">{message}</p> : null}
+      {error ? <p className="samfer-form-message error" aria-live="assertive">{error}</p> : null}
     </form>
   );
 }

@@ -1,4 +1,5 @@
 import { Star } from "lucide-react";
+import Image from "next/image";
 import { testimonials } from "./content";
 
 export function Testimonials() {
@@ -16,7 +17,7 @@ export function Testimonials() {
           <h3>{item.title}</h3>
           <p>{item.text}</p>
           <div className="samfer-user">
-            <img src={item.avatar} alt={item.name} />
+            <Image src={item.avatar} alt={item.name} width={92} height={92} sizes="46px" />
             <div>
               <strong>{item.name}</strong>
               <small>{item.city}</small>

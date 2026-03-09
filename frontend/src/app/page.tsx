@@ -1,4 +1,5 @@
 ﻿import type { Metadata } from "next";
+import Image from "next/image";
 import { listProjects } from "@/lib/api/projects";
 import { resolveTheme } from "@/lib/utils/theme";
 import { SamferHeader } from "@/components/samfer/header";
@@ -9,6 +10,8 @@ import { FaqList } from "@/components/samfer/faq";
 import { Testimonials } from "@/components/samfer/testimonials";
 import { samferImages } from "@/components/samfer/content";
 import { SamferContactForm } from "@/components/samfer/contact-form";
+import { SamferSubmitButton } from "@/components/samfer/submit-button";
+import { PRICE_RANGE_OPTIONS } from "@/components/samfer/texts";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   buildBreadcrumbJsonLd,
@@ -22,9 +25,9 @@ type Props = {
 };
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Inicio",
+  title: "Início",
   description:
-    "Imoveis em destaque em Taubate e regiao com filtros por cidade, tipo, quartos, suites e faixa de preco.",
+    "Imóveis em destaque em Taubaté e região com filtros por cidade, tipo, quartos, suítes e faixa de preço.",
   pathname: "/",
 });
 
@@ -62,22 +65,28 @@ export default async function HomePage({ searchParams }: Props) {
           <JsonLd
             data={[
               buildLocalBusinessJsonLd(),
-              buildBreadcrumbJsonLd([{ name: "Inicio", pathname: "/" }]),
+              buildBreadcrumbJsonLd([{ name: "Início", pathname: "/" }]),
             ]}
           />
 
           <section className="samfer-hero samfer-animate" aria-label="Destaque principal">
-            <img src={samferImages.hero} alt="Empreendimento em destaque" />
-            <h1 className="samfer-sr-only">Imoveis para morar bem em Taubate e regiao</h1>
+            <Image
+              src={samferImages.hero}
+              alt="Empreendimento em destaque"
+              width={1920}
+              height={1080}
+              sizes="100vw"
+            />
+            <h1 className="samfer-sr-only">Imóveis para morar bem em Taubaté e região</h1>
           </section>
 
           <section className="samfer-section" aria-labelledby="busca-heading">
-            <SectionTitle before="Veja opcoes " highlight="ideais" after=" para o seu perfil" />
+            <SectionTitle before="Veja opções " highlight="ideais" after=" para o seu perfil" />
             <form className="samfer-filter-grid samfer-animate" method="GET" action="/imoveis" id="busca-heading">
               <input type="hidden" name="theme" value={theme} />
               <label className="samfer-select-card">
                 <select name="city" defaultValue="">
-                  <option value="">Regiao</option>
+                  <option value="">Região</option>
                   {cityOptions.map((value) => (
                     <option key={value} value={String(value)}>
                       {value}
@@ -97,15 +106,17 @@ export default async function HomePage({ searchParams }: Props) {
               </label>
               <label className="samfer-select-card">
                 <select name="priceRange" defaultValue="">
-                  <option value="">Preco de venda</option>
-                  <option value="0-300000">Ate R$ 300.000</option>
-                  <option value="300000-600000">R$ 300.000 a R$ 600.000</option>
-                  <option value="600000-999999999">Acima de R$ 600.000</option>
+                  <option value="">Preço de venda</option>
+                  {PRICE_RANGE_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
               </label>
               <label className="samfer-select-card">
                 <select name="suites" defaultValue="">
-                  <option value="">Suites</option>
+                  <option value="">Suítes</option>
                   {suiteOptions.map((value) => (
                     <option key={value} value={String(value)}>
                       {value}
@@ -133,14 +144,12 @@ export default async function HomePage({ searchParams }: Props) {
                   ))}
                 </select>
               </label>
-              <button className="samfer-wide-cta samfer-grid-span" type="submit">
-                Buscar imoveis
-              </button>
+              <SamferSubmitButton className="samfer-wide-cta samfer-grid-span" defaultLabel="Buscar imóveis" loadingLabel="Buscando imóveis..." />
             </form>
           </section>
 
           <section className="samfer-section" id="empreendimentos">
-            <SectionTitle before="Imoveis em " highlight="destaque" />
+            <SectionTitle before="Imóveis em " highlight="destaque" />
             <div className="samfer-card-grid">
               {featured.map((project, index) => (
                 <PropertyCard key={project.id} project={project} theme={theme} index={index} />
@@ -160,7 +169,7 @@ export default async function HomePage({ searchParams }: Props) {
 
           <section className="samfer-section" id="financiamento">
             <SectionTitle before="Entre em " highlight="contato conosco" />
-            <SamferContactForm source="home-page" contextLabel="Atendimento comercial para compra de imovel" />
+            <SamferContactForm source="home-page" contextLabel="Atendimento comercial para compra de imóvel" />
           </section>
         </main>
 
@@ -169,4 +178,3 @@ export default async function HomePage({ searchParams }: Props) {
     </div>
   );
 }
-

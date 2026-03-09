@@ -1,4 +1,5 @@
 ﻿import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { listProjects, getProjectBySlug } from "@/lib/api/projects";
 import { formatPrice } from "@/lib/utils/format-price";
@@ -7,6 +8,7 @@ import { SamferHeader } from "@/components/samfer/header";
 import { SamferFooter } from "@/components/samfer/footer";
 import { PropertyCard } from "@/components/samfer/property-card";
 import { SectionTitle } from "@/components/samfer/section-title";
+import { SamferContactLink } from "@/components/samfer/contact-link";
 import { JsonLd } from "@/components/seo/json-ld";
 import { differentials, getFallbackCover, samferImages } from "@/components/samfer/content";
 import { buildBreadcrumbJsonLd, buildPropertyJsonLd, createPageMetadata } from "@/lib/seo";
@@ -23,8 +25,8 @@ export async function generateMetadata({ params }: Pick<Props, "params">): Promi
 
   if (!project) {
     return createPageMetadata({
-      title: "Imovel nao encontrado",
-      description: "O imovel solicitado nao foi encontrado ou nao esta mais disponivel.",
+      title: "Imóvel não encontrado",
+      description: "O imóvel solicitado não foi encontrado ou não está mais disponível.",
       pathname: `/imoveis/${resolvedParams.slug}`,
       noIndex: true,
     });
@@ -32,7 +34,7 @@ export async function generateMetadata({ params }: Pick<Props, "params">): Promi
 
   const description =
     project.description ||
-    `Detalhes do imovel ${project.title} em ${project.city || "Taubate"} com imagens, caracteristicas e contato.`;
+    `Detalhes do imóvel ${project.title} em ${project.city || "Taubaté"} com imagens, características e contato.`;
 
   return createPageMetadata({
     title: project.title,
@@ -45,9 +47,9 @@ export async function generateMetadata({ params }: Pick<Props, "params">): Promi
 function getFeatureItems(project: NonNullable<Awaited<ReturnType<typeof getProjectBySlug>>>) {
   return [
     typeof project.bedrooms === "number" && project.bedrooms > 0
-      ? `${project.bedrooms} dormitorios`
+      ? `${project.bedrooms} dormitórios`
       : null,
-    typeof project.suites === "number" && project.suites > 0 ? `${project.suites} suites` : null,
+    typeof project.suites === "number" && project.suites > 0 ? `${project.suites} suítes` : null,
     typeof project.parking_spots === "number" && project.parking_spots > 0 ? `${project.parking_spots} vagas` : null,
     typeof project.area_m2 === "number" && project.area_m2 > 0 ? `${project.area_m2} m²` : null,
   ].filter((item): item is string => Boolean(item));
@@ -73,14 +75,14 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
   const thumbImages = [images[1] || samferImages.galleryA, images[2] || samferImages.galleryB, images[3] || samferImages.galleryC];
   const remainingCount = Math.max(0, images.length - 4);
 
-  const location = [project.city, project.state].filter(Boolean).join(" - ") || "Taubate - SP";
+  const location = [project.city, project.state].filter(Boolean).join(" - ") || "Taubaté - SP";
   const message = buildContactMessage(project);
   const whatsappHref = buildWhatsAppLink(message);
-  const mailtoHref = buildMailtoLink(`Interesse no imovel ${project.title}`, message);
+  const mailtoHref = buildMailtoLink(`Interesse no imóvel ${project.title}`, message);
 
   const breadcrumbJsonLd = buildBreadcrumbJsonLd([
-    { name: "Inicio", pathname: "/" },
-    { name: "Imoveis", pathname: "/imoveis" },
+    { name: "Início", pathname: "/" },
+    { name: "Imóveis", pathname: "/imoveis" },
     { name: project.title, pathname: `/imoveis/${project.slug}` },
   ]);
 
@@ -88,8 +90,8 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
   const featureItems = getFeatureItems(project);
 
   const floorPlans = [
-    { title: "Planta Tipo A", details: "2 dormitorios • 42 m²" },
-    { title: "Planta Tipo B", details: "2 dormitorios • 44 m²" },
+    { title: "Planta Tipo A", details: "2 dormitórios • 42 m²" },
+    { title: "Planta Tipo B", details: "2 dormitórios • 44 m²" },
     { title: "Planta Tipo C", details: "Variante compacta" },
   ];
 
@@ -104,7 +106,7 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
           <JsonLd data={[breadcrumbJsonLd, propertyJsonLd]} />
 
           <section className="samfer-gallery-hero samfer-animate">
-            <img src={heroImage} alt={project.title} className="samfer-gallery-main" />
+            <Image src={heroImage} alt={project.title} className="samfer-gallery-main" width={1920} height={1080} sizes="100vw" />
             <div className="samfer-gallery-grid">
               {thumbImages.map((image, index) => (
                 <a
@@ -114,7 +116,7 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
                   rel="noreferrer"
                   className={`samfer-gallery-thumb ${index === 2 && remainingCount > 0 ? "is-overlay" : ""}`}
                 >
-                  <img src={image} alt={`${project.title} ${index + 2}`} />
+                  <Image src={image} alt={`${project.title} ${index + 2}`} width={800} height={600} sizes="(max-width: 860px) 100vw, 33vw" />
                   {index === 2 && remainingCount > 0 ? <span>+ {remainingCount} Imagens</span> : null}
                 </a>
               ))}
@@ -127,8 +129,8 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
               <h2>{project.title}</h2>
               <p>{location}</p>
               <hr />
-              <p className="samfer-text-strong">Conheca seu novo apartamento!</p>
-              <p>{project.description || "Empreendimento com excelente localizacao, conforto e praticidade."}</p>
+              <p className="samfer-text-strong">Conheça seu novo apartamento!</p>
+              <p>{project.description || "Empreendimento com excelente localização, conforto e praticidade."}</p>
               {featureItems.length ? (
                 <ul>
                   {featureItems.map((item) => (
@@ -140,15 +142,24 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
 
             <aside className="samfer-detail-cta samfer-animate">
               <h3>Fale com um especialista</h3>
-              <p>Tire duvidas e veja condicoes do imovel</p>
-              <img src={samferImages.map} alt="Mapa da localizacao" />
+              <p>Tire dúvidas e veja condições do imóvel</p>
+              <Image src={samferImages.map} alt="Mapa da localização" width={900} height={420} sizes="(max-width: 860px) 100vw, 460px" />
               <div className="samfer-detail-cta-actions">
-                <a href={whatsappHref} target="_blank" rel="noreferrer" className="samfer-primary-btn">
+                <SamferContactLink
+                  href={whatsappHref}
+                  newTab
+                  location="property_detail_whatsapp"
+                  className="samfer-primary-btn"
+                >
                   Falar com especialista
-                </a>
-                <a href={mailtoHref} className="samfer-secondary-btn">
-                  Enviar email
-                </a>
+                </SamferContactLink>
+                <SamferContactLink
+                  href={mailtoHref}
+                  location="property_detail_email"
+                  className="samfer-secondary-btn"
+                >
+                  Enviar e-mail
+                </SamferContactLink>
               </div>
             </aside>
           </section>
@@ -162,7 +173,7 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
                     <h3>{plan.title}</h3>
                     <p>{plan.details}</p>
                   </header>
-                  <img src={samferImages.floor} alt={plan.title} />
+                  <Image src={samferImages.floor} alt={plan.title} width={900} height={900} sizes="(max-width: 860px) 100vw, 33vw" />
                   <a href={samferImages.floor} target="_blank" rel="noreferrer" className="samfer-primary-btn">
                     Ver planta completa
                   </a>

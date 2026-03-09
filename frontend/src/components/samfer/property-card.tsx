@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import Image from "next/image";
 import { Bath, BedDouble, CarFront } from "lucide-react";
 import { formatPrice } from "@/lib/utils/format-price";
 import type { Project } from "@/types/project";
@@ -18,7 +19,14 @@ export function PropertyCard({ project, theme, index = 0 }: Props) {
   return (
     <article className="samfer-property-card samfer-animate">
       <Link href={href} className="samfer-card-link" aria-label={`Ver detalhes de ${project.title}`}>
-        <img src={getFallbackCover(project, index)} alt={project.title} className="samfer-property-cover" />
+        <Image
+          src={getFallbackCover(project, index)}
+          alt={project.title}
+          className="samfer-property-cover"
+          width={900}
+          height={600}
+          sizes="(max-width: 860px) 100vw, 50vw"
+        />
         <div className="samfer-property-content">
           <h3>{project.title}</h3>
           {project.description ? <p>{project.description}</p> : null}

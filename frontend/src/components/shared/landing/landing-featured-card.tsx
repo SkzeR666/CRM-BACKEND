@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Bath, BedDouble, CarFront } from "lucide-react";
 import type { Project } from "@/types/project";
 import { formatPrice } from "@/lib/utils/format-price";
@@ -16,7 +17,7 @@ export function LandingFeaturedCard({ project }: LandingFeaturedCardProps) {
     <article className="space-y-[30px] rounded-[10px] border border-border bg-surface-alt p-6 md:p-[40px]">
       <div className="overflow-hidden rounded-[5px]">
         {/* AJUSTE: altura do cover */}
-        <img src={image} alt={project.title} className="h-[280px] w-full object-cover md:h-[460px]" />
+        <Image src={image} alt={project.title} className="h-[280px] w-full object-cover md:h-[460px]" width={1400} height={900} sizes="(max-width: 768px) 100vw, 1200px" />
       </div>
 
       <div className="space-y-[30px]">

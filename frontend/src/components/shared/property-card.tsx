@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Bath, BedDouble, CarFront, MapPin } from "lucide-react";
 import type { Project } from "@/types/project";
 import { formatPrice } from "@/lib/utils/format-price";
@@ -21,7 +22,7 @@ export function PropertyCard({ project }: PropertyCardProps) {
 
   return (
     <article className="overflow-hidden rounded-[10px] border border-border bg-surface">
-      <img src={image} alt={project.title} className="h-56 w-full object-cover" />
+      <Image src={image} alt={project.title} className="h-56 w-full object-cover" width={900} height={600} sizes="(max-width: 768px) 100vw, 33vw" />
 
       {/* AJUSTE: espacamento interno do card */}
       <div className="space-y-4 p-4 md:p-5">

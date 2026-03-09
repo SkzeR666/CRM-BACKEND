@@ -544,6 +544,44 @@ textarea {
   gap: 24px;
 }
 
+.samfer-active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.samfer-filter-chip {
+  min-height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-alt);
+  color: var(--text);
+  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.samfer-filter-chip strong {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.samfer-clear-filters-btn {
+  min-height: 40px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--on-primary);
+  padding: 8px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+
 .samfer-results-head {
   min-height: 91px;
   display: flex;
@@ -980,6 +1018,8 @@ textarea {
   display: inline-flex;
   color: var(--text-2);
   font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 @keyframes samferFadeUp {
@@ -1020,7 +1060,7 @@ textarea {
 
 @media (max-width: 860px) {
   .samfer-app {
-    padding: 14px;
+    padding: 12px;
   }
 
   .samfer-shell {
@@ -1034,9 +1074,10 @@ textarea {
   .samfer-header {
     min-height: 94px;
     height: auto;
-    padding: 14px;
+    padding: 12px;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
+    top: 8px;
   }
 
   .samfer-header-left {
@@ -1061,7 +1102,7 @@ textarea {
 
   .samfer-primary-btn,
   .samfer-secondary-btn {
-    height: 44px;
+    height: 46px;
     padding: 0 14px;
     font-size: 12px;
   }
@@ -1078,7 +1119,7 @@ textarea {
   .samfer-title,
   .samfer-results-head h2,
   .samfer-detail-summary h1 {
-    font-size: 28px;
+    font-size: 26px;
   }
 
   .samfer-filter-grid,
@@ -1096,26 +1137,59 @@ textarea {
 
   .samfer-input-card,
   .samfer-select-card {
-    min-height: 74px;
+    min-height: 68px;
+    padding: 12px 14px;
   }
 
   .samfer-wide-cta,
   .samfer-more-button {
-    height: 64px;
+    height: 58px;
+  }
+
+  .samfer-property-card {
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .samfer-property-cover {
+    height: 220px;
   }
 
   .samfer-property-bottom {
     flex-direction: column;
     align-items: flex-start;
+    gap: 10px;
   }
 
   .samfer-property-link {
     width: 100%;
+    min-height: 46px;
   }
 
   .samfer-results-head {
     flex-direction: column;
     align-items: flex-start;
+    gap: 8px;
+  }
+
+  .samfer-sort-form {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .samfer-sort-label {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .samfer-sort-label select {
+    flex: 1;
+    min-height: 42px;
+  }
+
+  .samfer-sort-apply {
+    width: 100%;
+    min-height: 46px;
   }
 
   .samfer-grid-actions {
@@ -1132,6 +1206,21 @@ textarea {
     align-items: stretch;
   }
 
+  .samfer-active-filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .samfer-filter-chip {
+    white-space: nowrap;
+  }
+
+  .samfer-clear-filters-btn {
+    white-space: nowrap;
+  }
+
   .samfer-form-message {
     grid-column: auto;
   }
@@ -1141,11 +1230,11 @@ textarea {
   }
 
   .samfer-gallery-main {
-    height: 340px;
+    height: 280px;
   }
 
   .samfer-gallery-thumb {
-    min-height: 160px;
+    min-height: 136px;
   }
 
   .samfer-floor-card img {

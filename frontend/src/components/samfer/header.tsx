@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import type { SamferTheme } from "@/lib/utils/theme";
 import { withTheme, withThemeAndHash } from "@/lib/samfer-links";
+import { SamferContactLink } from "./contact-link";
 import { ThemeToggle } from "./theme-toggle";
 
 type Props = {
@@ -27,21 +28,21 @@ export function SamferHeader({ theme, title, backHref, contactHref }: Props) {
             <span>{title}</span>
           </Link>
         ) : (
-          <strong className="samfer-logo">SAMFER IMOVEIS</strong>
+          <strong className="samfer-logo">SAMFER IMÓVEIS</strong>
         )}
       </div>
 
       <nav className="samfer-menu">
-        <Link href={withTheme("/imoveis", theme)}>Imoveis</Link>
+        <Link href={withTheme("/imoveis", theme)}>Imóveis</Link>
         <Link href={featuredHref}>Empreendimentos</Link>
         <Link href={financingHref}>Financiamento</Link>
         <Link href={aboutHref}>Sobre</Link>
       </nav>
 
       <div className="samfer-header-actions">
-        <Link href={specialistHref} className="samfer-primary-btn">
+        <SamferContactLink href={specialistHref} className="samfer-primary-btn" location="header_specialist">
           Falar com especialista
-        </Link>
+        </SamferContactLink>
         <ThemeToggle theme={theme} />
       </div>
     </header>

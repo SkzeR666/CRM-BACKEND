@@ -6,6 +6,8 @@ import { SamferHeader } from "@/components/samfer/header";
 import { SamferFooter } from "@/components/samfer/footer";
 import { PropertyCard } from "@/components/samfer/property-card";
 import { SectionTitle } from "@/components/samfer/section-title";
+import { SamferSubmitButton } from "@/components/samfer/submit-button";
+import { FILTER_LABELS, PRICE_RANGE_OPTIONS, SORT_OPTIONS, getPriceRangeLabel } from "@/components/samfer/texts";
 import { JsonLd } from "@/components/seo/json-ld";
 import { buildBreadcrumbJsonLd, createPageMetadata, toAbsoluteUrl } from "@/lib/seo";
 import { withTheme } from "@/lib/samfer-links";
@@ -27,6 +29,8 @@ type Props = {
   searchParams: Promise<Search> | Search;
 };
 
+type FilterKey = "city" | "type" | "priceRange" | "suites" | "parkingSpots" | "bedrooms";
+
 const PAGE_SIZE = 6;
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
@@ -42,11 +46,11 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   );
 
   const parts = [params.type, params.city].filter(Boolean);
-  const title = parts.length ? `Imoveis ${parts.join(" em ")}` : "Todos os imoveis";
+  const title = parts.length ? `Imóveis ${parts.join(" em ")}` : "Todos os imóveis";
 
   return createPageMetadata({
     title,
-    description: "Lista de imoveis com filtros reais por cidade, tipo, suites, vagas, quartos e faixa de preco.",
+    description: "Lista de imóveis com filtros reais por cidade, tipo, suítes, vagas, quartos e faixa de preço.",
     pathname: "/imoveis",
     noIndex: hasFilters,
   });
@@ -90,12 +94,20 @@ function sortProjects(projects: Awaited<ReturnType<typeof listProjects>>["projec
   return list.sort((a, b) => a.title.localeCompare(b.title));
 }
 
-function buildQuery(params: Search) {
+function buildQuery(params: Record<string, string | undefined>) {
   const query = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {
     if (value) query.set(key, value);
   });
   return query.toString();
+}
+
+function getFilterDisplayValue(key: FilterKey, value: string) {
+  if (key === "priceRange") return getPriceRangeLabel(value);
+  if (key === "suites") return `${value} suítes`;
+  if (key === "parkingSpots") return `${value} vagas`;
+  if (key === "bedrooms") return `${value} quartos`;
+  return value;
 }
 
 export default async function PropertiesPage({ searchParams }: Props) {
@@ -136,7 +148,7 @@ export default async function PropertiesPage({ searchParams }: Props) {
   const parkingOptions = uniqueSorted(allOptionsResult.projects.map((project) => project.parking_spots));
   const bedroomOptions = uniqueSorted(allOptionsResult.projects.map((project) => project.bedrooms));
 
-  const queryBase = {
+  const queryBase: Record<string, string | undefined> = {
     theme,
     city: params.city,
     status: params.status,
@@ -148,12 +160,30 @@ export default async function PropertiesPage({ searchParams }: Props) {
     sort: params.sort,
   };
 
+  const activeFilters = [
+    params.city ? { key: "city", label: FILTER_LABELS.city, value: params.city } : null,
+    params.type ? { key: "type", label: FILTER_LABELS.type, value: params.type } : null,
+    params.priceRange
+      ? { key: "priceRange", label: FILTER_LABELS.priceRange, value: getFilterDisplayValue("priceRange", params.priceRange) }
+      : null,
+    params.suites ? { key: "suites", label: FILTER_LABELS.suites, value: getFilterDisplayValue("suites", params.suites) } : null,
+    params.parkingSpots
+      ? { key: "parkingSpots", label: FILTER_LABELS.parkingSpots, value: getFilterDisplayValue("parkingSpots", params.parkingSpots) }
+      : null,
+    params.bedrooms
+      ? { key: "bedrooms", label: FILTER_LABELS.bedrooms, value: getFilterDisplayValue("bedrooms", params.bedrooms) }
+      : null,
+  ] as Array<{ key: FilterKey; label: string; value: string } | null>;
+  const activeFilterItems = activeFilters.filter(
+    (item): item is { key: FilterKey; label: string; value: string } => Boolean(item),
+  );
+
   const collectionJsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Catalogo de imoveis",
+    name: "Catálogo de imóveis",
     url: toAbsoluteUrl("/imoveis"),
-    description: "Lista de imoveis da Samfer em Taubate e regiao.",
+    description: "Lista de imóveis da Samfer em Taubaté e região.",
     mainEntity: {
       "@type": "ItemList",
       numberOfItems: projects.length,
@@ -169,27 +199,27 @@ export default async function PropertiesPage({ searchParams }: Props) {
   return (
     <div className={`samfer-app ${theme === "dark" ? "is-dark" : ""}`}>
       <div className="samfer-shell">
-        <SamferHeader theme={theme} title="Buscar Imoveis" backHref="/" />
+        <SamferHeader theme={theme} title="Buscar Imóveis" backHref="/" />
 
         <main className="samfer-main">
           <JsonLd
             data={[
               buildBreadcrumbJsonLd([
-                { name: "Inicio", pathname: "/" },
-                { name: "Imoveis", pathname: "/imoveis" },
+                { name: "Início", pathname: "/" },
+                { name: "Imóveis", pathname: "/imoveis" },
               ]),
               collectionJsonLd,
             ]}
           />
 
           <section className="samfer-section">
-            <SectionTitle before="Encontre o " highlight="imovel ideal para voce" />
+            <SectionTitle before="Encontre o " highlight="imóvel ideal para você" />
             <form className="samfer-filter-grid samfer-animate" method="GET" action="/imoveis">
               <input type="hidden" name="theme" value={theme} />
 
               <label className="samfer-select-card">
                 <select name="city" defaultValue={params.city ?? ""}>
-                  <option value="">Regiao</option>
+                  <option value="">Região</option>
                   {cityOptions.map((city) => (
                     <option key={city} value={String(city)}>{city}</option>
                   ))}
@@ -207,16 +237,16 @@ export default async function PropertiesPage({ searchParams }: Props) {
 
               <label className="samfer-select-card">
                 <select name="priceRange" defaultValue={params.priceRange ?? ""}>
-                  <option value="">Preco de venda</option>
-                  <option value="0-300000">Ate R$ 300.000</option>
-                  <option value="300000-600000">R$ 300.000 a R$ 600.000</option>
-                  <option value="600000-999999999">Acima de R$ 600.000</option>
+                  <option value="">Preço de venda</option>
+                  {PRICE_RANGE_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
                 </select>
               </label>
 
               <label className="samfer-select-card">
                 <select name="suites" defaultValue={params.suites ?? ""}>
-                  <option value="">Suites</option>
+                  <option value="">Suítes</option>
                   {suiteOptions.map((value) => (
                     <option key={value} value={String(value)}>{value}</option>
                   ))}
@@ -241,15 +271,35 @@ export default async function PropertiesPage({ searchParams }: Props) {
                 </select>
               </label>
 
-              <button className="samfer-wide-cta samfer-grid-span" type="submit">Buscar imoveis</button>
+              <SamferSubmitButton className="samfer-wide-cta samfer-grid-span" defaultLabel="Buscar imóveis" loadingLabel="Aplicando filtros..." />
             </form>
+
+            {activeFilterItems.length ? (
+              <div className="samfer-active-filters samfer-animate" aria-label="Filtros ativos">
+                {activeFilterItems.map((filter) => {
+                  const nextQuery = { ...queryBase, page: "1" };
+                  delete nextQuery[filter.key];
+
+                  return (
+                    <Link key={filter.key} href={`/imoveis?${buildQuery(nextQuery)}`} className="samfer-filter-chip">
+                      <span>{filter.label}: {filter.value}</span>
+                      <strong aria-hidden>×</strong>
+                    </Link>
+                  );
+                })}
+
+                <Link href={withTheme("/imoveis", theme)} className="samfer-clear-filters-btn">
+                  Limpar filtros
+                </Link>
+              </div>
+            ) : null}
           </section>
 
           <section className="samfer-divider" />
 
           <section className="samfer-results">
-            <div className="samfer-results-head samfer-animate">
-              <h2>{projects.length} imoveis <span>encontrados</span></h2>
+            <div className="samfer-results-head samfer-animate" aria-live="polite">
+              <h2>{projects.length} imóveis <span>encontrados</span></h2>
               <form method="GET" action="/imoveis" className="samfer-sort-form">
                 <input type="hidden" name="theme" value={theme} />
                 <input type="hidden" name="city" value={params.city ?? ""} />
@@ -262,20 +312,19 @@ export default async function PropertiesPage({ searchParams }: Props) {
                 <label className="samfer-sort-label">
                   Ordenar por
                   <select name="sort" defaultValue={params.sort ?? "alpha"}>
-                    <option value="alpha"> Nome</option>
-                    <option value="recent"> Mais recentes</option>
-                    <option value="price_asc"> Menor preco</option>
-                    <option value="price_desc"> Maior preco</option>
+                    {SORT_OPTIONS.map((option) => (
+                      <option key={option.value} value={option.value}> {option.label}</option>
+                    ))}
                   </select>
                 </label>
-                <button type="submit" className="samfer-sort-apply">Aplicar</button>
+                <SamferSubmitButton className="samfer-sort-apply" defaultLabel="Aplicar" loadingLabel="Ordenando..." />
               </form>
             </div>
 
             {serverResult.error ? (
               <p className="samfer-empty">{serverResult.error}</p>
             ) : visibleProjects.length === 0 ? (
-              <p className="samfer-empty">Nenhum imovel encontrado para os filtros selecionados.</p>
+              <p className="samfer-empty">Nenhum imóvel encontrado para os filtros selecionados.</p>
             ) : (
               <div className="samfer-card-grid">
                 {visibleProjects.map((project, index) => (
@@ -297,8 +346,8 @@ export default async function PropertiesPage({ searchParams }: Props) {
               </button>
             )}
 
-            {(params.city || params.type || params.suites || params.parkingSpots || params.bedrooms || params.priceRange) ? (
-              <Link href={withTheme("/imoveis", theme)} className="samfer-reset-link">Limpar filtros</Link>
+            {activeFilterItems.length ? (
+              <Link href={withTheme("/imoveis", theme)} className="samfer-reset-link">Limpar filtros e voltar ao catálogo completo</Link>
             ) : null}
           </section>
         </main>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 type PropertyGalleryProps = {
   images?: string[] | null;
   title: string;
@@ -20,7 +21,7 @@ export function PropertyGallery({ images, title }: PropertyGalleryProps) {
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {images.map((image, index) => (
           <article key={`${image}-${index}`} className="overflow-hidden rounded-[10px] border border-border bg-surface-alt">
-            <img src={image} alt={`${title} ${index + 1}`} className="h-52 w-full object-cover" />
+            <Image src={image} alt={`${title} ${index + 1}`} className="h-52 w-full object-cover" width={900} height={600} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
           </article>
         ))}
       </div>
