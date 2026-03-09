@@ -616,19 +616,17 @@ textarea {
 }
 
 .samfer-faq-answer {
-  display: grid;
-  grid-template-rows: 0fr;
-  opacity: 0;
-  transition: grid-template-rows 0.35s ease, opacity 0.25s ease;
-}
-
-.samfer-faq-answer p {
+  max-height: 0;
   overflow: hidden;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: max-height 0.35s ease, opacity 0.25s ease, transform 0.25s ease;
 }
 
 .samfer-faq-answer.is-open {
-  grid-template-rows: 1fr;
+  max-height: 640px;
   opacity: 1;
+  transform: translateY(0);
 }
 
 .samfer-faq-item.is-open .samfer-faq-trigger {
@@ -1204,7 +1202,7 @@ textarea {
   }
 }
 
-:is(.samfer-app, .admin-app).has-motion .samfer-animate {
+:is(.samfer-app, .admin-app).has-motion .samfer-animate.is-pending {
   opacity: 0;
   transform: translate3d(0, 18px, 0) scale(0.985);
   transition:
@@ -1234,6 +1232,26 @@ textarea {
 
 .samfer-app.has-motion .samfer-hero.samfer-animate.is-visible img {
   transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  :is(.samfer-app, .admin-app).has-motion .samfer-animate.is-pending {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .admin-app {
@@ -2253,7 +2271,7 @@ textarea {
   .admin-filter-row {
     grid-template-columns: 1fr;
     gap: 12px;
-    padding: 10px;
+    padding: 12px;
   }
 
   .admin-filter-row.is-simple {
@@ -2268,7 +2286,8 @@ textarea {
 
   .admin-primary-btn,
   .admin-secondary-btn {
-    min-height: 46px;
+    min-height: 52px;
+    font-size: 13px;
   }
 
   .admin-primary-btn.is-large,
@@ -2277,7 +2296,7 @@ textarea {
   }
 
   .admin-danger-btn {
-    min-height: 54px;
+    min-height: 56px;
   }
 
   .admin-active-filters {
@@ -2324,8 +2343,8 @@ textarea {
   }
 
   .admin-field {
-    min-height: 70px;
-    padding: 12px 14px;
+    min-height: 74px;
+    padding: 13px 14px;
   }
 
   .admin-form-actions {
@@ -2364,7 +2383,7 @@ textarea {
 
   .samfer-main {
     gap: 18px;
-    padding: 12px 10px 16px;
+    padding: 14px 12px 18px;
   }
 
   .samfer-header {
@@ -2415,15 +2434,15 @@ textarea {
 
   .samfer-primary-btn,
   .samfer-secondary-btn {
-    height: 40px;
-    padding: 0 10px;
-    font-size: 11px;
+    height: 48px;
+    padding: 0 14px;
+    font-size: 12px;
     white-space: nowrap;
   }
 
   .samfer-icon-btn {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     flex-shrink: 0;
   }
 
@@ -2464,13 +2483,14 @@ textarea {
 
   .samfer-input-card,
   .samfer-select-card {
-    min-height: 64px;
+    min-height: 72px;
     padding: 12px 14px;
   }
 
   .samfer-wide-cta,
   .samfer-more-button {
-    height: 54px;
+    height: 58px;
+    font-size: 15px;
   }
 
   .samfer-property-card {
@@ -2490,7 +2510,8 @@ textarea {
 
   .samfer-property-link {
     width: 100%;
-    min-height: 46px;
+    min-height: 52px;
+    font-size: 13px;
   }
 
   .samfer-results-head {

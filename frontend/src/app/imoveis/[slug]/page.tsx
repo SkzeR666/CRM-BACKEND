@@ -12,7 +12,7 @@ import { SamferContactLink } from "@/components/samfer/contact-link";
 import { MotionReveal, MotionStagger, MotionStaggerItem } from "@/components/samfer/motion-reveal";
 import { JsonLd } from "@/components/seo/json-ld";
 import { differentials, getFallbackCover, samferImages } from "@/components/samfer/content";
-import { buildBreadcrumbJsonLd, buildPropertyJsonLd, createPageMetadata } from "@/lib/seo";
+import { buildBreadcrumbJsonLd, buildPropertyJsonLd, buildWebsiteJsonLd, createPageMetadata } from "@/lib/seo";
 import { buildContactMessage, buildMailtoLink, buildWhatsAppLink } from "@/lib/samfer-links";
 
 type Props = {
@@ -38,10 +38,15 @@ export async function generateMetadata({ params }: Pick<Props, "params">): Promi
     `Detalhes do imóvel ${project.title} em ${project.city || "Taubaté"} com imagens, características e contato.`;
 
   return createPageMetadata({
-    title: project.title,
+    title: `${project.title} | Imóvel em ${project.city || "Taubaté"}`,
     description,
     pathname: `/imoveis/${project.slug}`,
     images: project.cover_image ? [project.cover_image] : undefined,
+    keywords: [
+      `${project.type || "imóvel"} em ${project.city || "Taubaté"}`,
+      `${project.title} à venda`,
+      "imóvel com financiamento",
+    ],
   });
 }
 
@@ -111,7 +116,7 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
         <SamferHeader theme={theme} title={project.title} backHref="/imoveis" contactHref={whatsappHref} />
 
         <main className="samfer-main">
-          <JsonLd data={[breadcrumbJsonLd, propertyJsonLd]} />
+          <JsonLd data={[buildWebsiteJsonLd(), breadcrumbJsonLd, propertyJsonLd]} />
 
           <MotionReveal>
             <section className="samfer-gallery-hero">

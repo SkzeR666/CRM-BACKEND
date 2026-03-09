@@ -9,7 +9,7 @@ import { SectionTitle } from "@/components/samfer/section-title";
 import { SamferSubmitButton } from "@/components/samfer/submit-button";
 import { FILTER_LABELS, PRICE_RANGE_OPTIONS, SORT_OPTIONS, getPriceRangeLabel } from "@/components/samfer/texts";
 import { JsonLd } from "@/components/seo/json-ld";
-import { buildBreadcrumbJsonLd, createPageMetadata, toAbsoluteUrl } from "@/lib/seo";
+import { buildBreadcrumbJsonLd, buildWebsiteJsonLd, createPageMetadata, toAbsoluteUrl } from "@/lib/seo";
 import { withTheme } from "@/lib/samfer-links";
 
 type Search = {
@@ -50,9 +50,14 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 
   return createPageMetadata({
     title,
-    description: "Lista de imóveis com filtros reais por cidade, tipo, suítes, vagas, quartos e faixa de preço.",
+    description: "Lista de imóveis com filtros por cidade, tipo, suítes, vagas, quartos e faixa de preço em Taubaté e região.",
     pathname: "/imoveis",
     noIndex: hasFilters,
+    keywords: [
+      "catálogo de imóveis Taubaté",
+      "imóveis por bairro Taubaté",
+      "apartamentos e casas em Taubaté",
+    ],
   });
 }
 
@@ -206,6 +211,7 @@ export default async function PropertiesPage({ searchParams }: Props) {
                 { name: "Início", pathname: "/" },
                 { name: "Imóveis", pathname: "/imoveis" },
               ]),
+              buildWebsiteJsonLd(),
               collectionJsonLd,
             ]}
           />

@@ -1,7 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Urbanist } from "next/font/google";
-import { brandName, defaultDescription, defaultTitle, getSiteUrl } from "@/lib/seo";
+import { brandName, defaultDescription, defaultKeywords, defaultTitle, getSiteUrl, toAbsoluteUrl } from "@/lib/seo";
+import { samferImages } from "@/components/samfer/content";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -16,6 +17,11 @@ export const metadata: Metadata = {
     template: `%s | ${brandName}`,
   },
   description: defaultDescription,
+  keywords: defaultKeywords,
+  robots: {
+    index: true,
+    follow: true,
+  },
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
@@ -24,11 +30,13 @@ export const metadata: Metadata = {
     siteName: brandName,
     title: `${brandName} | ${defaultTitle}`,
     description: defaultDescription,
+    images: [toAbsoluteUrl(samferImages.hero)],
   },
   twitter: {
     card: "summary_large_image",
     title: `${brandName} | ${defaultTitle}`,
     description: defaultDescription,
+    images: [toAbsoluteUrl(samferImages.hero)],
   },
 };
 

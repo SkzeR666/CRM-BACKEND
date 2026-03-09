@@ -8,14 +8,16 @@ import { PropertyCard } from "@/components/samfer/property-card";
 import { SectionTitle } from "@/components/samfer/section-title";
 import { FaqList } from "@/components/samfer/faq";
 
-import { samferImages } from "@/components/samfer/content";
+import { faqItems, samferImages } from "@/components/samfer/content";
 import { SamferContactForm } from "@/components/samfer/contact-form";
 import { SamferSubmitButton } from "@/components/samfer/submit-button";
 import { PRICE_RANGE_OPTIONS } from "@/components/samfer/texts";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   buildBreadcrumbJsonLd,
+  buildFaqJsonLd,
   buildLocalBusinessJsonLd,
+  buildWebsiteJsonLd,
   createPageMetadata,
 } from "@/lib/seo";
 import { withThemeAndHash } from "@/lib/samfer-links";
@@ -25,10 +27,16 @@ type Props = {
 };
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Início",
+  title: "Imóveis em Taubaté | Apartamentos e Casas à venda",
   description:
-    "Imóveis em destaque em Taubaté e região com filtros por cidade, tipo, quartos, suítes e faixa de preço.",
+    "Imóveis em destaque em Taubaté e região com filtros por cidade, tipo, quartos, suítes e faixa de preço. Atendimento consultivo e financiamento facilitado.",
   pathname: "/",
+  keywords: [
+    "imóveis em Taubaté",
+    "apartamentos à venda Taubaté",
+    "casas à venda Taubaté",
+    "imobiliária Taubaté",
+  ],
 });
 
 function uniqueSorted(values: Array<string | number | null | undefined>) {
@@ -65,7 +73,9 @@ export default async function HomePage({ searchParams }: Props) {
           <JsonLd
             data={[
               buildLocalBusinessJsonLd(),
+              buildWebsiteJsonLd(),
               buildBreadcrumbJsonLd([{ name: "Início", pathname: "/" }]),
+              buildFaqJsonLd(faqItems),
             ]}
           />
 

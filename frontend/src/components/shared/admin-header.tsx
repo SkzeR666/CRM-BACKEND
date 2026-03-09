@@ -50,11 +50,15 @@ export function AdminHeader({
     root.classList.add("has-motion");
 
     animatedElements.forEach((element, index) => {
+      element.classList.add("is-pending");
       element.style.setProperty("--reveal-delay", `${Math.min(index * 38, 220)}ms`);
     });
 
     if (reduceMotion) {
-      animatedElements.forEach((element) => element.classList.add("is-visible"));
+      animatedElements.forEach((element) => {
+        element.classList.remove("is-pending");
+        element.classList.add("is-visible");
+      });
       return;
     }
 
@@ -62,6 +66,7 @@ export function AdminHeader({
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
+          entry.target.classList.remove("is-pending");
           entry.target.classList.add("is-visible");
           observer.unobserve(entry.target);
         });

@@ -1,12 +1,21 @@
 ﻿import type { Metadata } from "next";
 import type { Project } from "@/types/project";
+import { samferImages } from "@/components/samfer/content";
 
 const FALLBACK_SITE_URL = "https://crm-frontend-one-lovat.vercel.app";
 
 export const brandName = "Samfer Imóveis";
-export const defaultTitle = "Imoveis em Taubaté e região";
+export const defaultTitle = "Imóveis em Taubaté e região";
 export const defaultDescription =
-  "Encontre apartamentos e casas com condições facilitadas em Taubaté e região com a Samfer Imóveis.";
+  "Encontre apartamentos e casas à venda em Taubaté e região com a Samfer Imóveis. Filtros por bairro, tipo, quartos, suítes, vagas e faixa de preço.";
+export const defaultKeywords = [
+  "imóveis em Taubaté",
+  "apartamentos em Taubaté",
+  "casas à venda em Taubaté",
+  "imobiliária em Taubaté",
+  "empreendimentos Taubaté",
+  "financiamento imobiliário Taubaté",
+];
 
 function sanitizeUrl(url: string) {
   return url.trim().replace(/\/+$/, "");
@@ -34,16 +43,23 @@ type CreatePageMetadataInput = {
   pathname: string;
   images?: string[];
   noIndex?: boolean;
+  keywords?: string[];
 };
 
 export function createPageMetadata(input: CreatePageMetadataInput): Metadata {
   const absoluteImages = (input.images ?? []).map((image) =>
     image.startsWith("http") ? image : toAbsoluteUrl(image),
   );
+  const keywords = input.keywords?.length ? input.keywords : defaultKeywords;
 
   return {
     title: input.title,
     description: input.description,
+    keywords,
+    category: "Real Estate",
+    applicationName: brandName,
+    creator: brandName,
+    publisher: brandName,
     alternates: { canonical: input.pathname },
     openGraph: {
       title: input.title,
@@ -70,8 +86,12 @@ export function buildLocalBusinessJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
+    "@id": `${siteUrl}/#realestateagent`,
     name: brandName,
     url: siteUrl,
+    image: samferImages.hero,
+    logo: samferImages.avatar,
+    description: defaultDescription,
     telephone: "+55-12-99999-9999",
     email: "contato@samfer.com.br",
     areaServed: "Taubaté, SP",
@@ -81,6 +101,44 @@ export function buildLocalBusinessJsonLd() {
       addressRegion: "SP",
       addressCountry: "BR",
     },
+    sameAs: ["https://www.instagram.com/", "https://www.facebook.com/"],
+  };
+}
+
+export function buildWebsiteJsonLd() {
+  const siteUrl = getSiteUrl();
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${siteUrl}/#website`,
+    name: brandName,
+    url: siteUrl,
+    inLanguage: "pt-BR",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${siteUrl}/imoveis?city={city}&type={type}&priceRange={priceRange}`,
+      "query-input": [
+        "required name=city",
+        "required name=type",
+        "required name=priceRange",
+      ],
+    },
+  };
+}
+
+export function buildFaqJsonLd(items: Array<{ question: string; answer: string }>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
   };
 }
 
@@ -135,6 +193,11 @@ export function buildPropertyJsonLd(project: Project) {
             url: toAbsoluteUrl(pathname),
           }
         : undefined,
+    additionalProperty: [
+      project.bedrooms ? { "@type": "PropertyValue", name: "Dormitórios", value: project.bedrooms } : null,
+      project.suites ? { "@type": "PropertyValue", name: "Suítes", value: project.suites } : null,
+      project.bathrooms ? { "@type": "PropertyValue", name: "Banheiros", value: project.bathrooms } : null,
+      project.parking_spots ? { "@type": "PropertyValue", name: "Vagas", value: project.parking_spots } : null,
+    ].filter(Boolean),
   };
 }
-
