@@ -9,6 +9,7 @@ import { SamferFooter } from "@/components/samfer/footer";
 import { PropertyCard } from "@/components/samfer/property-card";
 import { SectionTitle } from "@/components/samfer/section-title";
 import { SamferContactLink } from "@/components/samfer/contact-link";
+import { MotionReveal, MotionStagger, MotionStaggerItem } from "@/components/samfer/motion-reveal";
 import { JsonLd } from "@/components/seo/json-ld";
 import { differentials, getFallbackCover, samferImages } from "@/components/samfer/content";
 import { buildBreadcrumbJsonLd, buildPropertyJsonLd, createPageMetadata } from "@/lib/seo";
@@ -63,8 +64,15 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
   const project = await getProjectBySlug(resolvedParams.slug);
   if (!project) notFound();
 
-  const relatedResult = await listProjects({ city: project.city ?? undefined, limit: 6 });
-  const related = relatedResult.projects.filter((item) => item.slug !== project.slug).slice(0, 2);
+  const [relatedByCityResult, relatedGeneralResult] = await Promise.all([
+    listProjects({ city: project.city ?? undefined, limit: 8 }),
+    listProjects({ limit: 12 }),
+  ]);
+
+  const related = [...relatedByCityResult.projects, ...relatedGeneralResult.projects]
+    .filter((item) => item.slug !== project.slug)
+    .filter((item, index, list) => list.findIndex((candidate) => candidate.id === item.id) === index)
+    .slice(0, 2);
 
   const gallery = [project.cover_image, ...(project.gallery ?? [])].filter((value): value is string => Boolean(value));
   const images = gallery.length
@@ -100,12 +108,13 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
   return (
     <div className={`samfer-app ${theme === "dark" ? "is-dark" : ""}`}>
       <div className="samfer-shell">
-        <SamferHeader theme={theme} contactHref={whatsappHref} />
+        <SamferHeader theme={theme} title={project.title} backHref="/imoveis" contactHref={whatsappHref} />
 
         <main className="samfer-main">
           <JsonLd data={[breadcrumbJsonLd, propertyJsonLd]} />
 
-          <section className="samfer-gallery-hero samfer-animate">
+          <MotionReveal>
+            <section className="samfer-gallery-hero">
             <Image src={heroImage} alt={project.title} className="samfer-gallery-main" width={1920} height={1080} sizes="100vw" />
             <div className="samfer-gallery-grid">
               {thumbImages.map((image, index) => (
@@ -121,16 +130,22 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
                 </a>
               ))}
             </div>
-          </section>
+            </section>
+          </MotionReveal>
 
           <section className="samfer-detail-top">
-            <article className="samfer-detail-summary samfer-animate">
+            <MotionReveal>
+              <article className="samfer-detail-summary">
               <h1>{`${project.type || "Apartamentos"} | ${project.neighborhood || "Jardim Santa Tereza"}`}</h1>
               <h2>{project.title}</h2>
               <p>{location}</p>
               <hr />
               <p className="samfer-text-strong">Conheça seu novo apartamento!</p>
               <p>{project.description || "Empreendimento com excelente localização, conforto e praticidade."}</p>
+              <div className="samfer-detail-price-inline">
+                <small>A partir de</small>
+                <strong>{price}</strong>
+              </div>
               {featureItems.length ? (
                 <ul>
                   {featureItems.map((item) => (
@@ -138,9 +153,11 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
                   ))}
                 </ul>
               ) : null}
-            </article>
+              </article>
+            </MotionReveal>
 
-            <aside className="samfer-detail-cta samfer-animate">
+            <MotionReveal delay={0.06}>
+              <aside className="samfer-detail-cta">
               <h3>Fale com um especialista</h3>
               <p>Tire dúvidas e veja condições do imóvel</p>
               <Image src={samferImages.map} alt="Mapa da localização" width={900} height={420} sizes="(max-width: 860px) 100vw, 460px" />
@@ -161,53 +178,55 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
                   Enviar e-mail
                 </SamferContactLink>
               </div>
-            </aside>
+              </aside>
+            </MotionReveal>
           </section>
 
           <section className="samfer-section" id="plantas">
             <SectionTitle before="Plantas " highlight="disponiveis" />
-            <div className="samfer-floor-grid">
+            <MotionStagger className="samfer-floor-grid">
               {floorPlans.map((plan) => (
-                <article key={plan.title} className="samfer-floor-card samfer-animate">
-                  <header>
-                    <h3>{plan.title}</h3>
-                    <p>{plan.details}</p>
-                  </header>
-                  <Image src={samferImages.floor} alt={plan.title} width={900} height={900} sizes="(max-width: 860px) 100vw, 33vw" />
-                  <a href={samferImages.floor} target="_blank" rel="noreferrer" className="samfer-primary-btn">
-                    Ver planta completa
-                  </a>
-                </article>
+                <MotionStaggerItem key={plan.title}>
+                  <article className="samfer-floor-card">
+                    <header>
+                      <h3>{plan.title}</h3>
+                      <p>{plan.details}</p>
+                    </header>
+                    <Image src={samferImages.floor} alt={plan.title} width={900} height={900} sizes="(max-width: 860px) 100vw, 33vw" />
+                    <a href={samferImages.floor} target="_blank" rel="noreferrer" className="samfer-primary-btn">
+                      Ver planta completa
+                    </a>
+                  </article>
+                </MotionStaggerItem>
               ))}
-            </div>
+            </MotionStagger>
           </section>
 
           <section className="samfer-section">
             <SectionTitle before="Diferenciais do " highlight="empreendimento" />
-            <div className="samfer-differentials">
+            <MotionStagger className="samfer-differentials">
               {differentials.map((item) => (
-                <article key={item} className="samfer-differential-card samfer-animate">
-                  {item}
-                </article>
+                <MotionStaggerItem key={item}>
+                  <article className="samfer-differential-card">
+                    {item}
+                  </article>
+                </MotionStaggerItem>
               ))}
-            </div>
+            </MotionStagger>
           </section>
 
           {related.length ? (
             <section className="samfer-section" id="empreendimentos">
               <SectionTitle before="Voce tambem " highlight="pode gostar" />
-              <div className="samfer-card-grid">
+              <MotionStagger className="samfer-card-grid">
                 {related.map((item, index) => (
-                  <PropertyCard key={item.id} project={item} theme={theme} index={index} />
+                  <MotionStaggerItem key={item.id}>
+                    <PropertyCard project={item} theme={theme} index={index} />
+                  </MotionStaggerItem>
                 ))}
-              </div>
+              </MotionStagger>
             </section>
           ) : null}
-
-          <section className="samfer-price-highlight samfer-animate">
-            <small>A partir de</small>
-            <strong>{price}</strong>
-          </section>
         </main>
 
         <SamferFooter theme={theme} />

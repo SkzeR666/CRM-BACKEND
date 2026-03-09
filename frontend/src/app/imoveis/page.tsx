@@ -197,7 +197,7 @@ export default async function PropertiesPage({ searchParams }: Props) {
   return (
     <div className={`samfer-app ${theme === "dark" ? "is-dark" : ""}`}>
       <div className="samfer-shell">
-        <SamferHeader theme={theme} />
+        <SamferHeader theme={theme} title="Buscar Imóveis" backHref="/" />
 
         <main className="samfer-main">
           <JsonLd
