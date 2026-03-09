@@ -2,7 +2,7 @@
 
 import { DragEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Search, Trash2 } from "lucide-react";
+import { CalendarClock, Mail, Phone, Search, Trash2 } from "lucide-react";
 import { AdminAuthGuard } from "@/components/shared/admin-auth-guard";
 import { AdminHeader } from "@/components/shared/admin-header";
 import { getAdminAccessToken } from "@/lib/admin-auth";
@@ -46,6 +46,15 @@ function normalizeStatus(status?: string | null) {
 
 function getStatusLabel(status: string) {
   return STATUS_LABELS[status] ?? status;
+}
+
+function statusTone(status?: string | null) {
+  const normalized = normalizeStatus(status);
+  if (!normalized) return "neutral";
+  if (normalized === "won") return "active";
+  if (normalized === "lost") return "danger";
+  if (normalized === "negotiating") return "warning";
+  return "neutral";
 }
 
 function buildQuery(filters: Filters, theme: SamferTheme) {
@@ -301,10 +310,23 @@ export function AdminLeadsPageClient({ theme }: Props) {
                               </button>
                             </div>
 
-                            <p>{lead.phone}</p>
-                            <p>{lead.email || "-"}</p>
-                            <p>Origem: {lead.source || "site"}</p>
-                            <p>Criado: {formatDate(lead.created_at)}</p>
+                            <div className="admin-lead-contact">
+                              <div className="admin-lead-row">
+                                <Phone size={13} aria-hidden />
+                                <span className="admin-lead-value">{lead.phone}</span>
+                              </div>
+                              <div className="admin-lead-row">
+                                <Mail size={13} aria-hidden />
+                                <span className="admin-lead-value">{lead.email || "E-mail não informado"}</span>
+                              </div>
+                              <div className="admin-lead-row is-muted">
+                                <span>Origem: {lead.source || "Site"}</span>
+                              </div>
+                              <div className="admin-lead-row is-muted">
+                                <CalendarClock size={13} aria-hidden />
+                                <span>Criado em {formatDate(lead.created_at)}</span>
+                              </div>
+                            </div>
 
                             {(() => {
                               const currentStatus = normalizeStatus(lead.status);
@@ -358,12 +380,22 @@ export function AdminLeadsPageClient({ theme }: Props) {
                         <tr key={lead.id}>
                           <td>{lead.name}</td>
                           <td>
-                            <div>
-                              <div>{lead.phone}</div>
-                              <small>{lead.email || "-"}</small>
+                            <div className="admin-lead-contact admin-lead-contact-table">
+                              <div className="admin-lead-row">
+                                <Phone size={13} aria-hidden />
+                                <span className="admin-lead-value">{lead.phone}</span>
+                              </div>
+                              <div className="admin-lead-row">
+                                <Mail size={13} aria-hidden />
+                                <span className="admin-lead-value">{lead.email || "E-mail não informado"}</span>
+                              </div>
                             </div>
                           </td>
-                          <td>{getStatusLabel(normalizeStatus(lead.status) || "new")}</td>
+                          <td>
+                            <span className={`admin-status-pill is-${statusTone(lead.status)}`}>
+                              {getStatusLabel(normalizeStatus(lead.status) || "new")}
+                            </span>
+                          </td>
                           <td>{formatDate(lead.created_at)}</td>
                           <td className="admin-actions-cell">
                             <button
