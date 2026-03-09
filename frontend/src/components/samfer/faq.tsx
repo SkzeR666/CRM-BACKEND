@@ -13,7 +13,7 @@ export function FaqList() {
         const isOpen = openIndex === index;
 
         return (
-          <article key={item.question} className={`samfer-faq-item ${isOpen ? "is-open" : ""}`}>
+          <article key={item.question} className={`samfer-faq-item samfer-animate ${isOpen ? "is-open" : ""}`}>
             <button
               type="button"
               className="samfer-faq-trigger"
@@ -22,7 +22,9 @@ export function FaqList() {
             >
               <div className="samfer-faq-content">
                 <h3>{item.question}</h3>
-                {isOpen && item.answer ? <p>{item.answer}</p> : null}
+                <div className={`samfer-faq-answer ${isOpen ? "is-open" : ""}`}>
+                  <p>{item.answer}</p>
+                </div>
               </div>
               <ChevronDown size={18} />
             </button>

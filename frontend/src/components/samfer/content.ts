@@ -15,35 +15,35 @@ export const samferImages = {
 export const testimonials = [
   {
     id: "t-1",
-    title: "Atendimento claro e agil",
-    text: "A equipe explicou as opcoes de financiamento e ajudou a escolher o imovel ideal para meu momento.",
+    title: "Atendimento claro e ágil",
+    text: "A equipe explicou as opções de financiamento e ajudou a escolher o imóvel ideal para meu momento.",
     name: "Cliente Samfer",
-    city: "Taubate, SP",
+    city: "Taubaté, SP",
     avatar: samferImages.avatar,
   },
   {
     id: "t-2",
-    title: "Processo sem complicacao",
-    text: "Consegui visitar os imoveis que faziam sentido para meu perfil e fechei com seguranca.",
+    title: "Processo sem complicação",
+    text: "Consegui visitar os imóveis que faziam sentido para meu perfil e fechei com segurança.",
     name: "Cliente Samfer",
-    city: "Vale do Paraiba, SP",
+    city: "Vale do Paraíba, SP",
     avatar: samferImages.avatar,
   },
 ];
 
 export const faqItems = [
   {
-    question: "Como agendar visita a um imovel?",
+    question: "Como agendar visita a um imóvel?",
     answer:
-      "Na pagina do imovel, use o botao de WhatsApp ou envie o formulario de contato. A equipe confirma horarios disponiveis.",
+      "Na página do imóvel, use o botão de WhatsApp ou envie o formulário de contato. A equipe confirma horários disponíveis.",
   },
   {
-    question: "Vocês ajudam com financiamento imobiliario?",
+    question: "Vocês ajudam com financiamento imobiliário?",
     answer:
-      "Sim. A Samfer orienta as opcoes de financiamento e a documentacao para facilitar a aprovacao junto ao banco.",
+      "Sim. A Samfer orienta as opções de financiamento e a documentação para facilitar a aprovação junto ao banco.",
   },
   {
-    question: "As informacoes dos imoveis sao atualizadas?",
+    question: "As informações dos imóveis são atualizadas?",
     answer:
       "Sim. A listagem e o detalhe usam os dados atuais da base de projetos conectada ao backend.",
   },
@@ -51,8 +51,8 @@ export const faqItems = [
 
 export const differentials = [
   "Churrasqueira",
-  "Espaco Kids",
-  "Garrafao Basquete",
+  "Espaço Kids",
+  "Garrafão Basquete",
   "Piscina",
   "Playground",
   "Pet Place",
@@ -62,3 +62,4 @@ export function getFallbackCover(project?: Project | null, index = 0) {
   if (project?.cover_image) return project.cover_image;
   return index % 2 === 0 ? samferImages.cardA : samferImages.cardB;
 }
+

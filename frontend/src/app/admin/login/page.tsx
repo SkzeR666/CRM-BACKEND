@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+﻿import { Suspense } from "react";
 import { AdminHeader } from "@/components/shared/admin-header";
 import { AdminLoginFormLocal } from "./admin-login-form";
 import { resolveTheme } from "@/lib/utils/theme";
@@ -34,7 +34,7 @@ export default async function AdminLoginPage({ searchParams }: Props) {
             <h1>
               Acesso <span>administrativo</span>
             </h1>
-            <p>Entre com seu usuario do Supabase para gerenciar imoveis com seguranca.</p>
+            <p>Entre com seu usuário do Supabase para gerenciar imóveis com segurança.</p>
           </section>
           <Suspense fallback={<AdminLoginFallback />}>
             <AdminLoginFormLocal theme={theme} />
@@ -44,3 +44,4 @@ export default async function AdminLoginPage({ searchParams }: Props) {
     </div>
   );
 }
+

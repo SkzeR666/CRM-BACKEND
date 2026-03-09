@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -40,7 +40,7 @@ export function AdminLoginFormLocal({ theme }: Props) {
 
     try {
       if (!hasSupabaseClientEnv()) {
-        throw new Error("Supabase client env nao configurado no frontend.");
+        throw new Error("Supabase client env não configurado no frontend.");
       }
 
       const supabase = getSupabaseBrowserClient();
@@ -67,7 +67,7 @@ export function AdminLoginFormLocal({ theme }: Props) {
         <h2>
           Login <span>admin</span>
         </h2>
-        <p className="admin-section-text">Use o mesmo login do Supabase que voce cadastrou para o time administrador.</p>
+        <p className="admin-section-text">Use o mesmo login do Supabase que você cadastrou para o time administrador.</p>
         <div className="admin-form-grid">
           <label className="admin-field">
             <span className="samfer-sr-only">Email</span>
@@ -110,3 +110,4 @@ export function AdminLoginFormLocal({ theme }: Props) {
     </form>
   );
 }
+

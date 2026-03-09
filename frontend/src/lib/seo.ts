@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import type { Project } from "@/types/project";
 
 const FALLBACK_SITE_URL = "https://crm-frontend-one-lovat.vercel.app";
 
-export const brandName = "Samfer Imoveis";
-export const defaultTitle = "Imoveis em Taubate e regiao";
+export const brandName = "Samfer Imóveis";
+export const defaultTitle = "Imoveis em Taubaté e região";
 export const defaultDescription =
-  "Encontre apartamentos e casas com condicoes facilitadas em Taubate e regiao com a Samfer Imoveis.";
+  "Encontre apartamentos e casas com condições facilitadas em Taubaté e região com a Samfer Imóveis.";
 
 function sanitizeUrl(url: string) {
   return url.trim().replace(/\/+$/, "");
@@ -74,10 +74,10 @@ export function buildLocalBusinessJsonLd() {
     url: siteUrl,
     telephone: "+55-12-99999-9999",
     email: "contato@samfer.com.br",
-    areaServed: "Taubate, SP",
+    areaServed: "Taubaté, SP",
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Taubate",
+      addressLocality: "Taubaté",
       addressRegion: "SP",
       addressCountry: "BR",
     },
@@ -112,7 +112,7 @@ export function buildPropertyJsonLd(project: Project) {
     image: images,
     address: {
       "@type": "PostalAddress",
-      addressLocality: project.city || "Taubate",
+      addressLocality: project.city || "Taubaté",
       addressRegion: project.state || "SP",
       addressCountry: "BR",
     },
@@ -137,3 +137,4 @@ export function buildPropertyJsonLd(project: Project) {
         : undefined,
   };
 }
+

@@ -2,7 +2,7 @@
 
 import { DragEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Search, Trash2, X } from "lucide-react";
+import { Search, Trash2 } from "lucide-react";
 import { AdminAuthGuard } from "@/components/shared/admin-auth-guard";
 import { AdminHeader } from "@/components/shared/admin-header";
 import { getAdminAccessToken } from "@/lib/admin-auth";
@@ -74,7 +74,7 @@ export function AdminLeadsPageClient({ theme }: Props) {
       q: normalizeText(searchParams.get("q") || ""),
       view: searchParams.get("view") === "list" ? "list" : "kanban",
     }),
-    [searchParams]
+    [searchParams],
   );
 
   useEffect(() => {
@@ -92,7 +92,7 @@ export function AdminLeadsPageClient({ theme }: Props) {
             q: filters.q || undefined,
             limit: 200,
           },
-          { accessToken }
+          { accessToken },
         );
 
         if (cancelled) return;
@@ -132,25 +132,6 @@ export function AdminLeadsPageClient({ theme }: Props) {
     router.push(query ? `/admin/leads?${query}` : "/admin/leads");
   }
 
-  function handleClear() {
-    const query = new URLSearchParams();
-    query.set("theme", theme);
-    query.set("view", filters.view);
-    router.push(`/admin/leads?${query.toString()}`);
-  }
-
-  function updateFilters(next: Filters) {
-    const query = buildQuery(next, theme);
-    router.push(query ? `/admin/leads?${query}` : "/admin/leads");
-  }
-
-  function handleRemoveFilter(key: keyof Filters) {
-    updateFilters({
-      ...filters,
-      [key]: "",
-    });
-  }
-
   async function handleStatusChange(lead: Lead, status: string) {
     try {
       setIsUpdatingId(lead.id);
@@ -184,19 +165,8 @@ export function AdminLeadsPageClient({ theme }: Props) {
     }
   }
 
-  const hasFilters = Boolean(filters.q);
-  const activeFilters = [
-    filters.q ? { key: "q" as const, label: `Busca: ${filters.q}` } : null,
-  ].filter(Boolean) as Array<{ key: keyof Filters; label: string }>;
-
   const statusOptions = useMemo(() => {
-    const values = Array.from(
-      new Set(
-        leads
-          .map((lead) => normalizeStatus(lead.status))
-          .filter((status): status is string => Boolean(status))
-      )
-    );
+    const values = Array.from(new Set(leads.map((lead) => normalizeStatus(lead.status)).filter((status): status is string => Boolean(status))));
 
     return values.length ? values : ["new"];
   }, [leads]);
@@ -263,19 +233,11 @@ export function AdminLeadsPageClient({ theme }: Props) {
             <form className="admin-filter-row is-simple samfer-animate" onSubmit={handleApply}>
               <label className="admin-filter-control admin-filter-search">
                 <span className="samfer-sr-only">Buscar lead</span>
-                <input name="q" defaultValue={filters.q} placeholder="Buscar por nome, telefone ou email" />
+                <input name="q" defaultValue={filters.q} placeholder="Buscar por nome, telefone ou e-mail" />
                 <Search size={18} aria-hidden />
               </label>
 
               <div className="admin-filter-actions">
-                {hasFilters ? (
-                  <button type="button" className="admin-secondary-btn" onClick={handleClear}>
-                    Limpar
-                  </button>
-                ) : null}
-                <button type="submit" className="admin-secondary-btn">
-                  Pesquisar
-                </button>
                 <button
                   type="button"
                   className={`admin-secondary-btn ${filters.view === "kanban" ? "is-active" : ""}`}
@@ -293,97 +255,81 @@ export function AdminLeadsPageClient({ theme }: Props) {
               </div>
             </form>
 
-            {activeFilters.length ? (
-              <div className="admin-active-filters samfer-animate" aria-label="Filtros ativos">
-                {activeFilters.map((filter) => (
-                  <button
-                    key={filter.key}
-                    type="button"
-                    className="admin-filter-chip"
-                    onClick={() => handleRemoveFilter(filter.key)}
-                  >
-                    <span>{filter.label}</span>
-                    <X size={14} />
-                  </button>
-                ))}
-              </div>
-            ) : null}
-
             {error ? <p className="admin-feedback is-error">{error}</p> : null}
 
             {filters.view === "kanban" ? (
-            <section className="admin-kanban samfer-animate" aria-live="polite">
-              {isLoading ? (
-                <div className="admin-empty-cell">Carregando leads...</div>
-              ) : !leads.length ? (
-                <div className="admin-empty-cell">Nenhum lead encontrado para os filtros aplicados.</div>
-              ) : (
-                columns.map((column) => (
-                  <article
-                    key={column.value}
-                    className="admin-kanban-column"
-                    onDragOver={handleDragOver}
-                    onDrop={(event) => handleDrop(event, column.value)}
-                  >
-                    <header className="admin-kanban-column-head">
-                      <h2>{column.label}</h2>
-                      <span>{column.leads.length}</span>
-                    </header>
+              <section className="admin-kanban samfer-animate" aria-live="polite">
+                {isLoading ? (
+                  <div className="admin-empty-cell">Carregando leads...</div>
+                ) : !leads.length ? (
+                  <div className="admin-empty-cell">Nenhum lead encontrado para os filtros aplicados.</div>
+                ) : (
+                  columns.map((column) => (
+                    <article
+                      key={column.value}
+                      className="admin-kanban-column"
+                      onDragOver={handleDragOver}
+                      onDrop={(event) => handleDrop(event, column.value)}
+                    >
+                      <header className="admin-kanban-column-head">
+                        <h2>{column.label}</h2>
+                        <span>{column.leads.length}</span>
+                      </header>
 
-                    <div className="admin-kanban-list">
-                      {column.leads.map((lead) => (
-                        <article
-                          key={lead.id}
-                          className={`admin-kanban-card ${draggingLeadId === lead.id ? "is-dragging" : ""}`}
-                          draggable
-                          onDragStart={(event) => handleDragStart(event, lead.id)}
-                          onDragEnd={handleDragEnd}
-                        >
-                          <div className="admin-kanban-card-head">
-                            <h3>{lead.name}</h3>
-                            <button
-                              type="button"
-                              className="admin-row-action is-danger"
-                              onClick={() => handleDelete(lead)}
-                              disabled={isDeletingId === lead.id}
-                              aria-label={`Excluir ${lead.name}`}
-                            >
-                              <Trash2 size={14} />
-                            </button>
-                          </div>
-
-                          <p>{lead.phone}</p>
-                          <p>{lead.email || "-"}</p>
-                          <p>Origem: {lead.source || "site"}</p>
-                          <p>Criado: {formatDate(lead.created_at)}</p>
-
-                          {(() => {
-                            const currentStatus = normalizeStatus(lead.status);
-                            const selectedStatus = currentStatus || statusOptions[0] || "new";
-
-                            return (
-                              <select
-                                className="admin-inline-select"
-                                value={selectedStatus}
-                                onChange={(event) => handleStatusChange(lead, event.target.value)}
-                                disabled={isUpdatingId === lead.id}
-                                aria-label={`Status do lead ${lead.name}`}
+                      <div className="admin-kanban-list">
+                        {column.leads.map((lead) => (
+                          <article
+                            key={lead.id}
+                            className={`admin-kanban-card ${draggingLeadId === lead.id ? "is-dragging" : ""}`}
+                            draggable
+                            onDragStart={(event) => handleDragStart(event, lead.id)}
+                            onDragEnd={handleDragEnd}
+                          >
+                            <div className="admin-kanban-card-head">
+                              <h3>{lead.name}</h3>
+                              <button
+                                type="button"
+                                className="admin-row-action is-danger"
+                                onClick={() => handleDelete(lead)}
+                                disabled={isDeletingId === lead.id}
+                                aria-label={`Excluir ${lead.name}`}
                               >
-                                {statusOptions.map((statusOption) => (
-                                  <option key={statusOption} value={statusOption}>
-                                    {getStatusLabel(statusOption)}
-                                  </option>
-                                ))}
-                              </select>
-                            );
-                          })()}
-                        </article>
-                      ))}
-                    </div>
-                  </article>
-                ))
-              )}
-            </section>
+                                <Trash2 size={14} />
+                              </button>
+                            </div>
+
+                            <p>{lead.phone}</p>
+                            <p>{lead.email || "-"}</p>
+                            <p>Origem: {lead.source || "site"}</p>
+                            <p>Criado: {formatDate(lead.created_at)}</p>
+
+                            {(() => {
+                              const currentStatus = normalizeStatus(lead.status);
+                              const selectedStatus = currentStatus || statusOptions[0] || "new";
+
+                              return (
+                                <select
+                                  className="admin-inline-select"
+                                  value={selectedStatus}
+                                  onChange={(event) => handleStatusChange(lead, event.target.value)}
+                                  disabled={isUpdatingId === lead.id}
+                                  aria-label={`Status do lead ${lead.name}`}
+                                >
+                                  {statusOptions.map((statusOption) => (
+                                    <option key={statusOption} value={statusOption}>
+                                      {getStatusLabel(statusOption)}
+                                    </option>
+                                  ))}
+                                </select>
+                              );
+                            })()}
+                          </article>
+                        ))}
+                      </div>
+                    </article>
+                  ))
+                )}
+              </section>
             ) : (
               <section className="admin-table-shell samfer-animate" aria-live="polite">
                 <div className="admin-table-meta">
@@ -396,7 +342,7 @@ export function AdminLeadsPageClient({ theme }: Props) {
                       <th>Contato</th>
                       <th>Status</th>
                       <th>Criado em</th>
-                      <th className="is-actions">AÃ§Ãµes</th>
+                      <th className="is-actions">Ações</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -445,5 +391,3 @@ export function AdminLeadsPageClient({ theme }: Props) {
     </AdminAuthGuard>
   );
 }
-
-

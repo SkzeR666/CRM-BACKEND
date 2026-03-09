@@ -33,7 +33,7 @@ export function PropertyCard({ project, theme, index = 0 }: Props) {
           <div className="samfer-pills">
             {typeof project.bedrooms === "number" && project.bedrooms > 0 ? (
               <span>
-                <BedDouble size={13} /> {project.bedrooms} dormitorios
+                <BedDouble size={13} /> {project.bedrooms} dormitórios
               </span>
             ) : null}
             {typeof project.bathrooms === "number" && project.bathrooms > 0 ? (
@@ -51,10 +51,11 @@ export function PropertyCard({ project, theme, index = 0 }: Props) {
             <div>
               <strong>{price}</strong>
             </div>
-            <span className="samfer-property-link">Ver detalhes do imovel</span>
+            <span className="samfer-property-link">Ver detalhes do imóvel</span>
           </div>
         </div>
       </Link>
     </article>
   );
 }
+

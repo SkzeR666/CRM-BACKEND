@@ -1,6 +1,7 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { AdminThemeToggle } from "@/components/shared/admin-theme-toggle";
@@ -26,6 +27,55 @@ export function AdminHeader({
   section = "imoveis",
 }: AdminHeaderProps) {
   const router = useRouter();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setIsScrolled(window.scrollY > 24);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const root = document.querySelector<HTMLElement>(".admin-app");
+    if (!root) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const animatedElements = Array.from(root.querySelectorAll<HTMLElement>(".samfer-animate"));
+    if (!animatedElements.length) return;
+
+    root.classList.add("has-motion");
+
+    animatedElements.forEach((element, index) => {
+      element.style.setProperty("--reveal-delay", `${Math.min(index * 38, 220)}ms`);
+    });
+
+    if (reduceMotion) {
+      animatedElements.forEach((element) => element.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        root: null,
+        threshold: 0.12,
+        rootMargin: "0px 0px -8% 0px",
+      },
+    );
+
+    animatedElements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, []);
 
   async function handleLogout() {
     const supabase = getSupabaseBrowserClient();
@@ -35,7 +85,7 @@ export function AdminHeader({
   }
 
   return (
-    <header className="admin-header">
+    <header className={`admin-header ${isScrolled ? "is-scrolled" : ""}`}>
       <div className="admin-header-shell">
         <div className="admin-header-left">
           {backHref ? (

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -152,7 +152,7 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
       .catch((loadError) => {
         if (cancelled) return;
         setIsError(true);
-        setMessage(loadError instanceof Error ? loadError.message : "Falha ao carregar imovel.");
+        setMessage(loadError instanceof Error ? loadError.message : "Falha ao carregar imóvel.");
       })
       .finally(() => {
         if (cancelled) return;
@@ -172,7 +172,7 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
 
     try {
       const accessToken = await getAdminAccessToken();
-      if (!accessToken) throw new Error("Sessao expirada. Faca login novamente.");
+      if (!accessToken) throw new Error("Sessão expirada. Faça login novamente.");
 
       const gallery = values.gallery
         .split("\n")
@@ -201,15 +201,15 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
 
       if (projectId) {
         await updateProject(projectId, payload, { accessToken });
-        setMessage("Imovel atualizado com sucesso.");
+        setMessage("Imóvel atualizado com sucesso.");
       } else {
         await createProject(payload, { accessToken });
         setValues(initialValues);
-        setMessage("Imovel criado com sucesso.");
+        setMessage("Imóvel criado com sucesso.");
       }
     } catch (error) {
       setIsError(true);
-      setMessage(error instanceof Error ? error.message : "Falha ao salvar imovel.");
+      setMessage(error instanceof Error ? error.message : "Falha ao salvar imóvel.");
     } finally {
       setIsLoading(false);
     }
@@ -217,20 +217,20 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
 
   async function handleDelete() {
     if (!projectId) return;
-    const confirmDelete = window.confirm("Excluir este imovel?");
+    const confirmDelete = window.confirm("Excluir este imóvel?");
     if (!confirmDelete) return;
 
     try {
       setIsLoading(true);
       const accessToken = await getAdminAccessToken();
-      if (!accessToken) throw new Error("Sessao expirada. Faca login novamente.");
+      if (!accessToken) throw new Error("Sessão expirada. Faça login novamente.");
 
       await deleteProject(projectId, { accessToken });
       router.push(withTheme("/admin/imoveis", theme));
       router.refresh();
     } catch (error) {
       setIsError(true);
-      setMessage(error instanceof Error ? error.message : "Falha ao excluir imovel.");
+      setMessage(error instanceof Error ? error.message : "Falha ao excluir imóvel.");
       setIsLoading(false);
     }
   }
@@ -238,7 +238,7 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
   if (isLoadingProject) {
     return (
       <div className="admin-auth-loading">
-        <p>Carregando dados do imovel...</p>
+        <p>Carregando dados do imóvel...</p>
       </div>
     );
   }
@@ -254,21 +254,21 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
             <strong>ID:</strong> {projectId}
           </p>
         ) : (
-          <p>O slug e gerado automaticamente a partir do titulo quando vazio.</p>
+          <p>O slug é gerado automaticamente a partir do título quando vazio.</p>
         )}
       </section>
 
       <section className="admin-form-section samfer-animate">
         <h2>
-          Informacoes <span>basicas</span>
+          Informações <span>básicas</span>
         </h2>
-        <p className="admin-section-text">Defina titulo, slug e status para aparecer corretamente na listagem publica.</p>
+        <p className="admin-section-text">Defina título, slug e status para aparecer corretamente na listagem pública.</p>
         <div className="admin-form-grid two-col">
           <label className="admin-field">
-            <span className="samfer-sr-only">Titulo</span>
+            <span className="samfer-sr-only">Título</span>
             <input
               name="title"
-              placeholder="titulo"
+              placeholder="Título"
               value={values.title}
               onChange={(event) => setValues((prev) => ({ ...prev, title: event.target.value }))}
               required
@@ -286,10 +286,10 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
           </label>
 
           <label className="admin-field is-span-2">
-            <span className="samfer-sr-only">Descricao</span>
+            <span className="samfer-sr-only">Descrição</span>
             <textarea
               name="description"
-              placeholder="descricao"
+              placeholder="Descrição"
               rows={1}
               value={values.description}
               onChange={(event) => setValues((prev) => ({ ...prev, description: event.target.value }))}
@@ -332,7 +332,7 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
       </section>
 
       <section className="admin-form-section samfer-animate">
-        <h2>Localizacao</h2>
+        <h2>Localização</h2>
         <p className="admin-section-text">Esses dados alimentam filtros por cidade, bairro e estado no frontend.</p>
         <div className="admin-form-grid two-col">
           <label className="admin-field">
@@ -366,24 +366,24 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
       </section>
 
       <section className="admin-form-section samfer-animate">
-        <h2>Caracteristicas</h2>
-        <p className="admin-section-text">Preencha os numeros do imovel para melhorar comparacao e busca.</p>
+        <h2>Características</h2>
+        <p className="admin-section-text">Preencha os números do imóvel para melhorar comparação e busca.</p>
         <div className="admin-form-grid two-col">
           <label className="admin-field">
-            <span className="samfer-sr-only">Preco</span>
+            <span className="samfer-sr-only">Preço</span>
             <input
               name="price"
-              placeholder="preco"
+              placeholder="Preço"
               inputMode="decimal"
               value={values.price}
               onChange={(event) => setValues((prev) => ({ ...prev, price: event.target.value }))}
             />
           </label>
           <label className="admin-field">
-            <span className="samfer-sr-only">Area m2</span>
+            <span className="samfer-sr-only">Área m²</span>
             <input
               name="area_m2"
-              placeholder="area m2"
+              placeholder="Área m²"
               inputMode="decimal"
               value={values.area_m2}
               onChange={(event) => setValues((prev) => ({ ...prev, area_m2: event.target.value }))}
@@ -442,13 +442,13 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
           </label>
 
           <label className="admin-field admin-field-select">
-            <span className="samfer-sr-only">Suites</span>
+            <span className="samfer-sr-only">Suítes</span>
             <select
               name="suites"
               value={values.suites}
               onChange={(event) => setValues((prev) => ({ ...prev, suites: event.target.value }))}
             >
-              <option value="">suites</option>
+              <option value="">suítes</option>
               {integerOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -461,7 +461,7 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
       </section>
 
       <section className="admin-form-section samfer-animate">
-        <h2>Midia</h2>
+        <h2>Mídia</h2>
         <p className="admin-section-text">Use links diretos de imagem. Na galeria, um link por linha.</p>
         <div className="admin-form-grid two-col">
           <label className="admin-field admin-field-with-icon">
@@ -491,18 +491,18 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
 
       <section className="admin-form-section samfer-animate">
         <h2>Destaque</h2>
-        <p className="admin-section-text">Marcar como destaque prioriza exibicao em secoes principais da landing.</p>
+        <p className="admin-section-text">Marcar como destaque prioriza exibição em seções principais da landing.</p>
         <div className="admin-form-grid">
           <label className="admin-field admin-field-select">
-            <span className="samfer-sr-only">Imovel em destaque</span>
+            <span className="samfer-sr-only">Imóvel em destaque</span>
             <select
               name="is_featured"
               value={values.is_featured}
               onChange={(event) => setValues((prev) => ({ ...prev, is_featured: event.target.value }))}
             >
-              <option value="false">imovel em destaque?</option>
-              <option value="true">sim</option>
-              <option value="false">nao</option>
+              <option value="false">Imóvel em destaque?</option>
+              <option value="true">Sim</option>
+              <option value="false">Não</option>
             </select>
             <ChevronDown size={16} aria-hidden />
           </label>
@@ -514,12 +514,12 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
           Voltar
         </button>
           <button type="submit" className="admin-primary-btn is-large" disabled={isLoading || !finalSlug}>
-            {isLoading ? "Salvando..." : isEditMode ? "Salvar alteracoes" : "Salvar imovel"}
+            {isLoading ? "Salvando..." : isEditMode ? "Salvar alterações" : "Salvar imóvel"}
         </button>
         {isEditMode ? (
           <button type="button" className="admin-danger-btn is-large" onClick={handleDelete} disabled={isLoading}>
             <Trash2 size={16} />
-            Excluir imovel
+            Excluir imóvel
           </button>
         ) : null}
       </div>
@@ -530,3 +530,4 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
     </form>
   );
 }
+

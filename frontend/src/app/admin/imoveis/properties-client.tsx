@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { PencilLine, Search, Trash2, X } from "lucide-react";
+import { PencilLine, Search, Trash2 } from "lucide-react";
 import { listProjects, deleteProject } from "@/lib/api/projects";
 import { formatPrice } from "@/lib/utils/format-price";
 import type { Project } from "@/types/project";
@@ -111,11 +111,12 @@ export function AdminPropertiesPageClient({ theme }: Props) {
     const query = filters.q.toLocaleLowerCase("pt-BR");
     if (!query) return projects;
 
-    return projects.filter((project) =>
-      includesText(project.title, query) ||
-      includesText(project.slug, query) ||
-      includesText(project.city, query) ||
-      includesText(project.neighborhood, query),
+    return projects.filter(
+      (project) =>
+        includesText(project.title, query) ||
+        includesText(project.slug, query) ||
+        includesText(project.city, query) ||
+        includesText(project.neighborhood, query),
     );
   }, [filters.q, projects]);
 
@@ -132,18 +133,6 @@ export function AdminPropertiesPageClient({ theme }: Props) {
 
   function handleClear() {
     router.push(withTheme("/admin/imoveis", theme));
-  }
-
-  function updateFilters(next: Filters) {
-    const query = buildQuery(next, theme);
-    router.push(query ? `/admin/imoveis?${query}` : "/admin/imoveis");
-  }
-
-  function handleRemoveFilter(key: keyof Filters) {
-    updateFilters({
-      ...filters,
-      [key]: "",
-    });
   }
 
   async function handleDelete(project: Project) {
@@ -165,9 +154,6 @@ export function AdminPropertiesPageClient({ theme }: Props) {
   }
 
   const hasFilters = Boolean(filters.q);
-  const activeFilters = [
-    filters.q ? { key: "q" as const, label: `Busca: ${filters.q}` } : null,
-  ].filter(Boolean) as Array<{ key: keyof Filters; label: string }>;
 
   return (
     <AdminAuthGuard>
@@ -189,30 +175,11 @@ export function AdminPropertiesPageClient({ theme }: Props) {
                     Limpar
                   </button>
                 ) : null}
-                <button type="submit" className="admin-secondary-btn">
-                  Pesquisar
-                </button>
                 <Link href={withTheme("/admin/imoveis/novo", theme)} className="admin-primary-btn">
                   Novo imóvel
                 </Link>
               </div>
             </form>
-
-            {activeFilters.length ? (
-              <div className="admin-active-filters samfer-animate" aria-label="Filtros ativos">
-                {activeFilters.map((filter) => (
-                  <button
-                    key={filter.key}
-                    type="button"
-                    className="admin-filter-chip"
-                    onClick={() => handleRemoveFilter(filter.key)}
-                  >
-                    <span>{filter.label}</span>
-                    <X size={14} />
-                  </button>
-                ))}
-              </div>
-            ) : null}
 
             {error ? <p className="admin-feedback is-error">{error}</p> : null}
 
@@ -247,7 +214,11 @@ export function AdminPropertiesPageClient({ theme }: Props) {
                         </td>
                         <td>{typeof project.price === "number" ? formatPrice(project.price) : "Sob consulta"}</td>
                         <td className="admin-actions-cell">
-                          <Link href={withTheme(`/admin/imoveis/${project.id}`, theme)} className="admin-row-action" aria-label={`Editar ${project.title}`}>
+                          <Link
+                            href={withTheme(`/admin/imoveis/${project.id}`, theme)}
+                            className="admin-row-action"
+                            aria-label={`Editar ${project.title}`}
+                          >
                             <PencilLine size={16} />
                             <span>Editar</span>
                           </Link>
