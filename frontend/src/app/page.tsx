@@ -1,5 +1,7 @@
 ﻿import type { Metadata } from "next";
 import Image from "next/image";
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 import { listProjects } from "@/lib/api/projects";
 import { resolveTheme } from "@/lib/utils/theme";
 import { SamferHeader } from "@/components/samfer/header";
