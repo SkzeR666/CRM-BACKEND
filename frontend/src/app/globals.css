@@ -23,6 +23,10 @@
   --overlay-strong: color-mix(in srgb, #000000 52%, transparent);
   --header-control-size: 53px;
   --header-mobile-control-size: 44px;
+  --motion-fast: 420ms;
+  --motion-base: 680ms;
+  --motion-slow: 980ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --lh-tight: normal;
   --lh-ui: normal;
   --lh-body: normal;
@@ -241,7 +245,13 @@ textarea {
   border-radius: 5px;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), filter 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  transition:
+    transform var(--motion-fast) var(--motion-ease),
+    filter var(--motion-fast) var(--motion-ease),
+    background-color var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-fast) var(--motion-ease);
   line-height: var(--lh-ui);
 }
 
@@ -537,11 +547,15 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  transition: transform 0.24s ease;
+  transition:
+    transform var(--motion-base) var(--motion-ease),
+    box-shadow var(--motion-base) var(--motion-ease),
+    filter var(--motion-base) var(--motion-ease);
 }
 
 .samfer-property-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px) scale(1.008);
+  box-shadow: 0 18px 36px color-mix(in srgb, #000 12%, transparent);
 }
 
 .samfer-property-card:focus-within {
@@ -713,7 +727,10 @@ textarea {
   border-radius: 10px;
   background: var(--surface);
   color: var(--text-2);
-  transition: border-color 0.25s ease, background 0.25s ease;
+  transition:
+    border-color var(--motion-base) var(--motion-ease),
+    background var(--motion-base) var(--motion-ease),
+    transform var(--motion-base) var(--motion-ease);
 }
 
 .samfer-faq-item h3 {
@@ -757,7 +774,10 @@ textarea {
   overflow: hidden;
   opacity: 0;
   transform: translateY(-4px);
-  transition: max-height 0.35s ease, opacity 0.25s ease, transform 0.25s ease;
+  transition:
+    max-height var(--motion-slow) var(--motion-ease),
+    opacity var(--motion-base) var(--motion-ease),
+    transform var(--motion-base) var(--motion-ease);
 }
 
 .samfer-faq-answer.is-open {
@@ -1044,12 +1064,16 @@ textarea {
 }
 
 .samfer-detail-cta {
-  padding: 28px;
+  padding: 30px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 22px;
   height: 100%;
   transition: transform 0.24s ease;
+}
+
+.samfer-detail-cta > * {
+  width: 100%;
 }
 
 .samfer-detail-cta h3 {
@@ -1075,21 +1099,25 @@ textarea {
 
 .samfer-detail-map {
   width: 100%;
-  height: 220px;
+  height: 240px;
   border: 0;
   border-radius: 10px;
   background: var(--surface-alt);
+  display: block;
 }
 
 .samfer-detail-cta-actions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
-  margin-top: 4px;
+  margin-top: 8px;
+  align-items: stretch;
 }
 
 .samfer-detail-cta-actions > * {
   width: 100%;
+  min-width: 0;
+  min-height: 58px;
 }
 
 .samfer-detail-cta-actions .samfer-secondary-btn {
@@ -1347,7 +1375,7 @@ textarea {
   inset: 0;
   transform: translateX(-100%);
   background: linear-gradient(90deg, transparent, var(--skeleton-shine), transparent);
-  animation: samferShimmer 1.25s ease-in-out infinite;
+  animation: samferShimmer 2.05s var(--motion-ease) infinite;
 }
 
 .samfer-skeleton {
@@ -1375,12 +1403,23 @@ textarea {
   }
 }
 
+@keyframes samferFloatIn {
+  0% {
+    filter: saturate(0.95);
+    transform: translate3d(0, 6px, 0) scale(0.995);
+  }
+  100% {
+    filter: saturate(1);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
 :is(.samfer-app, .admin-app).has-motion .samfer-animate.is-pending {
   opacity: 0;
-  transform: translate3d(0, 18px, 0) scale(0.985);
+  transform: translate3d(0, 24px, 0) scale(0.975);
   transition:
-    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity var(--motion-slow) var(--motion-ease),
+    transform var(--motion-slow) var(--motion-ease);
   transition-delay: var(--reveal-delay, 0ms);
   will-change: transform, opacity;
 }
@@ -1388,6 +1427,7 @@ textarea {
 :is(.samfer-app, .admin-app).has-motion .samfer-animate.is-visible {
   opacity: 1;
   transform: translate3d(0, 0, 0) scale(1);
+  animation: samferFloatIn var(--motion-slow) var(--motion-ease) both;
 }
 
 :is(.samfer-app, .admin-app).has-motion .samfer-header.samfer-animate,
@@ -1400,11 +1440,11 @@ textarea {
 
 .samfer-app.has-motion .samfer-hero.samfer-animate img {
   transform: scale(1.06);
-  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform 1.9s var(--motion-ease);
 }
 
 .samfer-app.has-motion .samfer-hero.samfer-animate.is-visible img {
-  transform: scale(1);
+  transform: scale(1.01);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2878,15 +2918,23 @@ textarea {
   .samfer-primary-btn,
   .samfer-secondary-btn {
     height: var(--header-mobile-control-size);
+    min-height: var(--header-mobile-control-size);
     padding: 0 12px;
     font-size: 11px;
+    line-height: 1;
     white-space: nowrap;
   }
 
   .samfer-icon-btn {
     width: var(--header-mobile-control-size);
     height: var(--header-mobile-control-size);
+    min-height: var(--header-mobile-control-size);
     flex-shrink: 0;
+  }
+
+  .samfer-header-actions .samfer-primary-btn,
+  .samfer-header-actions .samfer-icon-btn {
+    align-self: center;
   }
 
   .samfer-contact-label-full {
