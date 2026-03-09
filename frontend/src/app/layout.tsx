@@ -4,7 +4,6 @@ import { Urbanist } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { brandName, defaultDescription, defaultKeywords, defaultTitle, getSiteUrl, toAbsoluteUrl } from "@/lib/seo";
 import { samferImages } from "@/components/samfer/content";
-import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const urbanist = Urbanist({
   subsets: ["latin"],
