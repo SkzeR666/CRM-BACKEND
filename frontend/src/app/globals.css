@@ -155,6 +155,9 @@ textarea {
   padding: 0 24px;
   font-size: 14px;
   font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .samfer-secondary-btn {
@@ -164,6 +167,9 @@ textarea {
   padding: 18px 24px;
   font-size: 14px;
   font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .samfer-icon-btn {
@@ -252,6 +258,23 @@ textarea {
 
 .samfer-input-card.no-icon {
   justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.samfer-input-card p {
+  margin: 0;
+  color: var(--text-2);
+}
+
+.samfer-input-card input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  outline: none;
+  font-size: 16px;
 }
 
 .samfer-select-card select {
@@ -292,6 +315,11 @@ textarea {
   gap: 24px;
 }
 
+.samfer-card-link {
+  display: block;
+  color: inherit;
+}
+
 .samfer-property-card {
   border: 1px solid var(--border);
   background: var(--surface-alt);
@@ -306,6 +334,11 @@ textarea {
 .samfer-property-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 14px 30px color-mix(in srgb, #000 12%, transparent);
+}
+
+.samfer-property-card:focus-within {
+  outline: 2px solid color-mix(in srgb, var(--primary) 70%, transparent);
+  outline-offset: 2px;
 }
 
 .samfer-property-cover {
@@ -459,10 +492,6 @@ textarea {
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--surface-alt);
-  padding: 24px;
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
   color: var(--text-2);
 }
 
@@ -474,6 +503,20 @@ textarea {
 .samfer-faq-item p {
   margin: 16px 0 0;
   font-size: 14px;
+}
+
+.samfer-faq-trigger {
+  width: 100%;
+  min-height: 100px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  text-align: left;
 }
 
 .samfer-faq-item.is-open svg {
@@ -519,6 +562,16 @@ textarea {
   color: var(--primary);
 }
 
+.samfer-results-head h1 {
+  margin: 0;
+  font-size: 36px;
+  letter-spacing: -0.36px;
+}
+
+.samfer-results-head h1 span {
+  color: var(--primary);
+}
+
 .samfer-sort {
   border: 0;
   background: transparent;
@@ -540,6 +593,16 @@ textarea {
   margin: 0;
   color: var(--text-2);
   font-size: 14px;
+}
+
+.samfer-empty-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-alt);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .samfer-gallery-hero {
@@ -566,6 +629,10 @@ textarea {
   min-height: 240px;
   border-radius: 10px;
   overflow: hidden;
+}
+
+.samfer-gallery-anchor {
+  display: block;
 }
 
 .samfer-gallery-thumb img {
@@ -613,6 +680,13 @@ textarea {
   margin: 0;
   font-size: 36px;
   letter-spacing: -0.36px;
+}
+
+.samfer-detail-eyebrow {
+  margin: 0;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
 }
 
 .samfer-detail-summary h2 {
@@ -725,7 +799,13 @@ textarea {
 }
 
 .samfer-price-highlight {
-  display: none;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-alt);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .samfer-footer {
@@ -769,6 +849,137 @@ textarea {
   margin: 0;
   font-size: 12px;
   color: var(--text-2);
+}
+
+.samfer-breadcrumb ol {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  color: var(--text-2);
+  font-size: 13px;
+}
+
+.samfer-breadcrumb li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.samfer-breadcrumb-separator {
+  opacity: 0.7;
+}
+
+.samfer-grid-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.samfer-grid-actions .samfer-wide-cta {
+  flex: 1;
+}
+
+.samfer-clear-filters {
+  min-height: 80px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  padding: 12px 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.samfer-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.samfer-page-indicator {
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+.samfer-hero {
+  position: relative;
+}
+
+.samfer-hero-title {
+  margin: 0;
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  right: 18px;
+  color: #fff;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+.samfer-form-message {
+  grid-column: span 2;
+  margin: 0;
+  font-size: 13px;
+}
+
+.samfer-form-message.success {
+  color: #1e9f5f;
+}
+
+.samfer-form-message.error {
+  color: #cf3e3e;
+}
+
+.samfer-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.samfer-sort-form {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.samfer-sort-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.samfer-sort-label select {
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+
+.samfer-sort-apply {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.samfer-reset-link {
+  display: inline-flex;
+  color: var(--text-2);
+  font-size: 13px;
 }
 
 @keyframes samferFadeUp {
@@ -844,12 +1055,13 @@ textarea {
 
   .samfer-header-actions {
     margin-left: 0;
-    gap: 10px;
+    gap: 8px;
+    width: 100%;
   }
 
   .samfer-primary-btn,
   .samfer-secondary-btn {
-    height: 42px;
+    height: 44px;
     padding: 0 14px;
     font-size: 12px;
   }
@@ -884,7 +1096,7 @@ textarea {
 
   .samfer-input-card,
   .samfer-select-card {
-    min-height: 72px;
+    min-height: 74px;
   }
 
   .samfer-wide-cta,
@@ -904,6 +1116,28 @@ textarea {
   .samfer-results-head {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .samfer-grid-actions {
+    flex-direction: column;
+  }
+
+  .samfer-clear-filters {
+    min-height: 64px;
+    width: 100%;
+  }
+
+  .samfer-pagination {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .samfer-form-message {
+    grid-column: auto;
+  }
+
+  .samfer-hero-title {
+    font-size: 23px;
   }
 
   .samfer-gallery-main {

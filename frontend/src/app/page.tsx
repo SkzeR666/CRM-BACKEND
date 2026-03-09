@@ -1,16 +1,32 @@
+﻿import type { Metadata } from "next";
 import { listProjects } from "@/lib/api/projects";
 import { resolveTheme } from "@/lib/utils/theme";
 import { SamferHeader } from "@/components/samfer/header";
 import { SamferFooter } from "@/components/samfer/footer";
 import { PropertyCard } from "@/components/samfer/property-card";
 import { SectionTitle } from "@/components/samfer/section-title";
-import { Testimonials } from "@/components/samfer/testimonials";
 import { FaqList } from "@/components/samfer/faq";
+import { Testimonials } from "@/components/samfer/testimonials";
 import { samferImages } from "@/components/samfer/content";
+import { SamferContactForm } from "@/components/samfer/contact-form";
+import { JsonLd } from "@/components/seo/json-ld";
+import {
+  buildBreadcrumbJsonLd,
+  buildLocalBusinessJsonLd,
+  createPageMetadata,
+} from "@/lib/seo";
+import { withThemeAndHash } from "@/lib/samfer-links";
 
 type Props = {
   searchParams: Promise<{ theme?: string }> | { theme?: string };
 };
+
+export const metadata: Metadata = createPageMetadata({
+  title: "Inicio",
+  description:
+    "Imoveis em destaque em Taubate e regiao com filtros por cidade, tipo, quartos, suites e faixa de preco.",
+  pathname: "/",
+});
 
 function uniqueSorted(values: Array<string | number | null | undefined>) {
   return Array.from(
@@ -29,7 +45,7 @@ export default async function HomePage({ searchParams }: Props) {
 
   const featured = featuredResult.projects.length
     ? featuredResult.projects
-    : allResult.projects.slice(0, 2);
+    : allResult.projects.slice(0, 6);
 
   const cityOptions = uniqueSorted(allResult.projects.map((item) => item.city));
   const typeOptions = uniqueSorted(allResult.projects.map((item) => item.type));
@@ -40,16 +56,24 @@ export default async function HomePage({ searchParams }: Props) {
   return (
     <div className={`samfer-app ${theme === "dark" ? "is-dark" : ""}`}>
       <div className="samfer-shell">
-        <SamferHeader theme={theme} />
+        <SamferHeader theme={theme} contactHref={withThemeAndHash("/", "financiamento", theme)} />
 
         <main className="samfer-main">
-          <section className="samfer-hero samfer-animate">
+          <JsonLd
+            data={[
+              buildLocalBusinessJsonLd(),
+              buildBreadcrumbJsonLd([{ name: "Inicio", pathname: "/" }]),
+            ]}
+          />
+
+          <section className="samfer-hero samfer-animate" aria-label="Destaque principal">
             <img src={samferImages.hero} alt="Empreendimento em destaque" />
+            <h1 className="samfer-sr-only">Imoveis para morar bem em Taubate e regiao</h1>
           </section>
 
-          <section className="samfer-section">
+          <section className="samfer-section" aria-labelledby="busca-heading">
             <SectionTitle before="Veja opcoes " highlight="ideais" after=" para o seu perfil" />
-            <form className="samfer-filter-grid samfer-animate" method="GET" action="/imoveis">
+            <form className="samfer-filter-grid samfer-animate" method="GET" action="/imoveis" id="busca-heading">
               <input type="hidden" name="theme" value={theme} />
               <label className="samfer-select-card">
                 <select name="city" defaultValue="">
@@ -110,7 +134,7 @@ export default async function HomePage({ searchParams }: Props) {
                 </select>
               </label>
               <button className="samfer-wide-cta samfer-grid-span" type="submit">
-                Buscar Imoveis
+                Buscar imoveis
               </button>
             </form>
           </section>
@@ -136,31 +160,13 @@ export default async function HomePage({ searchParams }: Props) {
 
           <section className="samfer-section" id="financiamento">
             <SectionTitle before="Entre em " highlight="contato conosco" />
-            <form className="samfer-contact-grid samfer-animate">
-              <label className="samfer-input-card no-icon">
-                <span>Nome Completo *</span>
-              </label>
-              <label className="samfer-input-card no-icon">
-                <span>Telefone *</span>
-              </label>
-              <label className="samfer-input-card no-icon">
-                <span>Email *</span>
-              </label>
-              <label className="samfer-input-card no-icon">
-                <span>Assunto</span>
-              </label>
-              <label className="samfer-input-card no-icon samfer-message">
-                <span>Mensagem</span>
-              </label>
-              <button type="submit" className="samfer-wide-cta">
-                Enviar Email
-              </button>
-            </form>
+            <SamferContactForm source="home-page" contextLabel="Atendimento comercial para compra de imovel" />
           </section>
         </main>
 
-        <SamferFooter />
+        <SamferFooter theme={theme} />
       </div>
     </div>
   );
 }
+

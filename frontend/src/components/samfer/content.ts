@@ -1,4 +1,4 @@
-import type { Project } from "@/types/project";
+﻿import type { Project } from "@/types/project";
 
 export const samferImages = {
   hero: "https://www.figma.com/api/mcp/asset/9944f4bc-88f9-4d58-a640-6f6d050a63d2",
@@ -8,33 +8,51 @@ export const samferImages = {
   galleryB: "https://www.figma.com/api/mcp/asset/c6e4a1f1-96d3-40c6-9505-651ed62bf8c9",
   galleryC: "https://www.figma.com/api/mcp/asset/1c2c021a-c1f3-4350-bbeb-7c464ff61004",
   map: "https://www.figma.com/api/mcp/asset/94910e8c-e3b5-4c26-96fd-e000a7638f42",
-  floor: "https://www.figma.com/api/mcp/asset/1134a37f-2f6f-44b6-bb7e-1c62f401c55b",
+  floor: "https://www.figma.com/api/mcp/asset/950ad8a8-196f-439a-8624-2f19536b8a86",
   avatar: "https://www.figma.com/api/mcp/asset/2a71e821-f1ed-49a8-8679-024d28a111cd",
 };
 
-export const testimonials = Array.from({ length: 3 }).map((_, index) => ({
-  id: `t-${index}`,
-  title: "Trabalho incrível!",
-  text: "Consegui entender melhor meu financiamento e escolher uma opção que cabia no meu bolso.",
-  name: "João Carlos",
-  city: "Taubaté, SP",
-  avatar: samferImages.avatar,
-}));
+export const testimonials = [
+  {
+    id: "t-1",
+    title: "Atendimento claro e agil",
+    text: "A equipe explicou as opcoes de financiamento e ajudou a escolher o imovel ideal para meu momento.",
+    name: "Cliente Samfer",
+    city: "Taubate, SP",
+    avatar: samferImages.avatar,
+  },
+  {
+    id: "t-2",
+    title: "Processo sem complicacao",
+    text: "Consegui visitar os imoveis que faziam sentido para meu perfil e fechei com seguranca.",
+    name: "Cliente Samfer",
+    city: "Vale do Paraiba, SP",
+    avatar: samferImages.avatar,
+  },
+];
 
 export const faqItems = [
   {
-    question: "Como posso agendar uma visita ao imóvel?",
+    question: "Como agendar visita a um imovel?",
     answer:
-      "Você pode entrar em contato pelo WhatsApp ou pelo formulário da página. Nossa equipe organiza a visita conforme sua disponibilidade.",
+      "Na pagina do imovel, use o botao de WhatsApp ou envie o formulario de contato. A equipe confirma horarios disponiveis.",
   },
-  { question: "Vocês ajudam com financiamento imobiliário?", answer: "" },
-  { question: "Os imóveis anunciados estão atualizados?", answer: "" },
+  {
+    question: "Vocês ajudam com financiamento imobiliario?",
+    answer:
+      "Sim. A Samfer orienta as opcoes de financiamento e a documentacao para facilitar a aprovacao junto ao banco.",
+  },
+  {
+    question: "As informacoes dos imoveis sao atualizadas?",
+    answer:
+      "Sim. A listagem e o detalhe usam os dados atuais da base de projetos conectada ao backend.",
+  },
 ];
 
 export const differentials = [
   "Churrasqueira",
-  "Espaço Kids",
-  "Garrafão Basquete",
+  "Espaco Kids",
+  "Garrafao Basquete",
   "Piscina",
   "Playground",
   "Pet Place",
@@ -44,4 +62,3 @@ export function getFallbackCover(project?: Project | null, index = 0) {
   if (project?.cover_image) return project.cover_image;
   return index % 2 === 0 ? samferImages.cardA : samferImages.cardB;
 }
-

@@ -1,19 +1,23 @@
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import type { SamferTheme } from "@/lib/utils/theme";
+import { withTheme, withThemeAndHash } from "@/lib/samfer-links";
 import { ThemeToggle } from "./theme-toggle";
 
 type Props = {
   theme: SamferTheme;
   title?: string;
   backHref?: string;
+  contactHref?: string;
 };
 
-function withTheme(href: string, theme: SamferTheme) {
-  return `${href}${href.includes("?") ? "&" : "?"}theme=${theme}`;
-}
+export function SamferHeader({ theme, title, backHref, contactHref }: Props) {
+  const defaultContactHref = withThemeAndHash("/", "financiamento", theme);
+  const specialistHref = contactHref || defaultContactHref;
+  const aboutHref = withThemeAndHash("/", "sobre", theme);
+  const featuredHref = withThemeAndHash("/", "empreendimentos", theme);
+  const financingHref = withThemeAndHash("/", "financiamento", theme);
 
-export function SamferHeader({ theme, title, backHref }: Props) {
   return (
     <header className="samfer-header samfer-animate">
       <div className="samfer-header-left">
@@ -29,15 +33,15 @@ export function SamferHeader({ theme, title, backHref }: Props) {
 
       <nav className="samfer-menu">
         <Link href={withTheme("/imoveis", theme)}>Imoveis</Link>
-        <a href="#empreendimentos">Empreendimentos</a>
-        <a href="#financiamento">Financiamento</a>
-        <a href="#sobre">Sobre</a>
+        <Link href={featuredHref}>Empreendimentos</Link>
+        <Link href={financingHref}>Financiamento</Link>
+        <Link href={aboutHref}>Sobre</Link>
       </nav>
 
       <div className="samfer-header-actions">
-        <button type="button" className="samfer-primary-btn">
+        <Link href={specialistHref} className="samfer-primary-btn">
           Falar com especialista
-        </button>
+        </Link>
         <ThemeToggle theme={theme} />
       </div>
     </header>
