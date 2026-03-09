@@ -38,6 +38,20 @@ export const metadata: Metadata = {
     description: defaultDescription,
     images: [toAbsoluteUrl(samferImages.hero)],
   },
+  icons: {
+    icon: [
+      {
+        url: "/images/favicon-light.svg",
+        type: "image/svg+xml",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/images/favicon-dark.svg",
+        type: "image/svg+xml",
+        media: "(prefers-color-scheme: dark)",
+      },
+    ],
+  },
 };
 
 const themeInitScript = `

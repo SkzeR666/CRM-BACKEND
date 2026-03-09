@@ -20,6 +20,8 @@
   --select-shadow: 0 16px 30px color-mix(in srgb, #000000 10%, transparent);
   --feedback-error: #d94a4a;
   --overlay-strong: color-mix(in srgb, #000000 52%, transparent);
+  --header-control-size: 53px;
+  --header-mobile-control-size: 44px;
   --lh-tight: 1.1;
   --lh-ui: 1.2;
   --lh-body: 1.45;
@@ -169,20 +171,24 @@ textarea {
 }
 
 .samfer-logo {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--header-control-size);
   font-size: 22px;
   font-weight: 600;
   letter-spacing: -0.22px;
-  line-height: var(--lh-tight);
+  line-height: 1;
 }
 
 .samfer-back-link {
   display: inline-flex;
   align-items: center;
+  min-height: var(--header-control-size);
   gap: 10px;
   font-size: 22px;
   font-weight: 600;
   letter-spacing: -0.22px;
-  line-height: var(--lh-tight);
+  line-height: 1;
 }
 
 .samfer-header-actions {
@@ -226,7 +232,7 @@ textarea {
 .samfer-primary-btn {
   background: var(--primary);
   color: var(--on-primary);
-  height: 53px;
+  height: var(--header-control-size);
   padding: 0 24px;
   font-size: 14px;
   font-weight: 500;
@@ -248,8 +254,8 @@ textarea {
 }
 
 .samfer-icon-btn {
-  width: 53px;
-  height: 53px;
+  width: var(--header-control-size);
+  height: var(--header-control-size);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1477,11 +1483,11 @@ textarea {
 .admin-header-brand {
   display: inline-flex;
   align-items: center;
-  min-height: 53px;
+  min-height: var(--header-control-size);
   color: var(--text);
   font-size: 22px;
   font-weight: 600;
-  line-height: var(--lh-tight);
+  line-height: 1;
   letter-spacing: -0.02em;
   transition: transform 0.2s ease, filter 0.2s ease;
 }
@@ -1492,7 +1498,7 @@ textarea {
 }
 
 .admin-header-link {
-  min-height: 53px;
+  min-height: var(--header-control-size);
   border: 1px solid var(--border);
   border-radius: 5px;
   background: var(--surface);
@@ -1525,8 +1531,8 @@ textarea {
 }
 
 .admin-theme-toggle {
-  width: 53px;
-  height: 53px;
+  width: var(--header-control-size);
+  height: var(--header-control-size);
   border: 1px solid var(--border);
   border-radius: 5px;
   background: var(--surface);
@@ -2779,6 +2785,7 @@ textarea {
 
   .samfer-logo {
     font-size: 17px;
+    min-height: var(--header-mobile-control-size);
     max-width: 100%;
     white-space: nowrap;
     overflow: hidden;
@@ -2787,6 +2794,7 @@ textarea {
 
   .samfer-back-link {
     font-size: 17px;
+    min-height: var(--header-mobile-control-size);
     max-width: 100%;
     white-space: nowrap;
     overflow: hidden;
@@ -2801,15 +2809,15 @@ textarea {
 
   .samfer-primary-btn,
   .samfer-secondary-btn {
-    height: 44px;
+    height: var(--header-mobile-control-size);
     padding: 0 12px;
     font-size: 11px;
     white-space: nowrap;
   }
 
   .samfer-icon-btn {
-    width: 44px;
-    height: 44px;
+    width: var(--header-mobile-control-size);
+    height: var(--header-mobile-control-size);
     flex-shrink: 0;
   }
 
