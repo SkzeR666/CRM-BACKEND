@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Urbanist } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { brandName, defaultDescription, defaultKeywords, defaultTitle, getSiteUrl, toAbsoluteUrl } from "@/lib/seo";
 import { samferImages } from "@/components/samfer/content";
 
@@ -87,6 +88,7 @@ export default function RootLayout({
       </head>
       <body className="font-[var(--font-urbanist)]">
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );
