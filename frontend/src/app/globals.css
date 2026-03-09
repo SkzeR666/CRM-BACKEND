@@ -1173,7 +1173,7 @@ textarea {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 .admin-header {
@@ -1183,12 +1183,12 @@ textarea {
 }
 
 .admin-header-shell {
-  min-height: 72px;
+  min-height: 82px;
   border: 1px solid var(--admin-border);
   border-radius: 10px;
   background: color-mix(in srgb, var(--admin-surface) 92%, transparent);
   backdrop-filter: blur(7.5px);
-  padding: 10px 16px;
+  padding: 12px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1205,25 +1205,25 @@ textarea {
 .admin-header-brand {
   display: inline-flex;
   align-items: center;
-  min-height: 42px;
+  min-height: 46px;
   color: var(--admin-text);
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 600;
   line-height: var(--lh-tight);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.22px;
 }
 
 .admin-header-link {
-  min-height: 42px;
+  min-height: 46px;
   border: 1px solid var(--admin-border);
   border-radius: 8px;
   background: var(--admin-surface-alt);
   color: var(--admin-text-2);
-  padding: 0 14px;
+  padding: 0 16px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   line-height: var(--lh-ui);
 }
@@ -1254,7 +1254,7 @@ textarea {
 .admin-content {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 .admin-title-block {
@@ -1284,12 +1284,12 @@ textarea {
 .admin-filter-row {
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr auto;
-  gap: 18px;
+  gap: 14px;
   align-items: stretch;
 }
 
 .admin-filter-control {
-  min-height: 60px;
+  min-height: 56px;
   border: 1px solid var(--admin-border);
   border-radius: 10px;
   background: var(--admin-surface-alt);
@@ -1312,8 +1312,7 @@ textarea {
 }
 
 .admin-filter-control select {
-  appearance: none;
-  padding-right: 24px;
+  padding-right: 0;
 }
 
 .admin-filter-search {
@@ -1346,7 +1345,7 @@ textarea {
 
 .admin-primary-btn,
 .admin-secondary-btn {
-  min-height: 60px;
+  min-height: 56px;
   border-radius: 10px;
   border: 1px solid transparent;
   padding: 0 18px;
@@ -1379,9 +1378,38 @@ textarea {
 
 .admin-primary-btn.is-large,
 .admin-secondary-btn.is-large {
-  min-height: 80px;
+  min-height: 64px;
   font-size: 16px;
   font-weight: 600;
+}
+
+.admin-danger-btn {
+  min-height: 64px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, #ff7e7e 45%, var(--admin-border));
+  background: color-mix(in srgb, #ff6b6b 10%, var(--admin-surface-alt));
+  color: color-mix(in srgb, #ff5757 78%, var(--admin-text));
+  padding: 0 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: var(--lh-ui);
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.admin-danger-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+}
+
+.admin-danger-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .admin-primary-btn:disabled,
@@ -1395,7 +1423,7 @@ textarea {
   border: 1px solid var(--admin-border);
   border-radius: 10px;
   overflow: auto;
-  background: var(--admin-surface-alt);
+  background: color-mix(in srgb, var(--admin-surface-alt) 85%, var(--admin-surface));
 }
 
 .admin-table {
@@ -1407,24 +1435,21 @@ textarea {
 .admin-table th,
 .admin-table td {
   border-bottom: 1px solid var(--admin-border);
-  border-right: 1px solid var(--admin-border);
-  padding: 0 18px;
-  text-align: center;
+  padding: 16px 18px;
+  text-align: left;
   vertical-align: middle;
   font-size: 14px;
   line-height: var(--lh-ui);
 }
 
-.admin-table th:last-child,
-.admin-table td:last-child {
-  border-right: 0;
-}
-
 .admin-table thead th {
-  height: 72px;
+  height: 56px;
   font-weight: 500;
-  color: var(--admin-text);
-  background: var(--admin-surface);
+  color: var(--admin-text-2);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: transparent;
 }
 
 .admin-table thead th > * {
@@ -1434,12 +1459,24 @@ textarea {
 }
 
 .admin-table tbody td {
-  height: 68px;
   color: var(--admin-text);
 }
 
 .admin-table tbody tr:last-child td {
   border-bottom: 0;
+}
+
+.admin-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.admin-table tbody tr:hover {
+  background: color-mix(in srgb, var(--admin-surface) 50%, transparent);
+}
+
+.admin-table th.is-actions,
+.admin-actions-cell {
+  text-align: right;
 }
 
 .admin-empty-cell {
@@ -1448,32 +1485,59 @@ textarea {
   font-size: 14px;
 }
 
-.admin-action-btn {
-  width: 32px;
-  height: 32px;
-  margin: 0 auto;
-  border-radius: 6px;
-  color: var(--admin-icon);
+.admin-actions-cell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.admin-row-action {
+  min-height: 36px;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  background: var(--admin-surface-alt);
+  color: var(--admin-text);
+  padding: 0 12px;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 6px;
+  font-size: 13px;
+  line-height: var(--lh-ui);
+  cursor: pointer;
+}
+
+.admin-row-action.is-danger {
+  color: color-mix(in srgb, #ff5f5f 78%, var(--admin-text));
+  border-color: color-mix(in srgb, #ff7e7e 40%, var(--admin-border));
+}
+
+.admin-row-action:disabled {
+  opacity: 0.68;
+  cursor: not-allowed;
 }
 
 .admin-form {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  max-width: 1120px;
+  width: 100%;
 }
 
 .admin-form-section {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--admin-surface) 85%, transparent);
+  padding: 18px;
 }
 
 .admin-form-section h2 {
   margin: 0;
-  font-size: 36px;
+  font-size: 30px;
   line-height: var(--lh-tight);
   letter-spacing: -0.02em;
 }
@@ -1493,12 +1557,12 @@ textarea {
 }
 
 .admin-field {
-  min-height: 100px;
+  min-height: 76px;
   border: 1px solid var(--admin-border);
   border-radius: 10px;
   background: var(--admin-surface-alt);
   color: var(--admin-text-2);
-  padding: 14px 20px;
+  padding: 12px 16px;
   display: flex;
   align-items: center;
   position: relative;
@@ -1519,7 +1583,7 @@ textarea {
 }
 
 .admin-field textarea {
-  min-height: 56px;
+  min-height: 50px;
 }
 
 .admin-field select {
@@ -1547,6 +1611,10 @@ textarea {
   gap: 16px;
 }
 
+.admin-form-actions.is-edit {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .admin-feedback {
   margin: 0;
   color: var(--admin-text-2);
@@ -1562,6 +1630,18 @@ textarea {
   color: var(--admin-primary);
 }
 
+.admin-auth-loading {
+  min-height: 48vh;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: var(--admin-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--admin-text-2);
+  font-size: 14px;
+}
+
 @media (max-width: 1200px) {
   .admin-filter-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1569,6 +1649,10 @@ textarea {
 
   .admin-filter-actions {
     grid-column: span 2;
+  }
+
+  .admin-form {
+    max-width: 100%;
   }
 }
 
@@ -1612,7 +1696,7 @@ textarea {
   }
 
   .admin-header-brand {
-    font-size: 15px;
+    font-size: 18px;
   }
 
   .admin-header-link {
@@ -1650,17 +1734,30 @@ textarea {
     min-height: 54px;
   }
 
+  .admin-danger-btn {
+    min-height: 54px;
+  }
+
   .admin-form-grid.two-col {
     grid-template-columns: 1fr;
   }
 
   .admin-field {
-    min-height: 76px;
+    min-height: 70px;
     padding: 12px 14px;
   }
 
   .admin-form-actions {
     grid-template-columns: 1fr;
+  }
+
+  .admin-actions-cell {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-row-action {
+    justify-content: center;
   }
 
   .samfer-app {

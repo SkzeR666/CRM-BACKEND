@@ -9,16 +9,19 @@ type ThemeToggleProps = {
   iconSize?: number;
 };
 
-function getInitialTheme() {
-  if (typeof document === "undefined") {
-    return false;
-  }
+function getInitialDarkState() {
+  if (typeof window === "undefined") return false;
 
-  return document.documentElement.classList.contains("dark");
+  const savedTheme = window.localStorage.getItem("theme");
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const shouldUseDark = savedTheme ? savedTheme === "dark" : prefersDark;
+
+  document.documentElement.classList.toggle("dark", shouldUseDark);
+  return shouldUseDark;
 }
 
 export function ThemeToggle({ className, iconSize = 18 }: ThemeToggleProps) {
-  const [isDark, setIsDark] = useState(getInitialTheme);
+  const [isDark, setIsDark] = useState(getInitialDarkState);
 
   function handleToggle() {
     const nextDark = !isDark;

@@ -1,12 +1,26 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
+import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 type AdminHeaderProps = {
   backHref?: string;
   backLabel?: string;
+  showLogout?: boolean;
 };
 
-export function AdminHeader({ backHref, backLabel }: AdminHeaderProps) {
+export function AdminHeader({ backHref, backLabel, showLogout = true }: AdminHeaderProps) {
+  const router = useRouter();
+
+  async function handleLogout() {
+    const supabase = getSupabaseBrowserClient();
+    await supabase.auth.signOut();
+    router.replace("/admin/login");
+    router.refresh();
+  }
+
   return (
     <header className="admin-header">
       <div className="admin-header-shell">
@@ -25,9 +39,11 @@ export function AdminHeader({ backHref, backLabel }: AdminHeaderProps) {
           <Link href="/imoveis" className="admin-header-link" target="_blank" rel="noreferrer">
             Ver site
           </Link>
-          <Link href="/admin/login" className="admin-header-link">
-            Chave API
-          </Link>
+          {showLogout ? (
+            <button type="button" className="admin-header-link" onClick={handleLogout}>
+              Sair
+            </button>
+          ) : null}
           <ThemeToggle />
         </div>
       </div>

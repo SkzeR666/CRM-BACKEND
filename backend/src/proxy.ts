@@ -10,7 +10,7 @@ function normalizeOrigin(origin: string) {
 function applyCorsHeaders(response: NextResponse, origin: string) {
   response.headers.set("Access-Control-Allow-Origin", origin);
   response.headers.set("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE,OPTIONS");
-  response.headers.set("Access-Control-Allow-Headers", "Content-Type,Authorization,x-admin-key");
+  response.headers.set("Access-Control-Allow-Headers", "Content-Type,Authorization");
   response.headers.set("Access-Control-Allow-Credentials", "true");
   response.headers.set("Vary", "Origin");
   return response;

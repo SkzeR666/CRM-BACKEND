@@ -1,15 +1,21 @@
 import { AdminHeader } from "@/components/shared/admin-header";
 import { AdminAuthGuard } from "@/components/shared/admin-auth-guard";
-import { PropertyFormLocal } from "./property-form";
+import { PropertyFormLocal } from "../novo/property-form";
 
-export default function AdminNewPropertyPage() {
+type Props = {
+  params: Promise<{ id: string }> | { id: string };
+};
+
+export default async function AdminEditPropertyPage({ params }: Props) {
+  const resolved = await params;
+
   return (
     <AdminAuthGuard>
       <div className="admin-app">
         <div className="admin-shell">
           <AdminHeader backHref="/admin/imoveis" backLabel="Voltar para lista" />
           <main className="admin-content">
-            <PropertyFormLocal />
+            <PropertyFormLocal projectId={resolved.id} />
           </main>
         </div>
       </div>

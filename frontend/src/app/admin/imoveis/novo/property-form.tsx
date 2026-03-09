@@ -1,11 +1,11 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronDown, Link2 } from "lucide-react";
-import { createProject } from "@/lib/api/projects";
-
-const ADMIN_KEY_STORAGE = "crm_admin_api_key";
+import { ChevronDown, Link2, Trash2 } from "lucide-react";
+import { createProject, deleteProject, getProjectById, updateProject } from "@/lib/api/projects";
+import { getAdminAccessToken } from "@/lib/admin-auth";
+import type { Project } from "@/types/project";
 
 function slugify(value: string) {
   return value
@@ -96,17 +96,70 @@ const integerOptions = Array.from({ length: 9 }, (_, index) => {
   return { value, label: value };
 });
 
-export function PropertyFormLocal() {
+function projectToFormValues(project: Project): FormValues {
+  return {
+    title: project.title || "",
+    slug: project.slug || "",
+    description: project.description || "",
+    status: String(project.status || "available"),
+    type: project.type || "",
+    city: project.city || "",
+    state: project.state || "",
+    neighborhood: project.neighborhood || "",
+    price: typeof project.price === "number" ? String(project.price) : "",
+    area_m2: typeof project.area_m2 === "number" ? String(project.area_m2) : "",
+    bathrooms: typeof project.bathrooms === "number" ? String(project.bathrooms) : "",
+    bedrooms: typeof project.bedrooms === "number" ? String(project.bedrooms) : "",
+    parking_spots: typeof project.parking_spots === "number" ? String(project.parking_spots) : "",
+    suites: typeof project.suites === "number" ? String(project.suites) : "",
+    cover_image: project.cover_image || "",
+    gallery: Array.isArray(project.gallery) ? project.gallery.join("\n") : "",
+    is_featured: project.is_featured ? "true" : "false",
+  };
+}
+
+type Props = {
+  projectId?: string;
+};
+
+export function PropertyFormLocal({ projectId }: Props) {
   const router = useRouter();
+  const isEditMode = Boolean(projectId);
   const [values, setValues] = useState<FormValues>(initialValues);
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingProject, setIsLoadingProject] = useState(isEditMode);
 
   const finalSlug = useMemo(
     () => (values.slug ? slugify(values.slug) : slugify(values.title)),
     [values.slug, values.title],
   );
+
+  useEffect(() => {
+    if (!projectId) return;
+    let cancelled = false;
+
+    setIsLoadingProject(true);
+    getProjectById(projectId)
+      .then((project) => {
+        if (!project || cancelled) return;
+        setValues(projectToFormValues(project));
+      })
+      .catch((loadError) => {
+        if (cancelled) return;
+        setIsError(true);
+        setMessage(loadError instanceof Error ? loadError.message : "Falha ao carregar imovel.");
+      })
+      .finally(() => {
+        if (cancelled) return;
+        setIsLoadingProject(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [projectId]);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -115,43 +168,76 @@ export function PropertyFormLocal() {
     setIsLoading(true);
 
     try {
-      const adminKey = window.localStorage.getItem(ADMIN_KEY_STORAGE) ?? undefined;
+      const accessToken = await getAdminAccessToken();
+      if (!accessToken) throw new Error("Sessao expirada. Faca login novamente.");
+
       const gallery = values.gallery
         .split("\n")
         .map((item) => item.trim())
         .filter(Boolean);
 
-      await createProject(
-        {
-          slug: finalSlug,
-          title: values.title.trim(),
-          description: normalizeText(values.description),
-          city: normalizeText(values.city),
-          state: normalizeText(values.state),
-          neighborhood: normalizeText(values.neighborhood),
-          type: normalizeText(values.type),
-          status: normalizeText(values.status),
-          price: toNumberOrUndefined(values.price),
-          area_m2: toNumberOrUndefined(values.area_m2),
-          bathrooms: toIntegerOrUndefined(values.bathrooms),
-          bedrooms: toIntegerOrUndefined(values.bedrooms),
-          parking_spots: toIntegerOrUndefined(values.parking_spots),
-          suites: toIntegerOrUndefined(values.suites),
-          cover_image: normalizeText(values.cover_image),
-          gallery: gallery.length ? gallery : undefined,
-          is_featured: values.is_featured === "true",
-        },
-        { adminKey },
-      );
+      const payload = {
+        slug: finalSlug,
+        title: values.title.trim(),
+        description: normalizeText(values.description),
+        city: normalizeText(values.city),
+        state: normalizeText(values.state),
+        neighborhood: normalizeText(values.neighborhood),
+        type: normalizeText(values.type),
+        status: normalizeText(values.status),
+        price: toNumberOrUndefined(values.price),
+        area_m2: toNumberOrUndefined(values.area_m2),
+        bathrooms: toIntegerOrUndefined(values.bathrooms),
+        bedrooms: toIntegerOrUndefined(values.bedrooms),
+        parking_spots: toIntegerOrUndefined(values.parking_spots),
+        suites: toIntegerOrUndefined(values.suites),
+        cover_image: normalizeText(values.cover_image),
+        gallery: gallery.length ? gallery : undefined,
+        is_featured: values.is_featured === "true",
+      };
 
-      setValues(initialValues);
-      setMessage("Imovel criado com sucesso.");
+      if (projectId) {
+        await updateProject(projectId, payload, { accessToken });
+        setMessage("Imovel atualizado com sucesso.");
+      } else {
+        await createProject(payload, { accessToken });
+        setValues(initialValues);
+        setMessage("Imovel criado com sucesso.");
+      }
     } catch (error) {
       setIsError(true);
-      setMessage(error instanceof Error ? error.message : "Erro ao criar imovel.");
+      setMessage(error instanceof Error ? error.message : "Falha ao salvar imovel.");
     } finally {
       setIsLoading(false);
     }
+  }
+
+  async function handleDelete() {
+    if (!projectId) return;
+    const confirmDelete = window.confirm("Excluir este imovel?");
+    if (!confirmDelete) return;
+
+    try {
+      setIsLoading(true);
+      const accessToken = await getAdminAccessToken();
+      if (!accessToken) throw new Error("Sessao expirada. Faca login novamente.");
+
+      await deleteProject(projectId, { accessToken });
+      router.push("/admin/imoveis");
+      router.refresh();
+    } catch (error) {
+      setIsError(true);
+      setMessage(error instanceof Error ? error.message : "Falha ao excluir imovel.");
+      setIsLoading(false);
+    }
+  }
+
+  if (isLoadingProject) {
+    return (
+      <div className="admin-auth-loading">
+        <p>Carregando dados do imovel...</p>
+      </div>
+    );
   }
 
   return (
@@ -402,13 +488,19 @@ export function PropertyFormLocal() {
         </div>
       </section>
 
-      <div className="admin-form-actions">
+      <div className={`admin-form-actions ${isEditMode ? "is-edit" : ""}`}>
         <button type="button" className="admin-secondary-btn is-large" onClick={() => router.push("/admin/imoveis")}>
           Voltar
         </button>
         <button type="submit" className="admin-primary-btn is-large" disabled={isLoading || !finalSlug}>
-          {isLoading ? "Salvando..." : "Salvar imovel"}
+          {isLoading ? "Salvando..." : isEditMode ? "Salvar alteracoes" : "Salvar imovel"}
         </button>
+        {isEditMode ? (
+          <button type="button" className="admin-danger-btn is-large" onClick={handleDelete} disabled={isLoading}>
+            <Trash2 size={16} />
+            Excluir imovel
+          </button>
+        ) : null}
       </div>
 
       <p className="admin-feedback">Slug final: {finalSlug || "-"}</p>

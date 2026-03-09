@@ -19,17 +19,13 @@ type ListOptions = {
   limit?: number;
 };
 
-type CreateOptions = {
-  adminKey?: string;
+type AuthOptions = {
+  accessToken?: string;
 };
 
-type UpdateOptions = {
-  adminKey?: string;
-};
-
-type DeleteOptions = {
-  adminKey?: string;
-};
+function authHeaders(accessToken?: string) {
+  return accessToken ? { Authorization: `Bearer ${accessToken}` } : undefined;
+}
 
 export async function listProjects(options: ListOptions = {}) {
   try {
@@ -78,10 +74,10 @@ export async function getProjectById(id: string) {
   }
 }
 
-export async function createProject(payload: CreateProjectPayload, options: CreateOptions = {}) {
+export async function createProject(payload: CreateProjectPayload, options: AuthOptions = {}) {
   const data = await apiRequest<CreateProjectResponse>("/api/projects", {
     method: "POST",
-    headers: options.adminKey ? { "x-admin-key": options.adminKey } : undefined,
+    headers: authHeaders(options.accessToken),
     body: payload,
   });
 
@@ -91,20 +87,20 @@ export async function createProject(payload: CreateProjectPayload, options: Crea
 export async function updateProject(
   id: string,
   payload: UpdateProjectPayload,
-  options: UpdateOptions = {}
+  options: AuthOptions = {}
 ) {
   const data = await apiRequest<CreateProjectResponse>(`/api/projects/${id}`, {
     method: "PATCH",
-    headers: options.adminKey ? { "x-admin-key": options.adminKey } : undefined,
+    headers: authHeaders(options.accessToken),
     body: payload,
   });
 
   return data.project;
 }
 
-export async function deleteProject(id: string, options: DeleteOptions = {}) {
+export async function deleteProject(id: string, options: AuthOptions = {}) {
   return apiRequest<{ ok: boolean }>(`/api/projects/${id}`, {
     method: "DELETE",
-    headers: options.adminKey ? { "x-admin-key": options.adminKey } : undefined,
+    headers: authHeaders(options.accessToken),
   });
 }

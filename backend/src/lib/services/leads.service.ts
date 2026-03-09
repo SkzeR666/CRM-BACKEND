@@ -6,41 +6,36 @@ function normalizeLeadStatus(status?: string) {
   if (!status) return undefined;
 
   const value = status.trim().toLowerCase();
-  if (!value) return undefined;
-
-  const aliases: Record<string, string> = {
-    new: "novo",
-    novo: "novo",
-    open: "novo",
-  };
-
-  return aliases[value] ?? value;
+  return value || undefined;
 }
 
 export async function createLead(input: unknown) {
   assertSupabaseAdminEnv();
   const data = CreateLeadSchema.parse(input);
-  const status = normalizeLeadStatus(data.status) ?? "novo";
+  const status = normalizeLeadStatus(data.status);
+
+  const payload: Record<string, unknown> = {
+    name: data.name,
+    phone: data.phone,
+    email: data.email ?? null,
+    city: data.city ?? null,
+    income: data.income ?? null,
+    source: data.source ?? "site",
+    interested_project_id: data.interested_project_id ?? null,
+    next_step: data.next_step ?? null,
+    next_step_at: data.next_step_at ?? null,
+    utm_source: data.utm_source ?? null,
+    utm_medium: data.utm_medium ?? null,
+    utm_campaign: data.utm_campaign ?? null,
+    utm_content: data.utm_content ?? null,
+    utm_term: data.utm_term ?? null,
+  };
+
+  if (status) payload.status = status;
 
   const { data: created, error } = await supabaseAdmin
     .from("leads")
-    .insert({
-      name: data.name,
-      phone: data.phone,
-      email: data.email ?? null,
-      city: data.city ?? null,
-      income: data.income ?? null,
-      source: data.source ?? "site",
-      status,
-      interested_project_id: data.interested_project_id ?? null,
-      next_step: data.next_step ?? null,
-      next_step_at: data.next_step_at ?? null,
-      utm_source: data.utm_source ?? null,
-      utm_medium: data.utm_medium ?? null,
-      utm_campaign: data.utm_campaign ?? null,
-      utm_content: data.utm_content ?? null,
-      utm_term: data.utm_term ?? null,
-    })
+    .insert(payload)
     .select("*")
     .single();
 

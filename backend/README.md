@@ -45,9 +45,8 @@ npm run dev
 
 ## Auth admin
 
-- Em desenvolvimento, `x-admin-key` pode ser usado com `ADMIN_API_KEY`.
-- Em producao, rotas admin exigem usuario autenticado via Supabase.
-- Opcional: `ALLOW_ADMIN_KEY_IN_PRODUCTION=true` libera `x-admin-key` tambem em producao.
+- Rotas admin exigem usuario autenticado via Supabase.
+- O backend aceita sessao via cookie Supabase (mesmo dominio) ou `Authorization: Bearer <access_token>`.
 
 ## Deploy (Vercel)
 
@@ -58,8 +57,6 @@ Variaveis obrigatorias:
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
-- `ADMIN_API_KEY`
-- `ALLOW_ADMIN_KEY_IN_PRODUCTION` (`false` por padrao)
 - `FRONTEND_ORIGIN` (aceita lista separada por virgula)
 
 ## Supabase: confirmacao por codigo
