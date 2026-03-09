@@ -1428,7 +1428,7 @@ textarea {
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
-  padding: 20px 18px 32px;
+  padding: 0 18px 32px;
 }
 
 .admin-shell {
@@ -1436,7 +1436,7 @@ textarea {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 18px;
 }
 
 .admin-header {
@@ -1465,7 +1465,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 18px;
   box-shadow: none;
   transition: min-height 0.35s cubic-bezier(0.22, 1, 0.36, 1), padding 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -1483,24 +1483,15 @@ textarea {
   align-items: stretch;
   gap: 12px;
   width: auto;
-}
-
-.admin-header-tabs {
-  width: 100%;
-  margin: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  padding: 0 max(18px, calc((100vw - 1440px) / 2)) 12px;
-  position: relative;
-  z-index: 1;
-  transition: padding 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  flex: 1 1 auto;
+  justify-content: center;
+  min-width: 0;
 }
 
 .admin-header-tab {
   min-height: var(--header-control-size);
   width: auto;
-  min-width: 150px;
+  min-width: 132px;
   border-radius: 5px;
   border: 1px solid var(--border);
   background: var(--surface);
@@ -1529,7 +1520,7 @@ textarea {
 }
 
 .admin-header.is-scrolled .admin-header-shell,
-.admin-header.is-scrolled .admin-header-tabs {
+.admin-header.is-scrolled {
   width: 100%;
   border-radius: 0;
 }
@@ -1537,6 +1528,10 @@ textarea {
 .admin-header.is-scrolled .admin-header-shell {
   min-height: 84px;
   padding: 10px max(18px, calc((100vw - 1440px) / 2));
+}
+
+.admin-header-spacer {
+  flex: 1 1 auto;
 }
 
 .admin-header-brand {
@@ -2554,27 +2549,19 @@ textarea {
   }
 
   .admin-header-shell {
-    min-height: 72px;
-    height: 72px;
+    min-height: auto;
+    height: auto;
     width: 100%;
     margin: 0;
     border-radius: 0 !important;
     border-left: 0;
     border-right: 0;
     border-bottom: 0;
-    padding: 10px 12px;
-    flex-wrap: nowrap;
-    gap: 8px;
-  }
-
-  .admin-header-tabs {
-    width: 100%;
-    margin: 0;
-    border-radius: 0 !important;
-    border-left: 0;
-    border-right: 0;
-    border-top: 0;
-    padding: 8px 10px 10px;
+    padding: 10px 12px 12px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
   }
 
   .admin-content {
@@ -2583,15 +2570,28 @@ textarea {
 
   .admin-header-left {
     flex-wrap: nowrap;
-    flex: 1 1 0;
+    flex: 1 1 auto;
     min-width: 0;
+    grid-column: 1;
+  }
+
+  .admin-header-actions {
+    grid-column: 2;
+    justify-self: end;
+  }
+
+  .admin-header-spacer {
+    display: none;
   }
 
   .admin-header-nav {
+    grid-column: 1 / -1;
     width: 100%;
     min-width: 0;
-    flex-shrink: 0;
-    overflow: visible;
+    flex-shrink: 1;
+    justify-content: stretch;
+    gap: 10px;
+    overflow: hidden;
     scrollbar-width: none;
   }
 
@@ -2614,8 +2614,10 @@ textarea {
   }
 
   .admin-header-tab {
-    min-height: 48px;
+    min-height: 44px;
     font-size: 12px;
+    min-width: 0;
+    flex: 1 1 0;
     white-space: nowrap;
   }
 

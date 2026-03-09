@@ -104,21 +104,7 @@ export function AdminHeader({
           </Link>
         </div>
 
-        <div className="admin-header-actions">
-          <Link href={withTheme("/", theme)} className="admin-header-link" target="_blank" rel="noreferrer">
-            Ver site
-          </Link>
-          {showLogout ? (
-            <button type="button" className="admin-header-link" onClick={handleLogout}>
-              Sair
-            </button>
-          ) : null}
-          <AdminThemeToggle theme={theme} />
-        </div>
-      </div>
-
-      {showNav ? (
-        <div className="admin-header-tabs">
+        {showNav ? (
           <nav className="admin-header-nav" aria-label="Navegação do admin">
             <Link
               href={withTheme("/admin/imoveis", theme)}
@@ -133,8 +119,22 @@ export function AdminHeader({
               Leads
             </Link>
           </nav>
+        ) : (
+          <div className="admin-header-spacer" aria-hidden />
+        )}
+
+        <div className="admin-header-actions">
+          <Link href={withTheme("/", theme)} className="admin-header-link" target="_blank" rel="noreferrer">
+            Ver site
+          </Link>
+          {showLogout ? (
+            <button type="button" className="admin-header-link" onClick={handleLogout}>
+              Sair
+            </button>
+          ) : null}
+          <AdminThemeToggle theme={theme} />
         </div>
-      ) : null}
+      </div>
     </header>
   );
 }
