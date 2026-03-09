@@ -6,6 +6,11 @@ export async function listProjects(params: {
   city?: string;
   status?: string;
   type?: string;
+  bedrooms?: number;
+  suites?: number;
+  parking_spots?: number;
+  min_price?: number;
+  max_price?: number;
   is_featured?: string;
   limit?: number;
 }) {
@@ -18,9 +23,14 @@ export async function listProjects(params: {
     .order("created_at", { ascending: false })
     .limit(limit);
 
-  if (params.city) query = query.eq("city", params.city);
+  if (params.city) query = query.ilike("city", `%${params.city}%`);
   if (params.status) query = query.eq("status", params.status);
-  if (params.type) query = query.eq("type", params.type);
+  if (params.type) query = query.ilike("type", `%${params.type}%`);
+  if (typeof params.bedrooms === "number") query = query.eq("bedrooms", params.bedrooms);
+  if (typeof params.suites === "number") query = query.eq("suites", params.suites);
+  if (typeof params.parking_spots === "number") query = query.eq("parking_spots", params.parking_spots);
+  if (typeof params.min_price === "number") query = query.gte("price", params.min_price);
+  if (typeof params.max_price === "number") query = query.lte("price", params.max_price);
   if (params.is_featured === "true") query = query.eq("is_featured", true);
   if (params.is_featured === "false") query = query.eq("is_featured", false);
 

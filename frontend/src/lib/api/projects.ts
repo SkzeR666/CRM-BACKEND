@@ -9,6 +9,11 @@ type ListOptions = {
   city?: string;
   status?: string;
   type?: string;
+  bedrooms?: number;
+  suites?: number;
+  parking_spots?: number;
+  min_price?: number;
+  max_price?: number;
   is_featured?: boolean;
   featured?: boolean;
   limit?: number;
@@ -36,6 +41,11 @@ export async function listProjects(options: ListOptions = {}) {
         city: options.city,
         status: options.status,
         type: options.type,
+        bedrooms: options.bedrooms,
+        suites: options.suites,
+        parking_spots: options.parking_spots,
+        min_price: options.min_price,
+        max_price: options.max_price,
         is_featured: featured,
         limit: options.limit,
       },

@@ -1,6 +1,12 @@
-const DEFAULT_API_BASE_URL = "http://localhost:4000";
+const DEFAULT_LOCAL_API_BASE_URL = "http://localhost:4000";
 
 export function getApiBaseUrl() {
-  const raw = process.env.NEXT_PUBLIC_API_BASE_URL ?? DEFAULT_API_BASE_URL;
-  return raw.replace(/\/+$/, "");
+  const explicit = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
+  if (explicit) return explicit.replace(/\/+$/, "");
+
+  if (process.env.NODE_ENV === "production") {
+    return "";
+  }
+
+  return DEFAULT_LOCAL_API_BASE_URL;
 }

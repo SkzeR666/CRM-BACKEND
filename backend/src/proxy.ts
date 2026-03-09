@@ -3,6 +3,10 @@ import type { NextRequest } from "next/server";
 
 const DEFAULT_ALLOWED_ORIGIN = "http://localhost:3000";
 
+function normalizeOrigin(origin: string) {
+  return origin.trim().replace(/\/+$/, "");
+}
+
 function applyCorsHeaders(response: NextResponse, origin: string) {
   response.headers.set("Access-Control-Allow-Origin", origin);
   response.headers.set("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE,OPTIONS");
@@ -15,13 +19,15 @@ function applyCorsHeaders(response: NextResponse, origin: string) {
 export function proxy(req: NextRequest) {
   const allowedOrigins = (process.env.FRONTEND_ORIGIN ?? DEFAULT_ALLOWED_ORIGIN)
     .split(",")
-    .map((v) => v.trim())
+    .map((v) => normalizeOrigin(v))
     .filter(Boolean);
 
-  const fallbackOrigin = allowedOrigins[0] ?? DEFAULT_ALLOWED_ORIGIN;
-  const requestOrigin = req.headers.get("origin");
+  const fallbackOrigin = allowedOrigins[0] ?? normalizeOrigin(DEFAULT_ALLOWED_ORIGIN);
+  const requestOriginRaw = req.headers.get("origin");
+  const requestOrigin = requestOriginRaw ? normalizeOrigin(requestOriginRaw) : null;
+
   const origin =
-    requestOrigin && allowedOrigins.includes(requestOrigin)
+    requestOrigin && (allowedOrigins.length === 0 || allowedOrigins.includes(requestOrigin))
       ? requestOrigin
       : fallbackOrigin;
 

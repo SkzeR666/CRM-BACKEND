@@ -11,6 +11,11 @@ export async function GET(req: Request) {
       searchParams.get("city") ?? searchParams.get("cidade") ?? undefined;
     const status = searchParams.get("status") ?? undefined;
     const type = searchParams.get("type") ?? undefined;
+    const bedrooms = parsePositiveInt(searchParams.get("bedrooms"), "bedrooms");
+    const suites = parsePositiveInt(searchParams.get("suites"), "suites");
+    const parking_spots = parsePositiveInt(searchParams.get("parking_spots"), "parking_spots");
+    const min_price = parsePositiveInt(searchParams.get("min_price"), "min_price");
+    const max_price = parsePositiveInt(searchParams.get("max_price"), "max_price");
     const is_featured =
       searchParams.get("is_featured") ??
       searchParams.get("featured") ??
@@ -26,6 +31,11 @@ export async function GET(req: Request) {
       city,
       status,
       type,
+      bedrooms,
+      suites,
+      parking_spots,
+      min_price,
+      max_price,
       is_featured,
       limit,
     });

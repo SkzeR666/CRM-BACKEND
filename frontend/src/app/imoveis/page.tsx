@@ -68,14 +68,16 @@ function toNumberOrNull(value?: string) {
   return Number.isNaN(parsed) ? null : parsed;
 }
 
-function inPriceRange(price: number | null | undefined, range?: string) {
-  if (!range) return true;
+function parsePriceRange(range?: string) {
+  if (!range) return {};
   const [minRaw, maxRaw] = range.split("-");
   const min = Number(minRaw);
   const max = Number(maxRaw);
-  if (Number.isNaN(min) || Number.isNaN(max)) return true;
-  if (typeof price !== "number") return false;
-  return price >= min && price <= max;
+
+  return {
+    min_price: Number.isNaN(min) ? undefined : min,
+    max_price: Number.isNaN(max) ? undefined : max,
+  };
 }
 
 function sortProjects(projects: Awaited<ReturnType<typeof listProjects>>["projects"], sort?: string) {
@@ -114,29 +116,25 @@ export default async function PropertiesPage({ searchParams }: Props) {
   const params = await searchParams;
   const theme = resolveTheme(params.theme);
   const currentPage = Math.max(1, Number(params.page || "1") || 1);
+  const suites = toNumberOrNull(params.suites);
+  const parkingSpots = toNumberOrNull(params.parkingSpots);
+  const bedrooms = toNumberOrNull(params.bedrooms);
+  const priceRange = parsePriceRange(params.priceRange);
 
   const serverResult = await listProjects({
     limit: 200,
     city: params.city,
     status: params.status,
     type: params.type,
+    suites: suites ?? undefined,
+    parking_spots: parkingSpots ?? undefined,
+    bedrooms: bedrooms ?? undefined,
+    min_price: priceRange.min_price,
+    max_price: priceRange.max_price,
   });
 
   const allOptionsResult = await listProjects({ limit: 200 });
-
-  const suites = toNumberOrNull(params.suites);
-  const parkingSpots = toNumberOrNull(params.parkingSpots);
-  const bedrooms = toNumberOrNull(params.bedrooms);
-
-  const filteredProjects = serverResult.projects.filter((project) => {
-    if (suites !== null && (project.suites ?? -1) !== suites) return false;
-    if (parkingSpots !== null && (project.parking_spots ?? -1) !== parkingSpots) return false;
-    if (bedrooms !== null && (project.bedrooms ?? -1) !== bedrooms) return false;
-    if (!inPriceRange(project.price, params.priceRange)) return false;
-    return true;
-  });
-
-  const projects = sortProjects(filteredProjects, params.sort);
+  const projects = sortProjects(serverResult.projects, params.sort);
   const totalPages = Math.max(1, Math.ceil(projects.length / PAGE_SIZE));
   const page = Math.min(currentPage, totalPages);
   const start = (page - 1) * PAGE_SIZE;
