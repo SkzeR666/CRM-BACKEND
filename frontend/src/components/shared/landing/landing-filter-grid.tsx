@@ -1,4 +1,4 @@
-import { ChevronDown } from "lucide-react";
+﻿import { ChevronDown } from "lucide-react";
 
 type LandingFilterGridProps = {
   cities: string[];
@@ -14,7 +14,7 @@ export function LandingFilterGrid({ cities }: LandingFilterGridProps) {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
         <div className="relative">
           <select name="city" defaultValue="" className={fieldClassName}>
-            <option value="">Regiao</option>
+            <option value="">Região</option>
             {cities.map((city) => (
               <option key={city} value={city}>{city}</option>
             ))}
@@ -33,8 +33,8 @@ export function LandingFilterGrid({ cities }: LandingFilterGridProps) {
 
         <div className="relative">
           <select name="price" defaultValue="" className={fieldClassName}>
-            <option value="">Preco de venda</option>
-            <option value="ate-300">Ate 300 mil</option>
+            <option value="">Preço de venda</option>
+            <option value="ate-300">Até 300 mil</option>
             <option value="300-600">300 mil a 600 mil</option>
             <option value="acima-600">Acima de 600 mil</option>
           </select>
@@ -43,10 +43,10 @@ export function LandingFilterGrid({ cities }: LandingFilterGridProps) {
 
         <div className="relative">
           <select name="suites" defaultValue="" className={fieldClassName}>
-            <option value="">Suites</option>
-            <option value="1">1 suite</option>
-            <option value="2">2 suites</option>
-            <option value="3">3+ suites</option>
+            <option value="">Suítes</option>
+            <option value="1">1 suíte</option>
+            <option value="2">2 suítes</option>
+            <option value="3">3+ suítes</option>
           </select>
           <ChevronDown size={16} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-icon" />
         </div>
@@ -64,7 +64,7 @@ export function LandingFilterGrid({ cities }: LandingFilterGridProps) {
         <div className="relative">
           <select name="status" defaultValue="" className={fieldClassName}>
             <option value="">Quartos</option>
-            <option value="available">Disponivel</option>
+            <option value="available">Disponível</option>
             <option value="reserved">Reservado</option>
             <option value="sold">Vendido</option>
           </select>
@@ -76,8 +76,9 @@ export function LandingFilterGrid({ cities }: LandingFilterGridProps) {
         type="submit"
         className="h-[80px] w-full rounded-[10px] bg-primary px-6 text-[16px] font-semibold text-primary-foreground transition hover:bg-primary-hover"
       >
-        Buscar Imoveis
+        Buscar Imóveis
       </button>
     </form>
   );
 }
+

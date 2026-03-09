@@ -1,4 +1,4 @@
-import type { Project } from "@/types/project";
+﻿import type { Project } from "@/types/project";
 import { PropertyCard } from "@/components/shared/property-card";
 
 type PropertiesGridProps = {
@@ -16,7 +16,7 @@ export function PropertiesGrid({ projects, error }: PropertiesGridProps) {
   if (projects.length === 0) {
     return (
       <p className="rounded-[10px] border border-border bg-surface p-5 text-sm text-muted-foreground">
-        Nenhum imovel encontrado para os filtros selecionados.
+        Nenhum imóvel encontrado para os filtros selecionados.
       </p>
     );
   }
@@ -30,3 +30,4 @@ export function PropertiesGrid({ projects, error }: PropertiesGridProps) {
     </div>
   );
 }
+

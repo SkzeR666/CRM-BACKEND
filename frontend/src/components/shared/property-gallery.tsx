@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 type PropertyGalleryProps = {
   images?: string[] | null;
   title: string;
@@ -9,7 +9,7 @@ export function PropertyGallery({ images, title }: PropertyGalleryProps) {
     return (
       <section className="rounded-[10px] border border-border bg-surface p-5 md:p-6">
         <h2 className="text-xl font-semibold tracking-tight">Galeria</h2>
-        <p className="mt-2 text-sm text-muted-foreground">Sem imagens para este imovel.</p>
+        <p className="mt-2 text-sm text-muted-foreground">Sem imagens para este imóvel.</p>
       </section>
     );
   }

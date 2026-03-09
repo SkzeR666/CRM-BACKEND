@@ -44,7 +44,7 @@ export function LeadForm({ projectId, source }: LeadFormProps) {
         city: city || undefined,
         source: source ?? "frontend",
         interested_project_id: projectId,
-        next_step: "Aguardar contato comercial",
+        next_step: "Aguardar contato da equipe",
       };
 
       await apiRequest<{ lead: { id: string } }>("/api/leads", {
@@ -56,9 +56,9 @@ export function LeadForm({ projectId, source }: LeadFormProps) {
       setPhone("");
       setEmail("");
       setCity("");
-      setMessage("Contato enviado com sucesso.");
+      setMessage("Recebemos seu contato com sucesso. Em breve nossa equipe retornará.");
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Erro ao enviar contato.");
+      setError(submitError instanceof Error ? submitError.message : "Não foi possível enviar seu contato.");
     } finally {
       setLoading(false);
     }
@@ -74,10 +74,10 @@ export function LeadForm({ projectId, source }: LeadFormProps) {
         <Input label="Cidade" value={city} onChange={(event) => setCity(event.target.value)} />
       </div>
 
-      <Textarea label="Observacao" value="Interesse em atendimento comercial" readOnly />
+      <Textarea label="Observação" value="Interesse em atendimento consultivo" readOnly />
 
       <Button type="submit" variant="primary" disabled={loading} className="w-full md:w-auto">
-        {loading ? "Enviando..." : "Enviar contato"}
+        {loading ? "Enviando..." : "Quero falar com a equipe"}
       </Button>
 
       {message ? <p className="text-sm text-green-600">{message}</p> : null}

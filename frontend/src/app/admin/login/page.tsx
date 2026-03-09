@@ -25,7 +25,7 @@ export default async function AdminLoginPage({ searchParams }: Props) {
         <AdminHeader
           theme={theme}
           backHref="/"
-          backLabel="Voltar para site"
+          backLabel="Voltar ao site"
           showLogout={false}
           showNav={false}
         />
@@ -34,7 +34,7 @@ export default async function AdminLoginPage({ searchParams }: Props) {
             <h1>
               Acesso <span>administrativo</span>
             </h1>
-            <p>Entre com seu usuário do Supabase para gerenciar imóveis com segurança.</p>
+            <p>Acesse o painel para gerenciar imóveis e leads com segurança e agilidade.</p>
           </section>
           <Suspense fallback={<AdminLoginFallback />}>
             <AdminLoginFormLocal theme={theme} />

@@ -1,22 +1,22 @@
-import { FaqAccordion } from "@/components/shared/faq-accordion";
+﻿import { FaqAccordion } from "@/components/shared/faq-accordion";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 
 const items = [
   {
-    question: "Como posso agendar uma visita ao imovel?",
+    question: "Como posso agendar uma visita ao imóvel?",
     answer:
-      "Voce pode entrar em contato pelo WhatsApp ou pelo formulario da pagina. Nossa equipe organiza a visita conforme sua disponibilidade.",
+      "Você pode entrar em contato pelo WhatsApp ou pelo formulário da página. Nossa equipe organiza a visita conforme sua disponibilidade.",
   },
   {
-    question: "Voce ajuda com financiamento imobiliario?",
+    question: "Vocês ajudam com financiamento imobiliário?",
     answer:
-      "Sim. Nossa equipe orienta simulacoes, documentos e etapas para facilitar sua aprovacao.",
+      "Sim. Nossa equipe orienta simulações, documentação e etapas para facilitar sua aprovação.",
   },
   {
-    question: "Os imoveis anunciados estao atualizados?",
+    question: "Os imóveis anunciados estão atualizados?",
     answer:
-      "Sim. A listagem e alimentada por dados reais e recebe atualizacoes constantes de disponibilidade.",
+      "Sim. A listagem é alimentada por dados reais e recebe atualizações constantes de disponibilidade.",
   },
 ];
 

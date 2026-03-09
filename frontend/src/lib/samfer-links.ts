@@ -13,10 +13,10 @@ export function withThemeAndHash(pathname: string, hash: string, theme: SamferTh
 }
 
 export function buildContactMessage(project?: Project | null) {
-  if (!project) return "Ola! Quero falar com um especialista sobre um imovel da Samfer.";
+  if (!project) return "Olá! Quero conversar com a equipe da Samfer sobre um imóvel.";
 
   const location = [project.city, project.state].filter(Boolean).join(" - ");
-  return `Ola! Tenho interesse no imovel "${project.title}"${location ? ` em ${location}` : ""}.`;
+  return `Olá! Tenho interesse no imóvel "${project.title}"${location ? ` em ${location}` : ""}. Gostaria de mais informações.`;
 }
 
 export function buildWhatsAppLink(message: string, phone = DEFAULT_PHONE) {

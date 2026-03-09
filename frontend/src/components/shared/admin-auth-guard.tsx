@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -56,10 +56,11 @@ export function AdminAuthGuard({ children }: Props) {
   if (!hasEnv || isLoading || !isAuthenticated) {
     return (
       <div className="admin-auth-loading">
-        <p>{hasEnv ? "Validando sessao..." : "Configure o Supabase no frontend para acessar o admin."}</p>
+        <p>{hasEnv ? "Validando sessão..." : "Configure o Supabase no frontend para acessar o painel administrativo."}</p>
       </div>
     );
   }
 
   return <>{children}</>;
 }
+

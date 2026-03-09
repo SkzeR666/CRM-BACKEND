@@ -160,8 +160,8 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
 
             <MotionReveal delay={0.06}>
               <aside className="samfer-detail-cta">
-              <h3>Fale com um especialista</h3>
-              <p>Tire dúvidas e veja condições do imóvel</p>
+              <h3>Fale com nossa equipe</h3>
+              <p>Estamos aqui para apoiar sua decisão com clareza e segurança.</p>
               <Image src={samferImages.map} alt="Mapa da localização" width={900} height={420} sizes="(max-width: 860px) 100vw, 460px" />
               <div className="samfer-detail-cta-actions">
                 <SamferContactLink
@@ -170,7 +170,7 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
                   location="property_detail_whatsapp"
                   className="samfer-primary-btn"
                 >
-                  Falar com especialista
+                  Falar com nossa equipe
                 </SamferContactLink>
                 <SamferContactLink
                   href={mailtoHref}
@@ -185,7 +185,7 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
           </section>
 
           <section className="samfer-section" id="plantas">
-            <SectionTitle before="Plantas " highlight="disponiveis" />
+            <SectionTitle before="Plantas " highlight="disponíveis" />
             <MotionStagger className="samfer-floor-grid">
               {floorPlans.map((plan) => (
                 <MotionStaggerItem key={plan.title}>
@@ -219,7 +219,7 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
 
           {related.length ? (
             <section className="samfer-section" id="empreendimentos">
-              <SectionTitle before="Voce tambem " highlight="pode gostar" />
+              <SectionTitle before="Você também " highlight="pode gostar" />
               <MotionStagger className="samfer-card-grid">
                 {related.map((item, index) => (
                   <MotionStaggerItem key={item.id}>

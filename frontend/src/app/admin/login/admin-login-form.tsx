@@ -40,7 +40,7 @@ export function AdminLoginFormLocal({ theme }: Props) {
 
     try {
       if (!hasSupabaseClientEnv()) {
-        throw new Error("Supabase client env não configurado no frontend.");
+        throw new Error("Configuração do Supabase não encontrada no frontend.");
       }
 
       const supabase = getSupabaseBrowserClient();
@@ -55,7 +55,7 @@ export function AdminLoginFormLocal({ theme }: Props) {
       router.refresh();
     } catch (error) {
       setIsError(true);
-      setMessage(error instanceof Error ? error.message : "Falha no login.");
+      setMessage(error instanceof Error ? error.message : "Não foi possível concluir o login.");
     } finally {
       setIsLoading(false);
     }
@@ -67,14 +67,14 @@ export function AdminLoginFormLocal({ theme }: Props) {
         <h2>
           Login <span>admin</span>
         </h2>
-        <p className="admin-section-text">Use o mesmo login do Supabase que você cadastrou para o time administrador.</p>
+        <p className="admin-section-text">Use sua conta de administrador para gerenciar imóveis e leads com segurança.</p>
         <div className="admin-form-grid">
           <label className="admin-field">
             <span className="samfer-sr-only">Email</span>
             <input
               type="email"
               name="email"
-              placeholder="email"
+              placeholder="E-mail"
               autoComplete="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
@@ -87,7 +87,7 @@ export function AdminLoginFormLocal({ theme }: Props) {
             <input
               type="password"
               name="password"
-              placeholder="senha"
+              placeholder="Senha"
               autoComplete="current-password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
@@ -103,7 +103,7 @@ export function AdminLoginFormLocal({ theme }: Props) {
         </button>
       </div>
 
-      {!hasEnv ? <p className="admin-feedback is-error">Configure NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY.</p> : null}
+      {!hasEnv ? <p className="admin-feedback is-error">Configure as variáveis NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY.</p> : null}
       {message ? (
         <p className={`admin-feedback ${isError ? "is-error" : "is-success"}`}>{message}</p>
       ) : null}

@@ -122,13 +122,13 @@ export function AdminHeader({
           <nav className="admin-header-nav" aria-label="Navegação do admin">
             <Link
               href={withTheme("/admin/imoveis", theme)}
-              className={`admin-header-link ${section === "imoveis" ? "is-active" : ""}`}
+              className={`admin-header-tab ${section === "imoveis" ? "is-active" : ""}`}
             >
               Imóveis
             </Link>
             <Link
               href={withTheme("/admin/leads", theme)}
-              className={`admin-header-link ${section === "leads" ? "is-active" : ""}`}
+              className={`admin-header-tab ${section === "leads" ? "is-active" : ""}`}
             >
               Leads
             </Link>

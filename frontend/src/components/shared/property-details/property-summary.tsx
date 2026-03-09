@@ -1,4 +1,4 @@
-import { MapPin } from "lucide-react";
+﻿import { MapPin } from "lucide-react";
 import type { Project } from "@/types/project";
 import { formatPrice } from "@/lib/utils/format-price";
 import { Card } from "@/components/ui/card";
@@ -21,14 +21,14 @@ export function PropertySummary({ project }: PropertySummaryProps) {
         {/* AJUSTE: tamanho do titulo */}
         <h1 className="text-2xl font-semibold tracking-tight md:text-[34px]">{project.title}</h1>
         <p className="text-sm text-foreground-secondary md:text-base">
-          {project.description || "Descricao nao informada."}
+          {project.description || "Descrição não informada."}
         </p>
       </div>
 
       <div className="flex flex-wrap items-center gap-2 text-xs md:text-sm">
         <span className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-1 text-foreground-secondary">
           <MapPin size={14} />
-          {project.city || "Cidade nao informada"}
+          {project.city || "Cidade não informada"}
         </span>
         <span className="rounded-full border border-border px-3 py-1 text-foreground-secondary">
           {getStatusLabel(project.status)}

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Image from "next/image";
 import { Bath, BedDouble, CarFront } from "lucide-react";
 import type { Project } from "@/types/project";
@@ -53,10 +53,11 @@ export function LandingFeaturedCard({ project }: LandingFeaturedCardProps) {
             href={`/imoveis/${project.slug}`}
             className="inline-flex h-[56px] min-w-[220px] items-center justify-center rounded-[5px] bg-primary px-6 text-sm font-medium text-primary-foreground transition hover:bg-primary-hover"
           >
-            Ver detalhes do imovel
+            Ver detalhes do imóvel
           </Link>
         </div>
       </div>
     </article>
   );
 }
+

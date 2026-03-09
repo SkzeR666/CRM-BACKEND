@@ -1,4 +1,4 @@
-import type { Project } from "@/types/project";
+﻿import type { Project } from "@/types/project";
 import { LandingFeaturedCard } from "@/components/shared/landing/landing-featured-card";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
@@ -12,12 +12,12 @@ export function LandingFeatured({ projects }: LandingFeaturedProps) {
     <Section id="destaques" className="py-8">
       <Container className="animate-fade-up max-w-[1440px] space-y-6 px-3 anim-delay-1 md:px-0">
         <h2 className="text-center text-[28px] font-bold tracking-[-0.36px] text-foreground md:text-[36px]">
-          Imoveis em <span className="text-primary">destaque</span>
+          Imóveis em <span className="text-primary">destaque</span>
         </h2>
 
         {projects.length === 0 ? (
           <p className="rounded-[10px] border border-border bg-surface-alt p-6 text-center text-sm text-muted-foreground">
-            Nenhum destaque retornado pelo backend.
+            Nenhum imóvel em destaque disponível no momento.
           </p>
         ) : (
           <div className="grid gap-6 md:grid-cols-2">
@@ -30,3 +30,4 @@ export function LandingFeatured({ projects }: LandingFeaturedProps) {
     </Section>
   );
 }
+

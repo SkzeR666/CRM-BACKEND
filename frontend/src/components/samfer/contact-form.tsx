@@ -127,10 +127,10 @@ export function SamferContactForm({ projectId, source }: Props) {
       </label>
 
       <button type="submit" className="samfer-wide-cta" disabled={loading} aria-busy={loading}>
-        {loading ? "Enviando..." : "Enviar Email"}
+        {loading ? "Enviando..." : "Quero falar com a equipe"}
       </button>
       <span className="samfer-sr-only" aria-live="polite">
-        {loading ? "Enviando contato" : "Atendimento comercial para compra de imóvel"}
+        {loading ? "Enviando contato" : "Atendimento consultivo para compra do seu imóvel"}
       </span>
     </form>
   );

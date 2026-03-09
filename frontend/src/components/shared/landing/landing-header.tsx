@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 
 export function LandingHeader() {
@@ -8,7 +8,7 @@ export function LandingHeader() {
         <header className="animate-fade-up backdrop-blur-[7.5px]">
           <div className="flex h-[72px] items-center justify-between rounded-[10px] border border-border bg-[rgba(236,236,231,0.9)] px-4 md:h-[100px] md:px-[26px] dark:bg-[rgba(21,21,21,0.88)]">
             <Link href="/" className="text-[11px] font-semibold tracking-tight text-foreground md:text-[22px] md:tracking-[-0.22px]">
-              SAMFER IMOVEIS
+              SAMFER IMÓVEIS
             </Link>
 
             <div className="flex items-center gap-3">
@@ -16,7 +16,7 @@ export function LandingHeader() {
                 href="/#contato"
                 className="hidden h-[53px] items-center rounded-[5px] bg-primary px-6 text-[14px] font-medium text-primary-foreground transition hover:bg-primary-hover md:inline-flex"
               >
-                Falar com especialista
+                Falar com nossa equipe
               </Link>
               <ThemeToggle className="size-[40px] md:size-[53px]" iconSize={15} />
             </div>
@@ -28,3 +28,4 @@ export function LandingHeader() {
     </>
   );
 }
+

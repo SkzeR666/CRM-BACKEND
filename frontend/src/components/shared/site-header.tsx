@@ -31,7 +31,7 @@ export function SiteHeader() {
               href="/#contato"
               className="hidden h-[53px] items-center rounded-[5px] bg-primary px-6 text-sm font-medium text-primary-foreground transition hover:bg-primary-hover md:inline-flex"
             >
-              Falar com especialista
+              Falar com nossa equipe
             </Link>
             <ThemeToggle />
           </div>
@@ -40,3 +40,5 @@ export function SiteHeader() {
     </header>
   );
 }
+
+

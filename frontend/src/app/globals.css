@@ -1334,7 +1334,7 @@ textarea {
   width: 100%;
 }
 
-.admin-header-tabs .admin-header-link {
+.admin-header-tab {
   min-height: 64px;
   width: 100%;
   min-width: 0;
@@ -1348,9 +1348,18 @@ textarea {
   line-height: 1.2;
   text-align: center;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
-.admin-header-tabs .admin-header-link.is-active {
+.admin-header-tab:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+}
+
+.admin-header-tab.is-active {
   background: var(--primary);
   color: var(--on-primary);
   border-color: color-mix(in srgb, var(--primary) 70%, var(--border));
@@ -2263,6 +2272,12 @@ textarea {
     white-space: normal;
   }
 
+  .admin-header-tab {
+    min-height: 48px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
   .admin-theme-toggle {
     width: 40px;
     height: 40px;
@@ -2513,24 +2528,24 @@ textarea {
 
   .samfer-primary-btn,
   .samfer-secondary-btn {
-    height: 48px;
-    padding: 0 14px;
-    font-size: 12px;
+    height: 44px;
+    padding: 0 12px;
+    font-size: 11px;
     white-space: nowrap;
   }
 
   .samfer-icon-btn {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     flex-shrink: 0;
   }
 
   .samfer-contact-label-full {
-    display: none;
+    display: inline;
   }
 
   .samfer-contact-label-short {
-    display: inline;
+    display: none;
   }
 
   .samfer-hero {
