@@ -8,6 +8,7 @@ import { PropertyCard } from "@/components/samfer/property-card";
 import { SectionTitle } from "@/components/samfer/section-title";
 import { SamferSubmitButton } from "@/components/samfer/submit-button";
 import { SamferMobileFilterOverlay } from "@/components/samfer/mobile-filter-overlay";
+import { SamferFilterSelect } from "@/components/samfer/filter-select";
 import { FILTER_LABELS, PRICE_RANGE_OPTIONS, SORT_OPTIONS, getPriceRangeLabel } from "@/components/samfer/texts";
 import { JsonLd } from "@/components/seo/json-ld";
 import { buildBreadcrumbJsonLd, buildWebsiteJsonLd, createPageMetadata, toAbsoluteUrl } from "@/lib/seo";
@@ -223,59 +224,47 @@ export default async function PropertiesPage({ searchParams }: Props) {
               <form className="samfer-filter-grid samfer-animate" method="GET" action="/imoveis">
                 <input type="hidden" name="theme" value={theme} />
 
-                <label className="samfer-select-card">
-                  <select name="city" defaultValue={params.city ?? ""}>
-                    <option value="">Região</option>
-                    {cityOptions.map((city) => (
-                      <option key={city} value={String(city)}>{city}</option>
-                    ))}
-                  </select>
-                </label>
+                <SamferFilterSelect
+                  name="city"
+                  placeholder="Região"
+                  defaultValue={params.city ?? ""}
+                  options={cityOptions.map((city) => ({ value: String(city), label: String(city) }))}
+                />
 
-                <label className="samfer-select-card">
-                  <select name="type" defaultValue={params.type ?? ""}>
-                    <option value="">Tipo</option>
-                    {typeOptions.map((type) => (
-                      <option key={type} value={String(type)}>{type}</option>
-                    ))}
-                  </select>
-                </label>
+                <SamferFilterSelect
+                  name="type"
+                  placeholder="Tipo"
+                  defaultValue={params.type ?? ""}
+                  options={typeOptions.map((type) => ({ value: String(type), label: String(type) }))}
+                />
 
-                <label className="samfer-select-card">
-                  <select name="priceRange" defaultValue={params.priceRange ?? ""}>
-                    <option value="">Preço de venda</option>
-                    {PRICE_RANGE_OPTIONS.map((option) => (
-                      <option key={option.value} value={option.value}>{option.label}</option>
-                    ))}
-                  </select>
-                </label>
+                <SamferFilterSelect
+                  name="priceRange"
+                  placeholder="Preço de venda"
+                  defaultValue={params.priceRange ?? ""}
+                  options={PRICE_RANGE_OPTIONS.map((option) => ({ value: option.value, label: option.label }))}
+                />
 
-                <label className="samfer-select-card">
-                  <select name="suites" defaultValue={params.suites ?? ""}>
-                    <option value="">Suítes</option>
-                    {suiteOptions.map((value) => (
-                      <option key={value} value={String(value)}>{value}</option>
-                    ))}
-                  </select>
-                </label>
+                <SamferFilterSelect
+                  name="suites"
+                  placeholder="Suítes"
+                  defaultValue={params.suites ?? ""}
+                  options={suiteOptions.map((value) => ({ value: String(value), label: String(value) }))}
+                />
 
-                <label className="samfer-select-card">
-                  <select name="parkingSpots" defaultValue={params.parkingSpots ?? ""}>
-                    <option value="">Vagas</option>
-                    {parkingOptions.map((value) => (
-                      <option key={value} value={String(value)}>{value}</option>
-                    ))}
-                  </select>
-                </label>
+                <SamferFilterSelect
+                  name="parkingSpots"
+                  placeholder="Vagas"
+                  defaultValue={params.parkingSpots ?? ""}
+                  options={parkingOptions.map((value) => ({ value: String(value), label: String(value) }))}
+                />
 
-                <label className="samfer-select-card">
-                  <select name="bedrooms" defaultValue={params.bedrooms ?? ""}>
-                    <option value="">Quartos</option>
-                    {bedroomOptions.map((value) => (
-                      <option key={value} value={String(value)}>{value}</option>
-                    ))}
-                  </select>
-                </label>
+                <SamferFilterSelect
+                  name="bedrooms"
+                  placeholder="Quartos"
+                  defaultValue={params.bedrooms ?? ""}
+                  options={bedroomOptions.map((value) => ({ value: String(value), label: String(value) }))}
+                />
 
                 <SamferSubmitButton className="samfer-wide-cta samfer-grid-span" defaultLabel="Buscar imóveis" loadingLabel="Aplicando filtros..." />
               </form>

@@ -1,5 +1,4 @@
 ﻿import { Suspense } from "react";
-import { AdminHeader } from "@/components/shared/admin-header";
 import { AdminLoginFormLocal } from "./admin-login-form";
 import { resolveTheme } from "@/lib/utils/theme";
 
@@ -20,28 +19,12 @@ export default async function AdminLoginPage({ searchParams }: Props) {
   const theme = resolveTheme(params.theme);
 
   return (
-    <div className={`admin-app ${theme === "dark" ? "is-dark" : ""}`}>
-      <div className="admin-shell">
-        <AdminHeader
-          theme={theme}
-          backHref="/"
-          backLabel="Voltar ao site"
-          showLogout={false}
-          showNav={false}
-        />
-        <main className="admin-content">
-          <section className="admin-title-block samfer-animate">
-            <h1>
-              Acesso <span>administrativo</span>
-            </h1>
-            <p>Acesse o painel para gerenciar imóveis e leads com segurança e agilidade.</p>
-          </section>
-          <Suspense fallback={<AdminLoginFallback />}>
-            <AdminLoginFormLocal theme={theme} />
-          </Suspense>
-        </main>
+    <div className={`admin-app admin-login-page ${theme === "dark" ? "is-dark" : ""}`}>
+      <div className="admin-login-shell">
+        <Suspense fallback={<AdminLoginFallback />}>
+          <AdminLoginFormLocal theme={theme} />
+        </Suspense>
       </div>
     </div>
   );
 }
-

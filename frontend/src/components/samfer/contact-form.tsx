@@ -76,9 +76,10 @@ export function SamferContactForm({ projectId, source }: Props) {
   return (
     <form className="samfer-contact-grid samfer-animate" onSubmit={handleSubmit}>
       <label className="samfer-input-card no-icon">
-        <span>Nome completo *</span>
+        <span className="samfer-sr-only">Nome completo *</span>
         <input
           name="name"
+          placeholder="Nome completo *"
           autoComplete="name"
           value={name}
           onChange={(event) => setName(event.target.value)}
@@ -86,9 +87,10 @@ export function SamferContactForm({ projectId, source }: Props) {
         />
       </label>
       <label className="samfer-input-card no-icon">
-        <span>Telefone *</span>
+        <span className="samfer-sr-only">Telefone *</span>
         <input
           name="phone"
+          placeholder="Telefone *"
           autoComplete="tel"
           value={phone}
           onChange={(event) => setPhone(event.target.value)}
@@ -96,26 +98,28 @@ export function SamferContactForm({ projectId, source }: Props) {
         />
       </label>
       <label className="samfer-input-card no-icon">
-        <span>Email</span>
+        <span className="samfer-sr-only">E-mail</span>
         <input
           name="email"
           type="email"
+          placeholder="E-mail"
           autoComplete="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
         />
       </label>
       <label className="samfer-input-card no-icon">
-        <span>Assunto</span>
+        <span className="samfer-sr-only">Assunto</span>
         <input
           name="subject"
+          placeholder="Assunto"
           value={subject}
           onChange={(event) => setSubject(event.target.value)}
           maxLength={120}
         />
       </label>
       <label className="samfer-input-card no-icon samfer-contact-message">
-        <span>Mensagem</span>
+        <span className="samfer-sr-only">Mensagem</span>
         <textarea
           name="message"
           value={messageText}

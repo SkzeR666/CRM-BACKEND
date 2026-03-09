@@ -6,7 +6,7 @@ export function LandingHeader() {
     <>
       <div className="fixed left-1/2 top-4 z-50 w-[calc(100%-24px)] max-w-[1440px] -translate-x-1/2 md:top-8 md:w-[calc(100%-64px)]">
         <header className="animate-fade-up backdrop-blur-[7.5px]">
-          <div className="flex h-[72px] items-center justify-between rounded-[10px] border border-border bg-[rgba(236,236,231,0.9)] px-4 md:h-[100px] md:px-[26px] dark:bg-[rgba(21,21,21,0.88)]">
+          <div className="flex h-[72px] items-center justify-between rounded-[10px] border border-border bg-surface-alt px-4 md:h-[100px] md:px-[26px]">
             <Link href="/" className="text-[11px] font-semibold tracking-tight text-foreground md:text-[22px] md:tracking-[-0.22px]">
               SAMFER IMÓVEIS
             </Link>
