@@ -249,7 +249,7 @@ export function AdminLeadsPageClient({ theme }: Props) {
                 <Search size={18} aria-hidden />
               </label>
 
-              <div className="admin-filter-actions">
+              <div className="admin-filter-actions is-toggle-group">
                 <button
                   type="button"
                   className={`admin-secondary-btn ${filters.view === "kanban" ? "is-active" : ""}`}
@@ -416,12 +416,61 @@ export function AdminLeadsPageClient({ theme }: Props) {
                         <td colSpan={5} className="admin-empty-cell">Nenhum lead encontrado.</td>
                       </tr>
                     )}
-                  </tbody>
-                </table>
-              </section>
-            )}
-          </main>
-        </div>
+                </tbody>
+              </table>
+
+              <div className="admin-mobile-list" role="list" aria-label="Lista de leads">
+                {isLoading ? (
+                  <article className="admin-mobile-card is-empty" role="listitem">
+                    Carregando leads...
+                  </article>
+                ) : leads.length ? (
+                  leads.map((lead) => (
+                    <article key={lead.id} className="admin-mobile-card" role="listitem">
+                      <div className="admin-mobile-card-top">
+                        <h3>{lead.name}</h3>
+                        <span className={`admin-status-pill is-${statusTone(lead.status)}`}>
+                          {getStatusLabel(normalizeStatus(lead.status) || "new")}
+                        </span>
+                      </div>
+                      <div className="admin-lead-contact admin-lead-contact-table">
+                        <div className="admin-lead-row">
+                          <Phone size={13} aria-hidden />
+                          <span className="admin-lead-value">{lead.phone}</span>
+                        </div>
+                        <div className="admin-lead-row">
+                          <Mail size={13} aria-hidden />
+                          <span className="admin-lead-value">{lead.email || "E-mail não informado"}</span>
+                        </div>
+                        <div className="admin-lead-row is-muted">
+                          <CalendarClock size={13} aria-hidden />
+                          <span>Criado em {formatDate(lead.created_at)}</span>
+                        </div>
+                      </div>
+                      <div className="admin-mobile-actions">
+                        <button
+                          type="button"
+                          className="admin-row-action is-danger"
+                          onClick={() => handleDelete(lead)}
+                          disabled={isDeletingId === lead.id}
+                          aria-label={`Excluir ${lead.name}`}
+                        >
+                          <Trash2 size={14} />
+                          <span>{isDeletingId === lead.id ? "Excluindo..." : "Excluir"}</span>
+                        </button>
+                      </div>
+                    </article>
+                  ))
+                ) : (
+                  <article className="admin-mobile-card is-empty" role="listitem">
+                    Nenhum lead encontrado.
+                  </article>
+                )}
+              </div>
+            </section>
+          )}
+        </main>
+      </div>
       </div>
     </AdminAuthGuard>
   );

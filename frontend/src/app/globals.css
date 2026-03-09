@@ -1871,6 +1871,59 @@ textarea {
   border-spacing: 0 8px;
 }
 
+.admin-mobile-list {
+  display: none;
+}
+
+.admin-mobile-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-mobile-card.is-empty {
+  justify-content: center;
+  align-items: center;
+  color: var(--text-2);
+  min-height: 88px;
+  text-align: center;
+}
+
+.admin-mobile-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.admin-mobile-card-top h3 {
+  margin: 0;
+  font-size: 18px;
+  line-height: var(--lh-tight);
+}
+
+.admin-mobile-meta {
+  display: grid;
+  gap: 6px;
+}
+
+.admin-mobile-meta p {
+  margin: 0;
+  font-size: 14px;
+  line-height: var(--lh-body);
+  color: var(--text-2);
+}
+
+.admin-mobile-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
 .admin-table th,
 .admin-table td {
   padding: 14px 18px;
@@ -2653,8 +2706,12 @@ textarea {
   }
 
   .admin-header-actions {
+    grid-row: 1;
     grid-column: 2;
     justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
 
   .admin-header-spacer {
@@ -2662,6 +2719,7 @@ textarea {
   }
 
   .admin-header-nav {
+    grid-row: 2;
     grid-column: 1 / -1;
     width: 100%;
     min-width: 0;
@@ -2683,9 +2741,9 @@ textarea {
   }
 
   .admin-header-link {
-    min-height: 40px;
-    padding: 0 9px;
-    font-size: 11px;
+    min-height: 38px;
+    padding: 0 10px;
+    font-size: 12px;
     white-space: nowrap;
     flex-shrink: 0;
   }
@@ -2699,8 +2757,8 @@ textarea {
   }
 
   .admin-theme-toggle {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     flex-shrink: 0;
   }
 
@@ -2731,6 +2789,10 @@ textarea {
     grid-column: auto;
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .admin-filter-actions.is-toggle-group {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .admin-primary-btn,
@@ -2766,8 +2828,16 @@ textarea {
   }
 
   .admin-table {
-    min-width: 700px;
-    border-spacing: 0 6px;
+    display: none;
+  }
+
+  .admin-mobile-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .admin-mobile-actions {
+    grid-template-columns: 1fr;
   }
 
   .admin-kanban {

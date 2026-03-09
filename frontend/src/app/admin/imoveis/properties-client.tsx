@@ -244,6 +244,51 @@ export function AdminPropertiesPageClient({ theme }: Props) {
                   )}
                 </tbody>
               </table>
+
+              <div className="admin-mobile-list" role="list" aria-label="Lista de imóveis">
+                {isLoading ? (
+                  <article className="admin-mobile-card is-empty" role="listitem">
+                    Carregando imóveis...
+                  </article>
+                ) : filteredProjects.length ? (
+                  filteredProjects.map((project) => (
+                    <article key={project.id} className="admin-mobile-card" role="listitem">
+                      <div className="admin-mobile-card-top">
+                        <h3>{project.title}</h3>
+                        <span className={`admin-status-pill is-${statusTone(project.status)}`}>{statusLabel(project.status)}</span>
+                      </div>
+                      <div className="admin-mobile-meta">
+                        <p>Cidade: {project.city || "-"}</p>
+                        <p>Preço: {typeof project.price === "number" ? formatPrice(project.price) : "Sob consulta"}</p>
+                      </div>
+                      <div className="admin-mobile-actions">
+                        <Link
+                          href={withTheme(`/admin/imoveis/${project.id}`, theme)}
+                          className="admin-row-action"
+                          aria-label={`Editar ${project.title}`}
+                        >
+                          <PencilLine size={16} />
+                          <span>Editar</span>
+                        </Link>
+                        <button
+                          type="button"
+                          className="admin-row-action is-danger"
+                          onClick={() => handleDelete(project)}
+                          disabled={isDeletingId === project.id}
+                          aria-label={`Excluir ${project.title}`}
+                        >
+                          <Trash2 size={16} />
+                          <span>{isDeletingId === project.id ? "Excluindo..." : "Excluir"}</span>
+                        </button>
+                      </div>
+                    </article>
+                  ))
+                ) : (
+                  <article className="admin-mobile-card is-empty" role="listitem">
+                    Nenhum imóvel encontrado para os filtros aplicados.
+                  </article>
+                )}
+              </div>
             </section>
           </main>
         </div>
