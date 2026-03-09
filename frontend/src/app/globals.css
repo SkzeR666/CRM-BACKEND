@@ -66,7 +66,7 @@ textarea {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  padding: 16px 18px 32px;
+  padding: 20px 18px 32px;
 }
 
 .samfer-shell {
@@ -74,13 +74,13 @@ textarea {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 32px;
 }
 
 .samfer-main {
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 32px;
 }
 
 .samfer-header {
@@ -277,6 +277,18 @@ textarea {
   font-size: 16px;
 }
 
+.samfer-input-card textarea {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  outline: none;
+  resize: vertical;
+  min-height: 90px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
 .samfer-select-card select {
   appearance: none;
   position: absolute;
@@ -303,6 +315,11 @@ textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.samfer-wide-cta[aria-busy="true"] {
+  opacity: 0.88;
+  filter: saturate(0.95);
 }
 
 .samfer-grid-span {
@@ -531,6 +548,10 @@ textarea {
 
 .samfer-message,
 .samfer-contact-grid .samfer-wide-cta {
+  grid-column: span 2;
+}
+
+.samfer-contact-message {
   grid-column: span 2;
 }
 
@@ -1060,15 +1081,15 @@ textarea {
 
 @media (max-width: 860px) {
   .samfer-app {
-    padding: 12px;
+    padding: 12px 10px 16px;
   }
 
   .samfer-shell {
-    gap: 20px;
+    gap: 14px;
   }
 
   .samfer-main {
-    gap: 20px;
+    gap: 18px;
   }
 
   .samfer-header {
@@ -1077,7 +1098,7 @@ textarea {
     padding: 12px;
     flex-wrap: wrap;
     gap: 10px;
-    top: 8px;
+    top: 6px;
   }
 
   .samfer-header-left {
@@ -1123,31 +1144,36 @@ textarea {
   }
 
   .samfer-filter-grid,
-  .samfer-contact-grid,
   .samfer-gallery-grid,
   .samfer-footer-top {
     grid-template-columns: 1fr;
   }
 
+  .samfer-contact-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
   .samfer-grid-span,
   .samfer-message,
-  .samfer-contact-grid .samfer-wide-cta {
+  .samfer-contact-grid .samfer-wide-cta,
+  .samfer-contact-message {
     grid-column: auto;
   }
 
   .samfer-input-card,
   .samfer-select-card {
-    min-height: 68px;
+    min-height: 64px;
     padding: 12px 14px;
   }
 
   .samfer-wide-cta,
   .samfer-more-button {
-    height: 58px;
+    height: 54px;
   }
 
   .samfer-property-card {
-    padding: 14px;
+    padding: 12px;
     gap: 14px;
   }
 
@@ -1211,10 +1237,12 @@ textarea {
     overflow-x: auto;
     padding-bottom: 4px;
     -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
   }
 
   .samfer-filter-chip {
     white-space: nowrap;
+    scroll-snap-align: start;
   }
 
   .samfer-clear-filters-btn {

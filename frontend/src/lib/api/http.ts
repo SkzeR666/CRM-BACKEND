@@ -10,6 +10,19 @@ type RequestOptions = {
   headers?: Record<string, string>;
 };
 
+type ApiErrorIssue = {
+  message?: string;
+};
+
+type ApiErrorShape = {
+  message?: string;
+  issues?: ApiErrorIssue[];
+};
+
+type ApiResponseShape = {
+  error?: string | ApiErrorShape;
+};
+
 function withQuery(path: string, query?: QueryParams) {
   if (!query) return path;
 
@@ -21,6 +34,27 @@ function withQuery(path: string, query?: QueryParams) {
 
   const parsed = search.toString();
   return parsed ? `${path}?${parsed}` : path;
+}
+
+function extractApiErrorMessage(data: unknown) {
+  if (!data || typeof data !== "object") return "API request failed";
+
+  const payload = data as ApiResponseShape;
+  const error = payload.error;
+
+  if (typeof error === "string" && error.trim()) return error;
+  if (!error || typeof error !== "object") return "API request failed";
+
+  if (typeof error.message === "string" && error.message.trim()) {
+    return error.message;
+  }
+
+  const firstIssue = Array.isArray(error.issues) ? error.issues[0] : null;
+  if (firstIssue && typeof firstIssue.message === "string" && firstIssue.message.trim()) {
+    return firstIssue.message;
+  }
+
+  return "API request failed";
 }
 
 export async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {
@@ -45,8 +79,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
   }
 
   if (!response.ok) {
-    const message =
-      typeof data === "object" && data && "error" in data ? String(data.error) : "API request failed";
+    const message = extractApiErrorMessage(data);
     throw new Error(message);
   }
 

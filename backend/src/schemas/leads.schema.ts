@@ -51,6 +51,10 @@ export const CreateLeadSchema = z
 
     source: optText,
     origem: optText,
+    subject: optText,
+    assunto: optText,
+    message: optText,
+    mensagem: optText,
 
     status: optText,
     next_step: optText,
@@ -80,8 +84,10 @@ export const CreateLeadSchema = z
       income: obj.income ?? obj.renda,
       interested_project_id:
         obj.interested_project_id ?? obj.interesse_project_id ?? obj.project_id,
-      source: obj.source ?? obj.origem,
-      status: obj.status,
+    source: obj.source ?? obj.origem,
+    subject: obj.subject ?? obj.assunto,
+    message: obj.message ?? obj.mensagem,
+    status: obj.status,
       next_step: obj.next_step ?? obj.proximo_passo,
       next_step_at: obj.next_step_at ?? obj.proximo_passo_em,
       utm_source: obj.utm_source,
@@ -116,6 +122,10 @@ export const UpdateLeadSchema = z
 
     source: optText,
     origem: optText,
+    subject: optText,
+    assunto: optText,
+    message: optText,
+    mensagem: optText,
 
     status: optText,
     next_step: optText,
@@ -161,6 +171,14 @@ export const UpdateLeadSchema = z
 
     if (obj.source !== undefined || obj.origem !== undefined) {
       patch.source = obj.source ?? obj.origem;
+    }
+
+    if (obj.subject !== undefined || obj.assunto !== undefined) {
+      patch.subject = obj.subject ?? obj.assunto;
+    }
+
+    if (obj.message !== undefined || obj.mensagem !== undefined) {
+      patch.message = obj.message ?? obj.mensagem;
     }
 
     if (obj.status !== undefined) patch.status = obj.status;

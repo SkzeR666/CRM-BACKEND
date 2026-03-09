@@ -22,7 +22,11 @@ export function SamferSubmitButton({ className, defaultLabel, loadingLabel }: Pr
       type="submit"
       className={className}
       aria-busy={loading}
-      onClick={() => setLoading(true)}
+      onClick={(event) => {
+        const form = event.currentTarget.form;
+        if (form && !form.reportValidity()) return;
+        setLoading(true);
+      }}
     >
       {loading ? loadingLabel : defaultLabel}
     </button>
