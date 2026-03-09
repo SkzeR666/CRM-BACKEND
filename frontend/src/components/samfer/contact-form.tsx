@@ -29,13 +29,9 @@ export function SamferContactForm({ projectId, source, contextLabel, compact = f
   const [subject, setSubject] = useState("");
   const [messageText, setMessageText] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    setError("");
-    setMessage("");
     setLoading(true);
 
     try {
@@ -60,7 +56,6 @@ export function SamferContactForm({ projectId, source, contextLabel, compact = f
       setEmail("");
       setSubject("");
       setMessageText("");
-      setMessage("Recebemos seu contato. Nossa equipe vai retornar em breve.");
       trackSamferEvent({
         event: "samfer_contact_submit",
         category: "contact",
@@ -69,7 +64,6 @@ export function SamferContactForm({ projectId, source, contextLabel, compact = f
       });
     } catch (submitError) {
       const errorMessage = submitError instanceof Error ? submitError.message : "Não foi possível enviar o contato.";
-      setError(errorMessage);
       trackSamferEvent({
         event: "samfer_contact_submit",
         category: "contact",
@@ -122,10 +116,6 @@ export function SamferContactForm({ projectId, source, contextLabel, compact = f
           maxLength={120}
         />
       </label>
-      <div className="samfer-input-card no-icon">
-        <span>Interesse</span>
-        <p>{contextLabel || "Atendimento comercial para compra de imóvel"}</p>
-      </div>
       <label className="samfer-input-card no-icon samfer-contact-message">
         <span>Mensagem</span>
         <textarea
@@ -139,11 +129,11 @@ export function SamferContactForm({ projectId, source, contextLabel, compact = f
       </label>
 
       <button type="submit" className="samfer-wide-cta" disabled={loading} aria-busy={loading}>
-        {loading ? "Enviando..." : "Quero atendimento"}
+        {loading ? "Enviando..." : "Enviar Email"}
       </button>
-
-      {message ? <p className="samfer-form-message success" aria-live="polite">{message}</p> : null}
-      {error ? <p className="samfer-form-message error" aria-live="assertive">{error}</p> : null}
+      <span className="samfer-sr-only" aria-live="polite">
+        {loading ? "Enviando contato" : contextLabel || "Atendimento comercial para compra de imóvel"}
+      </span>
     </form>
   );
 }

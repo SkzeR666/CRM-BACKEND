@@ -20,7 +20,7 @@ export function FaqList() {
               onClick={() => setOpenIndex(isOpen ? -1 : index)}
               aria-expanded={isOpen}
             >
-              <div>
+              <div className="samfer-faq-content">
                 <h3>{item.question}</h3>
                 {isOpen && item.answer ? <p>{item.answer}</p> : null}
               </div>

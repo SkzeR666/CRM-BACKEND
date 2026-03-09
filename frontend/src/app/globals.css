@@ -518,7 +518,7 @@ textarea {
 }
 
 .samfer-faq-item p {
-  margin: 16px 0 0;
+  margin: 0;
   font-size: 14px;
 }
 
@@ -531,9 +531,22 @@ textarea {
   color: inherit;
   padding: 24px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
   text-align: left;
+}
+
+.samfer-faq-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+}
+
+.samfer-faq-item.is-open .samfer-faq-trigger {
+  align-items: flex-start;
 }
 
 .samfer-faq-item.is-open svg {
@@ -544,6 +557,7 @@ textarea {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
+  align-items: stretch;
 }
 
 .samfer-message,
@@ -553,6 +567,7 @@ textarea {
 
 .samfer-contact-message {
   grid-column: span 2;
+  min-height: 160px;
 }
 
 .samfer-divider {

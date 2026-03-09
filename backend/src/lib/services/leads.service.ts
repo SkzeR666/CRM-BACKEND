@@ -2,9 +2,25 @@ import "server-only";
 import { assertSupabaseAdminEnv, supabaseAdmin } from "@/lib/supabase/admin";
 import { CreateLeadSchema, UpdateLeadSchema } from "@/schemas/leads.schema";
 
+function normalizeLeadStatus(status?: string) {
+  if (!status) return undefined;
+
+  const value = status.trim().toLowerCase();
+  if (!value) return undefined;
+
+  const aliases: Record<string, string> = {
+    new: "novo",
+    novo: "novo",
+    open: "novo",
+  };
+
+  return aliases[value] ?? value;
+}
+
 export async function createLead(input: unknown) {
   assertSupabaseAdminEnv();
   const data = CreateLeadSchema.parse(input);
+  const status = normalizeLeadStatus(data.status);
 
   const { data: created, error } = await supabaseAdmin
     .from("leads")
@@ -15,7 +31,7 @@ export async function createLead(input: unknown) {
       city: data.city ?? null,
       income: data.income ?? null,
       source: data.source ?? "site",
-      status: data.status ?? "new",
+      ...(status ? { status } : {}),
       interested_project_id: data.interested_project_id ?? null,
       next_step: data.next_step ?? null,
       next_step_at: data.next_step_at ?? null,
@@ -62,6 +78,9 @@ export async function listLeads(params: {
 export async function updateLead(id: string, input: unknown) {
   assertSupabaseAdminEnv();
   const patch = UpdateLeadSchema.parse(input) as Record<string, unknown>;
+  if (typeof patch.status === "string") {
+    patch.status = normalizeLeadStatus(patch.status);
+  }
 
   const { data, error } = await supabaseAdmin
     .from("leads")
