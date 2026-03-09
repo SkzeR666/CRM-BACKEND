@@ -33,11 +33,10 @@ export function ThemeToggle({ className, iconSize = 18 }: ThemeToggleProps) {
       aria-label="Alternar tema"
       onClick={handleToggle}
       className={cn(
-        "inline-flex size-10 items-center justify-center rounded-[5px] border border-border bg-surface-alt text-foreground transition hover:bg-surface",
+        "admin-theme-toggle",
         className,
       )}
     >
-      {/* AJUSTE: tamanho do icone */}
       {isDark ? <Sun size={iconSize} strokeWidth={1.7} /> : <Moon size={iconSize} strokeWidth={1.7} />}
     </button>
   );

@@ -1,37 +1,36 @@
 import Link from "next/link";
-import { Container } from "@/components/ui/container";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 
-const adminLinks = [
-  { label: "Imoveis", href: "/admin/imoveis" },
-  { label: "Novo imovel", href: "/admin/imoveis/novo" },
-  { label: "Login", href: "/admin/login" },
-  { label: "Site", href: "/imoveis" },
-];
+type AdminHeaderProps = {
+  backHref?: string;
+  backLabel?: string;
+};
 
-export function AdminHeader() {
+export function AdminHeader({ backHref, backLabel }: AdminHeaderProps) {
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
-      <Container className="flex min-h-16 flex-wrap items-center justify-between gap-3 py-2">
-        <Link href="/admin/imoveis" className="text-sm font-semibold tracking-tight">
-          PAINEL ADMIN
-        </Link>
+    <header className="admin-header">
+      <div className="admin-header-shell">
+        <div className="admin-header-left">
+          {backHref ? (
+            <Link href={backHref} className="admin-header-link is-back">
+              {backLabel || "Voltar"}
+            </Link>
+          ) : null}
+          <Link href="/admin/imoveis" className="admin-header-brand">
+            SAMFER ADMIN
+          </Link>
+        </div>
 
-        <div className="flex items-center gap-2">
-          <nav className="flex flex-wrap items-center gap-2" aria-label="Navegacao administrativa">
-            {adminLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="inline-flex h-9 items-center rounded-[10px] border border-border px-3 text-sm text-foreground-secondary transition hover:bg-surface hover:text-foreground"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+        <div className="admin-header-actions">
+          <Link href="/imoveis" className="admin-header-link" target="_blank" rel="noreferrer">
+            Ver site
+          </Link>
+          <Link href="/admin/login" className="admin-header-link">
+            Chave API
+          </Link>
           <ThemeToggle />
         </div>
-      </Container>
+      </div>
     </header>
   );
 }

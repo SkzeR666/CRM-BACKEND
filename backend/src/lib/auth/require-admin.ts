@@ -6,11 +6,14 @@ import { requireUser } from "@/lib/auth/require-user";
 /**
  * Admin guard:
  * - In non-production: allows x-admin-key = ADMIN_API_KEY
+ * - In production: allows x-admin-key only if ALLOW_ADMIN_KEY_IN_PRODUCTION=true
  * - Otherwise: requires Supabase authenticated user
  */
 export async function requireAdmin(req?: Request) {
   const adminKey = process.env.ADMIN_API_KEY;
-  const allowHeaderKey = process.env.NODE_ENV !== "production";
+  const allowHeaderKey =
+    process.env.NODE_ENV !== "production" ||
+    process.env.ALLOW_ADMIN_KEY_IN_PRODUCTION === "true";
 
   if (allowHeaderKey && adminKey && req) {
     const sent = req.headers.get("x-admin-key");

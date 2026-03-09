@@ -41,7 +41,21 @@ Backend (`backend`):
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `ADMIN_API_KEY`
+- `ALLOW_ADMIN_KEY_IN_PRODUCTION` (`true` para liberar `x-admin-key` em producao)
 - `FRONTEND_ORIGIN` (ex: `https://seu-frontend.vercel.app`)
 
 Frontend (`frontend`):
 - `NEXT_PUBLIC_API_BASE_URL` (ex: `https://seu-backend.vercel.app`)
+- `NEXT_PUBLIC_SITE_URL` (ex: `https://seu-frontend.vercel.app`)
+
+## Supabase (confirmacao por codigo)
+
+No painel do Supabase (`Authentication > Providers > Email`):
+
+1. Ative `Email`.
+2. Ative `Confirm email` (codigo/link).
+3. Configure `Site URL` com a URL do frontend publicado.
+4. Adicione o frontend em `Redirect URLs`.
+
+Obs: enquanto o fluxo de sessao Supabase nao estiver pronto no frontend admin, voce pode manter
+`ALLOW_ADMIN_KEY_IN_PRODUCTION=true` no backend para operacao via `x-admin-key`.

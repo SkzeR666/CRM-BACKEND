@@ -47,6 +47,7 @@ npm run dev
 
 - Em desenvolvimento, `x-admin-key` pode ser usado com `ADMIN_API_KEY`.
 - Em producao, rotas admin exigem usuario autenticado via Supabase.
+- Opcional: `ALLOW_ADMIN_KEY_IN_PRODUCTION=true` libera `x-admin-key` tambem em producao.
 
 ## Deploy (Vercel)
 
@@ -58,4 +59,13 @@ Variaveis obrigatorias:
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `ADMIN_API_KEY`
+- `ALLOW_ADMIN_KEY_IN_PRODUCTION` (`false` por padrao)
 - `FRONTEND_ORIGIN` (aceita lista separada por virgula)
+
+## Supabase: confirmacao por codigo
+
+No painel do Supabase:
+
+1. `Authentication > Providers > Email`: habilitar Email.
+2. `Authentication > URL Configuration`: definir `Site URL` e `Redirect URLs` do frontend.
+3. Habilitar confirmacao de email/codigo conforme o fluxo desejado.

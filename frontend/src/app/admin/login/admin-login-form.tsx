@@ -1,8 +1,6 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 const ADMIN_KEY_STORAGE = "crm_admin_api_key";
 
@@ -17,17 +15,32 @@ export function AdminLoginFormLocal() {
   }
 
   return (
-    <form className="space-y-4" onSubmit={handleSubmit}>
-      <Input
-        label="Admin API key"
-        value={value}
-        onChange={(event) => setValue(event.target.value)}
-        required
-      />
-      <Button type="submit" variant="primary" className="w-full">
-        Salvar chave
-      </Button>
-      {message ? <p className="text-sm text-green-600">{message}</p> : null}
+    <form className="admin-form" onSubmit={handleSubmit}>
+      <section className="admin-form-section">
+        <h2>
+          Chave <span>administrativa</span>
+        </h2>
+        <div className="admin-form-grid">
+          <label className="admin-field">
+            <span className="samfer-sr-only">Admin API key</span>
+            <input
+              name="admin-key"
+              placeholder="admin api key"
+              value={value}
+              onChange={(event) => setValue(event.target.value)}
+              required
+            />
+          </label>
+        </div>
+      </section>
+
+      <div className="admin-form-actions">
+        <button type="submit" className="admin-primary-btn is-large">
+          Salvar chave
+        </button>
+      </div>
+
+      {message ? <p className="admin-feedback is-success">{message}</p> : null}
     </form>
   );
 }

@@ -46,8 +46,6 @@ export function LandingFeaturedCard({ project }: LandingFeaturedCardProps) {
 
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-[50px]">
           <div className="space-y-0.5 md:min-w-[173px]">
-            <p className="text-xs text-foreground-secondary">A partir de</p>
-            {/* AJUSTE: tamanho do preco */}
             <p className="text-[30px] font-bold tracking-[-0.34px] text-foreground md:text-[34px]">{formatPrice(project.price)}</p>
           </div>
 

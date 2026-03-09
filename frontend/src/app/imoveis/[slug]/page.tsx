@@ -142,10 +142,7 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
               <hr />
               <p className="samfer-text-strong">Conheça seu novo apartamento!</p>
               <p>{project.description || "Empreendimento com excelente localização, conforto e praticidade."}</p>
-              <div className="samfer-detail-price-inline">
-                <small>A partir de</small>
-                <strong>{price}</strong>
-              </div>
+              <p className="samfer-text-strong">{price}</p>
               {featureItems.length ? (
                 <ul>
                   {featureItems.map((item) => (

@@ -20,7 +20,7 @@ function normalizeLeadStatus(status?: string) {
 export async function createLead(input: unknown) {
   assertSupabaseAdminEnv();
   const data = CreateLeadSchema.parse(input);
-  const status = normalizeLeadStatus(data.status);
+  const status = normalizeLeadStatus(data.status) ?? "novo";
 
   const { data: created, error } = await supabaseAdmin
     .from("leads")
@@ -31,7 +31,7 @@ export async function createLead(input: unknown) {
       city: data.city ?? null,
       income: data.income ?? null,
       source: data.source ?? "site",
-      ...(status ? { status } : {}),
+      status,
       interested_project_id: data.interested_project_id ?? null,
       next_step: data.next_step ?? null,
       next_step_at: data.next_step_at ?? null,

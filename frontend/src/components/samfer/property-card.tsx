@@ -49,7 +49,6 @@ export function PropertyCard({ project, theme, index = 0 }: Props) {
           </div>
           <div className="samfer-property-bottom">
             <div>
-              <small>A partir de</small>
               <strong>{price}</strong>
             </div>
             <span className="samfer-property-link">Ver detalhes do imovel</span>

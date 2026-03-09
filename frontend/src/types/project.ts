@@ -27,7 +27,20 @@ export type CreateProjectPayload = {
   slug: string;
   title: string;
   city?: string;
-  status?: ProjectStatus;
+  state?: string;
+  neighborhood?: string;
+  description?: string;
+  type?: string;
+  status?: ProjectStatus | string;
+  price?: number;
+  bedrooms?: number;
+  suites?: number;
+  parking_spots?: number;
+  bathrooms?: number;
+  area_m2?: number;
+  cover_image?: string;
+  gallery?: string[];
+  is_featured?: boolean;
 };
 
 export type UpdateProjectPayload = Partial<CreateProjectPayload> & {
