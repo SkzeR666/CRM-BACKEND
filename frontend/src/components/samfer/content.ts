@@ -45,7 +45,7 @@ export const faqItems = [
   {
     question: "As informações dos imóveis são atualizadas?",
     answer:
-      "Sim. A listagem e o detalhe usam os dados atuais da base de projetos conectada ao backend.",
+      "Sim. Mantemos os imóveis e valores sempre atualizados para você pesquisar com confiança e segurança.",
   },
 ];
 
