@@ -117,7 +117,7 @@ textarea {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  padding: 20px 18px 32px;
+  padding: 0 18px 32px;
 }
 
 .samfer-shell {
@@ -139,8 +139,9 @@ textarea {
   position: sticky;
   top: 0;
   z-index: 40;
-  width: 100%;
-  margin: 0;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -148,16 +149,17 @@ textarea {
   border-bottom: 1px solid var(--border);
   background: color-mix(in srgb, var(--surface-alt) 90%, transparent);
   backdrop-filter: blur(7.5px);
-  padding: 10px 20px;
+  padding: 10px max(20px, calc((100vw - 1440px) / 2 + 18px));
   box-shadow: none;
   transition: height 0.35s cubic-bezier(0.22, 1, 0.36, 1), padding 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .samfer-header.is-scrolled {
   height: 88px;
-  width: 100%;
-  margin-left: 0;
-  padding: 10px 20px;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 10px max(20px, calc((100vw - 1440px) / 2 + 18px));
 }
 
 .samfer-header-left {
@@ -2183,6 +2185,18 @@ textarea {
   font-weight: 500;
   line-height: 1.28;
   padding: 0;
+}
+
+.admin-field input::placeholder,
+.admin-field textarea::placeholder {
+  color: color-mix(in srgb, var(--text-2) 88%, transparent);
+  opacity: 1;
+  transition: opacity 0.22s ease;
+}
+
+.admin-field input:focus::placeholder,
+.admin-field textarea:focus::placeholder {
+  opacity: 0;
 }
 
 .admin-field textarea {

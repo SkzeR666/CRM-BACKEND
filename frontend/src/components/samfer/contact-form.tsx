@@ -76,10 +76,10 @@ export function SamferContactForm({ projectId, source }: Props) {
   return (
     <form className="samfer-contact-grid samfer-animate" onSubmit={handleSubmit}>
       <label className="samfer-input-card no-icon">
-        <span className="samfer-sr-only">Nome completo *</span>
+        <span className="samfer-sr-only">Nome Completo *</span>
         <input
           name="name"
-          placeholder="Nome completo *"
+          placeholder="Nome Completo *"
           autoComplete="name"
           value={name}
           onChange={(event) => setName(event.target.value)}
@@ -126,7 +126,7 @@ export function SamferContactForm({ projectId, source }: Props) {
           onChange={(event) => setMessageText(event.target.value)}
           rows={4}
           maxLength={600}
-          placeholder="Conte rapidamente o que você procura."
+          placeholder="Mensagem"
         />
       </label>
 
