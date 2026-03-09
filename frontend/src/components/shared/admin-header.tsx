@@ -47,23 +47,24 @@ export function AdminHeader({
           <Link href={withTheme("/admin/imoveis", theme)} className="admin-header-brand">
             SAMFER ADMIN
           </Link>
-          {showNav ? (
-            <nav className="admin-header-nav" aria-label="Navegacao do admin">
-              <Link
-                href={withTheme("/admin/imoveis", theme)}
-                className={`admin-header-link ${section === "imoveis" ? "is-active" : ""}`}
-              >
-                Imoveis
-              </Link>
-              <Link
-                href={withTheme("/admin/leads", theme)}
-                className={`admin-header-link ${section === "leads" ? "is-active" : ""}`}
-              >
-                Leads
-              </Link>
-            </nav>
-          ) : null}
         </div>
+
+        {showNav ? (
+          <nav className="admin-header-nav" aria-label="Navegacao do admin">
+            <Link
+              href={withTheme("/admin/imoveis", theme)}
+              className={`admin-header-link ${section === "imoveis" ? "is-active" : ""}`}
+            >
+              Imoveis
+            </Link>
+            <Link
+              href={withTheme("/admin/leads", theme)}
+              className={`admin-header-link ${section === "leads" ? "is-active" : ""}`}
+            >
+              Leads
+            </Link>
+          </nav>
+        ) : null}
 
         <div className="admin-header-actions">
           <Link href={withTheme("/", theme)} className="admin-header-link" target="_blank" rel="noreferrer">
