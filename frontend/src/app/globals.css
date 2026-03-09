@@ -119,10 +119,10 @@ textarea {
 .samfer-header {
   height: 84px;
   position: sticky;
-  top: 10px;
+  top: 0;
   z-index: 40;
-  width: calc(100% - 84px);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1286,22 +1286,19 @@ textarea {
 }
 
 .admin-header-nav {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--surface);
-  padding: 6px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 12px;
 }
 
 .admin-header-tabs {
   width: calc(100% - 84px);
   margin: 0 auto;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  background: var(--surface-alt);
-  padding: 8px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
   transition: width 0.25s ease, border-radius 0.25s ease;
 }
 
@@ -1309,10 +1306,28 @@ textarea {
   width: 100%;
 }
 
+.admin-header-tabs .admin-header-link {
+  min-height: 64px;
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+  color: var(--text);
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.admin-header-tabs .admin-header-link.is-active {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: color-mix(in srgb, var(--primary) 70%, var(--border));
+}
+
 .admin-header.is-scrolled .admin-header-shell,
 .admin-header.is-scrolled .admin-header-tabs {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 0;
 }
 
 .admin-header.is-scrolled .admin-header-shell {
@@ -2185,10 +2200,10 @@ textarea {
   }
 
   .admin-header-nav {
-    width: auto;
+    width: 100%;
     min-width: 0;
     flex-shrink: 0;
-    overflow-x: auto;
+    overflow: visible;
     scrollbar-width: none;
   }
 
@@ -2208,6 +2223,12 @@ textarea {
     font-size: 11px;
     white-space: nowrap;
     flex-shrink: 0;
+  }
+
+  .admin-header-tabs .admin-header-link {
+    min-height: 48px;
+    font-size: 12px;
+    white-space: normal;
   }
 
   .admin-theme-toggle {
