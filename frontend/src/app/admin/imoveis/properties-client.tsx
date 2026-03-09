@@ -203,13 +203,6 @@ export function AdminPropertiesPageClient({ theme }: Props) {
           <AdminHeader theme={theme} section="imoveis" />
 
           <main className="admin-content">
-            <section className="admin-title-block samfer-animate">
-              <h1>
-                Painel <span>administrativo</span>
-              </h1>
-              <p>Gerencie imoveis, edite informacoes e acompanhe os conteudos da plataforma sem sair do fluxo.</p>
-            </section>
-
             <form className="admin-filter-row samfer-animate" onSubmit={handleApply}>
               <label className="admin-filter-control admin-filter-search">
                 <span className="samfer-sr-only">Buscar imovel</span>

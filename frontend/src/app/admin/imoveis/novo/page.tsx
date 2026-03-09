@@ -22,12 +22,6 @@ export default async function AdminNewPropertyPage({ searchParams }: Props) {
             backLabel="Voltar para lista"
           />
           <main className="admin-content">
-            <section className="admin-title-block samfer-animate">
-              <h1>
-                Novo <span>imovel</span>
-              </h1>
-              <p>Preencha os dados principais para publicar mais rapido e manter o padrao visual do site.</p>
-            </section>
             <PropertyFormLocal theme={theme} />
           </main>
         </div>

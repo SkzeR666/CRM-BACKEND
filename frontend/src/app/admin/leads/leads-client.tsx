@@ -15,14 +15,14 @@ type Filters = {
   q: string;
 };
 
-const STATUS_OPTIONS = [
-  { value: "novo", label: "Novo" },
-  { value: "contatado", label: "Contatado" },
-  { value: "qualificado", label: "Qualificado" },
-  { value: "negociando", label: "Negociando" },
-  { value: "fechado", label: "Fechado" },
-  { value: "perdido", label: "Perdido" },
-];
+const STATUS_LABELS: Record<string, string> = {
+  new: "Novo",
+  contacted: "Contatado",
+  qualified: "Qualificado",
+  negotiating: "Negociando",
+  won: "Fechado",
+  lost: "Perdido",
+};
 
 function normalizeText(value?: string) {
   return value?.trim() ?? "";
@@ -36,6 +36,15 @@ function formatDate(value?: string) {
     dateStyle: "short",
     timeStyle: "short",
   }).format(date);
+}
+
+function normalizeStatus(status?: string | null) {
+  const normalized = status?.trim().toLowerCase();
+  return normalized || "";
+}
+
+function getStatusLabel(status: string) {
+  return STATUS_LABELS[status] ?? status;
 }
 
 function buildQuery(filters: Filters, theme: SamferTheme) {
@@ -174,9 +183,22 @@ export function AdminLeadsPageClient({ theme }: Props) {
     filters.q ? { key: "q" as const, label: `Busca: ${filters.q}` } : null,
   ].filter(Boolean) as Array<{ key: keyof Filters; label: string }>;
 
-  const columns = STATUS_OPTIONS.map((statusOption) => ({
-    ...statusOption,
-    leads: leads.filter((lead) => (lead.status || "novo") === statusOption.value),
+  const statusOptions = useMemo(() => {
+    const values = Array.from(
+      new Set(
+        leads
+          .map((lead) => normalizeStatus(lead.status))
+          .filter((status): status is string => Boolean(status))
+      )
+    );
+
+    return values.length ? values : ["new"];
+  }, [leads]);
+
+  const columns = statusOptions.map((statusValue) => ({
+    value: statusValue,
+    label: getStatusLabel(statusValue),
+    leads: leads.filter((lead) => normalizeStatus(lead.status) === statusValue),
   }));
 
   function handleDragStart(event: DragEvent<HTMLElement>, leadId: string) {
@@ -196,7 +218,7 @@ export function AdminLeadsPageClient({ theme }: Props) {
 
   async function moveLeadToStatus(leadId: string, status: string) {
     const lead = leads.find((item) => item.id === leadId);
-    if (!lead || (lead.status || "novo") === status) return;
+    if (!lead || normalizeStatus(lead.status) === status) return;
 
     try {
       setIsUpdatingId(leadId);
@@ -309,19 +331,26 @@ export function AdminLeadsPageClient({ theme }: Props) {
                           <p>Origem: {lead.source || "site"}</p>
                           <p>Criado: {formatDate(lead.created_at)}</p>
 
-                          <select
-                            className="admin-inline-select"
-                            value={lead.status || "novo"}
-                            onChange={(event) => handleStatusChange(lead, event.target.value)}
-                            disabled={isUpdatingId === lead.id}
-                            aria-label={`Status do lead ${lead.name}`}
-                          >
-                            {STATUS_OPTIONS.map((option) => (
-                              <option key={option.value} value={option.value}>
-                                {option.label}
-                              </option>
-                            ))}
-                          </select>
+                          {(() => {
+                            const currentStatus = normalizeStatus(lead.status);
+                            const selectedStatus = currentStatus || statusOptions[0] || "new";
+
+                            return (
+                              <select
+                                className="admin-inline-select"
+                                value={selectedStatus}
+                                onChange={(event) => handleStatusChange(lead, event.target.value)}
+                                disabled={isUpdatingId === lead.id}
+                                aria-label={`Status do lead ${lead.name}`}
+                              >
+                                {statusOptions.map((statusOption) => (
+                                  <option key={statusOption} value={statusOption}>
+                                    {getStatusLabel(statusOption)}
+                                  </option>
+                                ))}
+                              </select>
+                            );
+                          })()}
                         </article>
                       ))}
                     </div>
