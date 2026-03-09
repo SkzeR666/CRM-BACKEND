@@ -1172,7 +1172,7 @@ textarea {
 }
 
 .admin-shell {
-  max-width: 1440px;
+  max-width: 1720px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -1283,7 +1283,7 @@ textarea {
 .admin-content {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
 }
 
 .admin-title-block {
@@ -1685,8 +1685,7 @@ textarea {
 .admin-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  max-width: 1120px;
+  gap: 20px;
   width: 100%;
 }
 
@@ -1698,7 +1697,7 @@ textarea {
   border: 1px solid var(--admin-border);
   border-radius: 10px;
   background: color-mix(in srgb, var(--admin-surface-alt) 84%, var(--admin-surface));
-  padding: 16px 18px;
+  padding: 16px 20px;
   display: flex;
   flex-wrap: wrap;
   gap: 8px 18px;
@@ -1718,11 +1717,11 @@ textarea {
 .admin-form-section {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   border: 1px solid var(--admin-border);
   border-radius: 10px;
   background: color-mix(in srgb, var(--admin-surface-alt) 84%, var(--admin-surface));
-  padding: 20px;
+  padding: 22px;
 }
 
 .admin-form-section h2 {
@@ -1751,6 +1750,10 @@ textarea {
 
 .admin-form-grid.two-col {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.admin-field.is-span-2 {
+  grid-column: span 2;
 }
 
 .admin-field {
@@ -1813,6 +1816,17 @@ textarea {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
+}
+
+.admin-form-actions.is-sticky {
+  position: sticky;
+  bottom: 10px;
+  z-index: 15;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--admin-surface) 90%, transparent);
+  backdrop-filter: blur(6px);
+  padding: 10px;
 }
 
 .admin-form-actions.is-edit {
@@ -1995,6 +2009,10 @@ textarea {
     grid-template-columns: 1fr;
   }
 
+  .admin-field.is-span-2 {
+    grid-column: auto;
+  }
+
   .admin-field {
     min-height: 70px;
     padding: 12px 14px;
@@ -2002,6 +2020,14 @@ textarea {
 
   .admin-form-actions {
     grid-template-columns: 1fr;
+  }
+
+  .admin-form-actions.is-sticky {
+    position: static;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    backdrop-filter: none;
   }
 
   .admin-form-summary {

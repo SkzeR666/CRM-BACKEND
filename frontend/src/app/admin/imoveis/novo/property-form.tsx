@@ -263,7 +263,7 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
           Informacoes <span>basicas</span>
         </h2>
         <p className="admin-section-text">Defina titulo, slug e status para aparecer corretamente na listagem publica.</p>
-        <div className="admin-form-grid">
+        <div className="admin-form-grid two-col">
           <label className="admin-field">
             <span className="samfer-sr-only">Titulo</span>
             <input
@@ -285,7 +285,7 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
             />
           </label>
 
-          <label className="admin-field">
+          <label className="admin-field is-span-2">
             <span className="samfer-sr-only">Descricao</span>
             <textarea
               name="description"
@@ -334,7 +334,7 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
       <section className="admin-form-section samfer-animate">
         <h2>Localizacao</h2>
         <p className="admin-section-text">Esses dados alimentam filtros por cidade, bairro e estado no frontend.</p>
-        <div className="admin-form-grid">
+        <div className="admin-form-grid two-col">
           <label className="admin-field">
             <span className="samfer-sr-only">Cidade</span>
             <input
@@ -353,7 +353,7 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
               onChange={(event) => setValues((prev) => ({ ...prev, state: event.target.value }))}
             />
           </label>
-          <label className="admin-field">
+          <label className="admin-field is-span-2">
             <span className="samfer-sr-only">Bairro</span>
             <input
               name="neighborhood"
@@ -509,7 +509,7 @@ export function PropertyFormLocal({ projectId, theme }: Props) {
         </div>
       </section>
 
-      <div className={`admin-form-actions ${isEditMode ? "is-edit" : ""}`}>
+      <div className={`admin-form-actions is-sticky ${isEditMode ? "is-edit" : ""}`}>
         <button type="button" className="admin-secondary-btn is-large" onClick={() => router.push(withTheme("/admin/imoveis", theme))}>
           Voltar
         </button>
