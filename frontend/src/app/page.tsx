@@ -11,6 +11,7 @@ import { FaqList } from "@/components/samfer/faq";
 import { faqItems, samferImages } from "@/components/samfer/content";
 import { SamferContactForm } from "@/components/samfer/contact-form";
 import { SamferSubmitButton } from "@/components/samfer/submit-button";
+import { SamferMobileFilterOverlay } from "@/components/samfer/mobile-filter-overlay";
 import { PRICE_RANGE_OPTIONS } from "@/components/samfer/texts";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
@@ -90,73 +91,75 @@ export default async function HomePage({ searchParams }: Props) {
             <h1 className="samfer-sr-only">Imóveis para morar bem em Taubaté e região</h1>
           </section>
 
-          <section className="samfer-section" aria-labelledby="busca-heading">
-            <SectionTitle before="Veja opções " highlight="ideais" after=" para o seu perfil" />
-            <form className="samfer-filter-grid samfer-animate" method="GET" action="/imoveis" id="busca-heading">
-              <input type="hidden" name="theme" value={theme} />
-              <label className="samfer-select-card">
-                <select name="city" defaultValue="">
-                  <option value="">Região</option>
-                  {cityOptions.map((value) => (
-                    <option key={value} value={String(value)}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="samfer-select-card">
-                <select name="type" defaultValue="">
-                  <option value="">Tipo</option>
-                  {typeOptions.map((value) => (
-                    <option key={value} value={String(value)}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="samfer-select-card">
-                <select name="priceRange" defaultValue="">
-                  <option value="">Preço de venda</option>
-                  {PRICE_RANGE_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="samfer-select-card">
-                <select name="suites" defaultValue="">
-                  <option value="">Suítes</option>
-                  {suiteOptions.map((value) => (
-                    <option key={value} value={String(value)}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="samfer-select-card">
-                <select name="parkingSpots" defaultValue="">
-                  <option value="">Vagas</option>
-                  {parkingOptions.map((value) => (
-                    <option key={value} value={String(value)}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="samfer-select-card">
-                <select name="bedrooms" defaultValue="">
-                  <option value="">Quartos</option>
-                  {bedroomOptions.map((value) => (
-                    <option key={value} value={String(value)}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <SamferSubmitButton className="samfer-wide-cta samfer-grid-span" defaultLabel="Buscar imóveis" loadingLabel="Buscando imóveis..." />
-            </form>
-          </section>
+          <SamferMobileFilterOverlay triggerLabel="Buscar imóveis" overlayTitle="Buscar imóveis">
+            <section className="samfer-section" aria-labelledby="busca-heading">
+              <SectionTitle before="Veja opções " highlight="ideais" after=" para o seu perfil" />
+              <form className="samfer-filter-grid samfer-animate" method="GET" action="/imoveis" id="busca-heading">
+                <input type="hidden" name="theme" value={theme} />
+                <label className="samfer-select-card">
+                  <select name="city" defaultValue="">
+                    <option value="">Região</option>
+                    {cityOptions.map((value) => (
+                      <option key={value} value={String(value)}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="samfer-select-card">
+                  <select name="type" defaultValue="">
+                    <option value="">Tipo</option>
+                    {typeOptions.map((value) => (
+                      <option key={value} value={String(value)}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="samfer-select-card">
+                  <select name="priceRange" defaultValue="">
+                    <option value="">Preço de venda</option>
+                    {PRICE_RANGE_OPTIONS.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="samfer-select-card">
+                  <select name="suites" defaultValue="">
+                    <option value="">Suítes</option>
+                    {suiteOptions.map((value) => (
+                      <option key={value} value={String(value)}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="samfer-select-card">
+                  <select name="parkingSpots" defaultValue="">
+                    <option value="">Vagas</option>
+                    {parkingOptions.map((value) => (
+                      <option key={value} value={String(value)}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="samfer-select-card">
+                  <select name="bedrooms" defaultValue="">
+                    <option value="">Quartos</option>
+                    {bedroomOptions.map((value) => (
+                      <option key={value} value={String(value)}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <SamferSubmitButton className="samfer-wide-cta samfer-grid-span" defaultLabel="Buscar imóveis" loadingLabel="Buscando imóveis..." />
+              </form>
+            </section>
+          </SamferMobileFilterOverlay>
 
           <section className="samfer-section" id="empreendimentos">
             <SectionTitle before="Imóveis em " highlight="destaque" />

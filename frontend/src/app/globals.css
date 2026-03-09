@@ -177,6 +177,16 @@ textarea {
   display: none;
 }
 
+.samfer-mobile-filter-trigger,
+.samfer-mobile-filter-layer,
+.samfer-mobile-filter-head {
+  display: none;
+}
+
+.samfer-mobile-filter-panel {
+  position: static;
+}
+
 .samfer-primary-btn,
 .samfer-secondary-btn,
 .samfer-icon-btn {
@@ -2385,6 +2395,65 @@ textarea {
   .samfer-main {
     gap: 18px;
     padding: 14px 12px 18px;
+  }
+
+  .samfer-mobile-filter-trigger {
+    width: 100%;
+    min-height: 56px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-alt);
+    color: var(--text);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .samfer-mobile-filter-shell {
+    position: relative;
+  }
+
+  .samfer-mobile-filter-panel {
+    display: none;
+  }
+
+  .samfer-mobile-filter-shell.is-open .samfer-mobile-filter-layer {
+    position: fixed;
+    inset: 0;
+    background: color-mix(in srgb, #000 52%, transparent);
+    z-index: 95;
+    display: block;
+  }
+
+  .samfer-mobile-filter-shell.is-open .samfer-mobile-filter-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 96;
+    display: block;
+    overflow-y: auto;
+    background: var(--bg);
+    padding: calc(env(safe-area-inset-top) + 8px) 12px calc(env(safe-area-inset-bottom) + 14px);
+  }
+
+  .samfer-mobile-filter-head {
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .samfer-mobile-filter-head strong {
+    font-size: 20px;
+    line-height: 1.1;
+  }
+
+  .samfer-mobile-filter-shell.is-open .samfer-section {
+    padding-top: 8px;
   }
 
   .samfer-header {

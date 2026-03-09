@@ -7,6 +7,7 @@ import { SamferFooter } from "@/components/samfer/footer";
 import { PropertyCard } from "@/components/samfer/property-card";
 import { SectionTitle } from "@/components/samfer/section-title";
 import { SamferSubmitButton } from "@/components/samfer/submit-button";
+import { SamferMobileFilterOverlay } from "@/components/samfer/mobile-filter-overlay";
 import { FILTER_LABELS, PRICE_RANGE_OPTIONS, SORT_OPTIONS, getPriceRangeLabel } from "@/components/samfer/texts";
 import { JsonLd } from "@/components/seo/json-ld";
 import { buildBreadcrumbJsonLd, buildWebsiteJsonLd, createPageMetadata, toAbsoluteUrl } from "@/lib/seo";
@@ -216,88 +217,90 @@ export default async function PropertiesPage({ searchParams }: Props) {
             ]}
           />
 
-          <section className="samfer-section">
-            <SectionTitle before="Encontre o " highlight="imóvel ideal para você" />
-            <form className="samfer-filter-grid samfer-animate" method="GET" action="/imoveis">
-              <input type="hidden" name="theme" value={theme} />
+          <SamferMobileFilterOverlay triggerLabel="Buscar imóveis" overlayTitle="Buscar imóveis">
+            <section className="samfer-section">
+              <SectionTitle before="Encontre o " highlight="imóvel ideal para você" />
+              <form className="samfer-filter-grid samfer-animate" method="GET" action="/imoveis">
+                <input type="hidden" name="theme" value={theme} />
 
-              <label className="samfer-select-card">
-                <select name="city" defaultValue={params.city ?? ""}>
-                  <option value="">Região</option>
-                  {cityOptions.map((city) => (
-                    <option key={city} value={String(city)}>{city}</option>
-                  ))}
-                </select>
-              </label>
+                <label className="samfer-select-card">
+                  <select name="city" defaultValue={params.city ?? ""}>
+                    <option value="">Região</option>
+                    {cityOptions.map((city) => (
+                      <option key={city} value={String(city)}>{city}</option>
+                    ))}
+                  </select>
+                </label>
 
-              <label className="samfer-select-card">
-                <select name="type" defaultValue={params.type ?? ""}>
-                  <option value="">Tipo</option>
-                  {typeOptions.map((type) => (
-                    <option key={type} value={String(type)}>{type}</option>
-                  ))}
-                </select>
-              </label>
+                <label className="samfer-select-card">
+                  <select name="type" defaultValue={params.type ?? ""}>
+                    <option value="">Tipo</option>
+                    {typeOptions.map((type) => (
+                      <option key={type} value={String(type)}>{type}</option>
+                    ))}
+                  </select>
+                </label>
 
-              <label className="samfer-select-card">
-                <select name="priceRange" defaultValue={params.priceRange ?? ""}>
-                  <option value="">Preço de venda</option>
-                  {PRICE_RANGE_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>{option.label}</option>
-                  ))}
-                </select>
-              </label>
+                <label className="samfer-select-card">
+                  <select name="priceRange" defaultValue={params.priceRange ?? ""}>
+                    <option value="">Preço de venda</option>
+                    {PRICE_RANGE_OPTIONS.map((option) => (
+                      <option key={option.value} value={option.value}>{option.label}</option>
+                    ))}
+                  </select>
+                </label>
 
-              <label className="samfer-select-card">
-                <select name="suites" defaultValue={params.suites ?? ""}>
-                  <option value="">Suítes</option>
-                  {suiteOptions.map((value) => (
-                    <option key={value} value={String(value)}>{value}</option>
-                  ))}
-                </select>
-              </label>
+                <label className="samfer-select-card">
+                  <select name="suites" defaultValue={params.suites ?? ""}>
+                    <option value="">Suítes</option>
+                    {suiteOptions.map((value) => (
+                      <option key={value} value={String(value)}>{value}</option>
+                    ))}
+                  </select>
+                </label>
 
-              <label className="samfer-select-card">
-                <select name="parkingSpots" defaultValue={params.parkingSpots ?? ""}>
-                  <option value="">Vagas</option>
-                  {parkingOptions.map((value) => (
-                    <option key={value} value={String(value)}>{value}</option>
-                  ))}
-                </select>
-              </label>
+                <label className="samfer-select-card">
+                  <select name="parkingSpots" defaultValue={params.parkingSpots ?? ""}>
+                    <option value="">Vagas</option>
+                    {parkingOptions.map((value) => (
+                      <option key={value} value={String(value)}>{value}</option>
+                    ))}
+                  </select>
+                </label>
 
-              <label className="samfer-select-card">
-                <select name="bedrooms" defaultValue={params.bedrooms ?? ""}>
-                  <option value="">Quartos</option>
-                  {bedroomOptions.map((value) => (
-                    <option key={value} value={String(value)}>{value}</option>
-                  ))}
-                </select>
-              </label>
+                <label className="samfer-select-card">
+                  <select name="bedrooms" defaultValue={params.bedrooms ?? ""}>
+                    <option value="">Quartos</option>
+                    {bedroomOptions.map((value) => (
+                      <option key={value} value={String(value)}>{value}</option>
+                    ))}
+                  </select>
+                </label>
 
-              <SamferSubmitButton className="samfer-wide-cta samfer-grid-span" defaultLabel="Buscar imóveis" loadingLabel="Aplicando filtros..." />
-            </form>
+                <SamferSubmitButton className="samfer-wide-cta samfer-grid-span" defaultLabel="Buscar imóveis" loadingLabel="Aplicando filtros..." />
+              </form>
 
-            {activeFilterItems.length ? (
-              <div className="samfer-active-filters samfer-animate" aria-label="Filtros ativos">
-                {activeFilterItems.map((filter) => {
-                  const nextQuery = { ...queryBase, page: "1" };
-                  delete nextQuery[filter.key];
+              {activeFilterItems.length ? (
+                <div className="samfer-active-filters samfer-animate" aria-label="Filtros ativos">
+                  {activeFilterItems.map((filter) => {
+                    const nextQuery = { ...queryBase, page: "1" };
+                    delete nextQuery[filter.key];
 
-                  return (
-                    <Link key={filter.key} href={`/imoveis?${buildQuery(nextQuery)}`} className="samfer-filter-chip">
-                      <span>{filter.label}: {filter.value}</span>
-                      <strong aria-hidden>×</strong>
-                    </Link>
-                  );
-                })}
+                    return (
+                      <Link key={filter.key} href={`/imoveis?${buildQuery(nextQuery)}`} className="samfer-filter-chip">
+                        <span>{filter.label}: {filter.value}</span>
+                        <strong aria-hidden>×</strong>
+                      </Link>
+                    );
+                  })}
 
-                <Link href={withTheme("/imoveis", theme)} className="samfer-clear-filters-btn">
-                  Limpar filtros
-                </Link>
-              </div>
-            ) : null}
-          </section>
+                  <Link href={withTheme("/imoveis", theme)} className="samfer-clear-filters-btn">
+                    Limpar filtros
+                  </Link>
+                </div>
+              ) : null}
+            </section>
+          </SamferMobileFilterOverlay>
 
           <section className="samfer-divider" />
 
