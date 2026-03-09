@@ -241,11 +241,25 @@ export function PropertyFormLocal({ projectId }: Props) {
   }
 
   return (
-    <form className="admin-form" onSubmit={handleSubmit}>
-      <section className="admin-form-section">
+    <form className="admin-form samfer-animate" onSubmit={handleSubmit}>
+      <section className="admin-form-summary samfer-animate">
+        <p>
+          <strong>Slug final:</strong> {finalSlug || "-"}
+        </p>
+        {isEditMode ? (
+          <p>
+            <strong>ID:</strong> {projectId}
+          </p>
+        ) : (
+          <p>O slug e gerado automaticamente a partir do titulo quando vazio.</p>
+        )}
+      </section>
+
+      <section className="admin-form-section samfer-animate">
         <h2>
           Informacoes <span>basicas</span>
         </h2>
+        <p className="admin-section-text">Defina titulo, slug e status para aparecer corretamente na listagem publica.</p>
         <div className="admin-form-grid">
           <label className="admin-field">
             <span className="samfer-sr-only">Titulo</span>
@@ -314,8 +328,9 @@ export function PropertyFormLocal({ projectId }: Props) {
         </div>
       </section>
 
-      <section className="admin-form-section">
+      <section className="admin-form-section samfer-animate">
         <h2>Localizacao</h2>
+        <p className="admin-section-text">Esses dados alimentam filtros por cidade, bairro e estado no frontend.</p>
         <div className="admin-form-grid">
           <label className="admin-field">
             <span className="samfer-sr-only">Cidade</span>
@@ -347,8 +362,9 @@ export function PropertyFormLocal({ projectId }: Props) {
         </div>
       </section>
 
-      <section className="admin-form-section">
+      <section className="admin-form-section samfer-animate">
         <h2>Caracteristicas</h2>
+        <p className="admin-section-text">Preencha os numeros do imovel para melhorar comparacao e busca.</p>
         <div className="admin-form-grid two-col">
           <label className="admin-field">
             <span className="samfer-sr-only">Preco</span>
@@ -441,8 +457,9 @@ export function PropertyFormLocal({ projectId }: Props) {
         </div>
       </section>
 
-      <section className="admin-form-section">
+      <section className="admin-form-section samfer-animate">
         <h2>Midia</h2>
+        <p className="admin-section-text">Use links diretos de imagem. Na galeria, um link por linha.</p>
         <div className="admin-form-grid two-col">
           <label className="admin-field admin-field-with-icon">
             <span className="samfer-sr-only">Foto de capa</span>
@@ -469,8 +486,9 @@ export function PropertyFormLocal({ projectId }: Props) {
         </div>
       </section>
 
-      <section className="admin-form-section">
+      <section className="admin-form-section samfer-animate">
         <h2>Destaque</h2>
+        <p className="admin-section-text">Marcar como destaque prioriza exibicao em secoes principais da landing.</p>
         <div className="admin-form-grid">
           <label className="admin-field admin-field-select">
             <span className="samfer-sr-only">Imovel em destaque</span>
@@ -489,11 +507,11 @@ export function PropertyFormLocal({ projectId }: Props) {
       </section>
 
       <div className={`admin-form-actions ${isEditMode ? "is-edit" : ""}`}>
-        <button type="button" className="admin-secondary-btn is-large" onClick={() => router.push("/admin/imoveis")}>
-          Voltar
-        </button>
-        <button type="submit" className="admin-primary-btn is-large" disabled={isLoading || !finalSlug}>
-          {isLoading ? "Salvando..." : isEditMode ? "Salvar alteracoes" : "Salvar imovel"}
+          <button type="button" className="admin-secondary-btn is-large" onClick={() => router.push("/admin/imoveis")}>
+            Voltar
+          </button>
+          <button type="submit" className="admin-primary-btn is-large" disabled={isLoading || !finalSlug}>
+            {isLoading ? "Salvando..." : isEditMode ? "Salvar alteracoes" : "Salvar imovel"}
         </button>
         {isEditMode ? (
           <button type="button" className="admin-danger-btn is-large" onClick={handleDelete} disabled={isLoading}>
@@ -503,7 +521,6 @@ export function PropertyFormLocal({ projectId }: Props) {
         ) : null}
       </div>
 
-      <p className="admin-feedback">Slug final: {finalSlug || "-"}</p>
       {message ? (
         <p className={`admin-feedback ${isError ? "is-error" : "is-success"}`}>{message}</p>
       ) : null}

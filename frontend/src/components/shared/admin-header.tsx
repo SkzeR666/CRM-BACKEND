@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
@@ -27,6 +28,7 @@ export function AdminHeader({ backHref, backLabel, showLogout = true }: AdminHea
         <div className="admin-header-left">
           {backHref ? (
             <Link href={backHref} className="admin-header-link is-back">
+              <ArrowLeft size={14} />
               {backLabel || "Voltar"}
             </Link>
           ) : null}

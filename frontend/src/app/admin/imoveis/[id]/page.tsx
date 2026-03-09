@@ -15,6 +15,12 @@ export default async function AdminEditPropertyPage({ params }: Props) {
         <div className="admin-shell">
           <AdminHeader backHref="/admin/imoveis" backLabel="Voltar para lista" />
           <main className="admin-content">
+            <section className="admin-title-block samfer-animate">
+              <h1>
+                Editar <span>imovel</span>
+              </h1>
+              <p>Ajuste as informacoes do empreendimento e mantenha a pagina publica consistente.</p>
+            </section>
             <PropertyFormLocal projectId={resolved.id} />
           </main>
         </div>

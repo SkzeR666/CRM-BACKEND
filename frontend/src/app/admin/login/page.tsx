@@ -16,6 +16,12 @@ export default function AdminLoginPage() {
       <div className="admin-shell">
         <AdminHeader backHref="/" backLabel="Voltar para site" showLogout={false} />
         <main className="admin-content">
+          <section className="admin-title-block samfer-animate">
+            <h1>
+              Acesso <span>administrativo</span>
+            </h1>
+            <p>Entre com seu usuario do Supabase para gerenciar imoveis com seguranca.</p>
+          </section>
           <Suspense fallback={<AdminLoginFallback />}>
             <AdminLoginFormLocal />
           </Suspense>

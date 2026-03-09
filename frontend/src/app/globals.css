@@ -1163,7 +1163,10 @@ textarea {
 
 .admin-app {
   min-height: 100vh;
-  background: var(--admin-bg);
+  background:
+    radial-gradient(1200px 420px at 10% -15%, color-mix(in srgb, var(--admin-primary) 11%, transparent), transparent 70%),
+    radial-gradient(920px 380px at 88% 120%, color-mix(in srgb, var(--admin-primary) 8%, transparent), transparent 72%),
+    var(--admin-bg);
   color: var(--admin-text);
   padding: 20px 18px 32px;
 }
@@ -1173,7 +1176,7 @@ textarea {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
 .admin-header {
@@ -1183,60 +1186,74 @@ textarea {
 }
 
 .admin-header-shell {
-  min-height: 82px;
+  min-height: 100px;
   border: 1px solid var(--admin-border);
   border-radius: 10px;
   background: color-mix(in srgb, var(--admin-surface) 92%, transparent);
   backdrop-filter: blur(7.5px);
-  padding: 12px 20px;
+  padding: 12px 26px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 16px;
 }
 
 .admin-header-left,
 .admin-header-actions {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .admin-header-brand {
   display: inline-flex;
   align-items: center;
-  min-height: 46px;
+  min-height: 53px;
   color: var(--admin-text);
   font-size: 22px;
   font-weight: 600;
   line-height: var(--lh-tight);
-  letter-spacing: -0.22px;
+  letter-spacing: -0.02em;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.admin-header-brand:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
 }
 
 .admin-header-link {
-  min-height: 46px;
+  min-height: 53px;
   border: 1px solid var(--admin-border);
-  border-radius: 8px;
+  border-radius: 5px;
   background: var(--admin-surface-alt);
   color: var(--admin-text-2);
-  padding: 0 16px;
+  padding: 0 18px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   font-size: 14px;
   font-weight: 500;
   line-height: var(--lh-ui);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.admin-header-link:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
 }
 
 .admin-header-link.is-back {
   color: var(--admin-text);
+  background: var(--admin-surface);
 }
 
 .admin-theme-toggle {
-  width: 42px;
-  height: 42px;
+  width: 53px;
+  height: 53px;
   border: 1px solid var(--admin-border);
-  border-radius: 8px;
+  border-radius: 5px;
   background: var(--admin-surface-alt);
   color: var(--admin-icon);
   display: inline-flex;
@@ -1254,13 +1271,17 @@ textarea {
 .admin-content {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
 .admin-title-block {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--admin-surface-alt) 76%, var(--admin-surface));
+  padding: 22px 24px;
 }
 
 .admin-title-block h1 {
@@ -1277,8 +1298,9 @@ textarea {
 .admin-title-block p {
   margin: 0;
   color: var(--admin-text-2);
-  font-size: 16px;
+  font-size: 14px;
   line-height: var(--lh-body);
+  max-width: 72ch;
 }
 
 .admin-filter-row {
@@ -1286,10 +1308,14 @@ textarea {
   grid-template-columns: 1.2fr 1fr 1fr auto;
   gap: 14px;
   align-items: stretch;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--admin-surface-alt) 78%, var(--admin-surface));
+  padding: 12px;
 }
 
 .admin-filter-control {
-  min-height: 56px;
+  min-height: 64px;
   border: 1px solid var(--admin-border);
   border-radius: 10px;
   background: var(--admin-surface-alt);
@@ -1308,11 +1334,12 @@ textarea {
   color: inherit;
   outline: none;
   font-size: 14px;
-  line-height: var(--lh-ui);
+  font-weight: 500;
+  line-height: 1.25;
 }
 
 .admin-filter-control select {
-  padding-right: 0;
+  padding-right: 18px;
 }
 
 .admin-filter-search {
@@ -1345,8 +1372,8 @@ textarea {
 
 .admin-primary-btn,
 .admin-secondary-btn {
-  min-height: 56px;
-  border-radius: 10px;
+  min-height: 64px;
+  border-radius: 5px;
   border: 1px solid transparent;
   padding: 0 18px;
   display: inline-flex;
@@ -1378,14 +1405,14 @@ textarea {
 
 .admin-primary-btn.is-large,
 .admin-secondary-btn.is-large {
-  min-height: 64px;
+  min-height: 72px;
   font-size: 16px;
   font-weight: 600;
 }
 
 .admin-danger-btn {
-  min-height: 64px;
-  border-radius: 10px;
+  min-height: 72px;
+  border-radius: 5px;
   border: 1px solid color-mix(in srgb, #ff7e7e 45%, var(--admin-border));
   background: color-mix(in srgb, #ff6b6b 10%, var(--admin-surface-alt));
   color: color-mix(in srgb, #ff5757 78%, var(--admin-text));
@@ -1423,33 +1450,51 @@ textarea {
   border: 1px solid var(--admin-border);
   border-radius: 10px;
   overflow: auto;
-  background: color-mix(in srgb, var(--admin-surface-alt) 85%, var(--admin-surface));
+  background: color-mix(in srgb, var(--admin-surface-alt) 80%, var(--admin-surface));
+  padding: 10px;
+}
+
+.admin-table-meta {
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4px 6px 10px;
+}
+
+.admin-table-meta p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--admin-text-2);
+  line-height: var(--lh-ui);
 }
 
 .admin-table {
   width: 100%;
   min-width: 860px;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 8px;
 }
 
 .admin-table th,
 .admin-table td {
-  border-bottom: 1px solid var(--admin-border);
-  padding: 16px 18px;
+  padding: 14px 18px;
   text-align: left;
   vertical-align: middle;
   font-size: 14px;
-  line-height: var(--lh-ui);
+  line-height: 1.25;
 }
 
 .admin-table thead th {
-  height: 56px;
+  height: 48px;
   font-weight: 500;
   color: var(--admin-text-2);
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   background: transparent;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .admin-table thead th > * {
@@ -1460,18 +1505,33 @@ textarea {
 
 .admin-table tbody td {
   color: var(--admin-text);
+  background: var(--admin-surface-alt);
+  border-top: 1px solid var(--admin-border);
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-table tbody td:first-child {
+  border-left: 1px solid var(--admin-border);
+  border-top-left-radius: 9px;
+  border-bottom-left-radius: 9px;
+}
+
+.admin-table tbody td:last-child {
+  border-right: 1px solid var(--admin-border);
+  border-top-right-radius: 9px;
+  border-bottom-right-radius: 9px;
 }
 
 .admin-table tbody tr:last-child td {
-  border-bottom: 0;
+  border-bottom: 1px solid var(--admin-border);
 }
 
 .admin-table tbody tr {
-  transition: background 0.2s ease;
+  transition: filter 0.2s ease, transform 0.2s ease;
 }
 
-.admin-table tbody tr:hover {
-  background: color-mix(in srgb, var(--admin-surface) 50%, transparent);
+.admin-table tbody tr:hover td {
+  filter: brightness(1.015);
 }
 
 .admin-table th.is-actions,
@@ -1493,7 +1553,7 @@ textarea {
 }
 
 .admin-row-action {
-  min-height: 36px;
+  min-height: 38px;
   border: 1px solid var(--admin-border);
   border-radius: 8px;
   background: var(--admin-surface-alt);
@@ -1505,6 +1565,12 @@ textarea {
   font-size: 13px;
   line-height: var(--lh-ui);
   cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.admin-row-action:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
 }
 
 .admin-row-action.is-danger {
@@ -1515,29 +1581,123 @@ textarea {
 .admin-row-action:disabled {
   opacity: 0.68;
   cursor: not-allowed;
+  transform: none;
+  filter: none;
+}
+
+.admin-status-pill {
+  min-height: 30px;
+  border: 1px solid var(--admin-border);
+  border-radius: 999px;
+  background: var(--admin-surface);
+  color: var(--admin-text-2);
+  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.admin-status-pill.is-active {
+  background: color-mix(in srgb, var(--admin-primary) 14%, var(--admin-surface));
+  border-color: color-mix(in srgb, var(--admin-primary) 36%, var(--admin-border));
+  color: color-mix(in srgb, var(--admin-primary) 40%, var(--admin-text));
+}
+
+.admin-status-pill.is-warning {
+  background: color-mix(in srgb, #f5c66b 16%, var(--admin-surface));
+  border-color: color-mix(in srgb, #f5c66b 34%, var(--admin-border));
+  color: color-mix(in srgb, #d1962f 80%, var(--admin-text));
+}
+
+.admin-status-pill.is-danger {
+  background: color-mix(in srgb, #ff7e7e 14%, var(--admin-surface));
+  border-color: color-mix(in srgb, #ff7e7e 38%, var(--admin-border));
+  color: color-mix(in srgb, #ff6464 88%, var(--admin-text));
+}
+
+.admin-active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.admin-filter-chip {
+  min-height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--admin-border);
+  background: var(--admin-surface-alt);
+  color: var(--admin-text);
+  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  line-height: var(--lh-ui);
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.admin-filter-chip:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+}
+
+.admin-filter-chip svg {
+  display: block;
+  flex-shrink: 0;
 }
 
 .admin-form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 18px;
   max-width: 1120px;
   width: 100%;
+}
+
+.admin-login-form {
+  max-width: 700px;
+}
+
+.admin-form-summary {
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--admin-surface-alt) 84%, var(--admin-surface));
+  padding: 16px 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+
+.admin-form-summary p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--admin-text-2);
+  line-height: var(--lh-ui);
+}
+
+.admin-form-summary strong {
+  color: var(--admin-text);
 }
 
 .admin-form-section {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
   border: 1px solid var(--admin-border);
   border-radius: 10px;
-  background: color-mix(in srgb, var(--admin-surface) 85%, transparent);
-  padding: 18px;
+  background: color-mix(in srgb, var(--admin-surface-alt) 84%, var(--admin-surface));
+  padding: 20px;
 }
 
 .admin-form-section h2 {
   margin: 0;
-  font-size: 30px;
+  font-size: 28px;
   line-height: var(--lh-tight);
   letter-spacing: -0.02em;
 }
@@ -1546,10 +1706,17 @@ textarea {
   color: var(--admin-primary);
 }
 
+.admin-section-text {
+  margin: -2px 0 0;
+  color: var(--admin-text-2);
+  font-size: 13px;
+  line-height: var(--lh-body);
+}
+
 .admin-form-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
+  gap: 14px;
 }
 
 .admin-form-grid.two-col {
@@ -1557,15 +1724,21 @@ textarea {
 }
 
 .admin-field {
-  min-height: 76px;
+  min-height: 80px;
   border: 1px solid var(--admin-border);
   border-radius: 10px;
   background: var(--admin-surface-alt);
   color: var(--admin-text-2);
-  padding: 12px 16px;
+  padding: 14px 16px;
   display: flex;
   align-items: center;
   position: relative;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.admin-field:focus-within {
+  border-color: color-mix(in srgb, var(--admin-primary) 70%, var(--admin-border));
+  background: color-mix(in srgb, var(--admin-surface-alt) 88%, var(--admin-primary) 12%);
 }
 
 .admin-field input,
@@ -1578,17 +1751,18 @@ textarea {
   background: transparent;
   color: inherit;
   font-size: 14px;
-  line-height: var(--lh-ui);
+  font-weight: 500;
+  line-height: 1.28;
   padding: 0;
 }
 
 .admin-field textarea {
-  min-height: 50px;
+  min-height: 88px;
 }
 
 .admin-field select {
   appearance: none;
-  padding-right: 24px;
+  padding-right: 28px;
 }
 
 .admin-field-select svg,
@@ -1619,7 +1793,7 @@ textarea {
   margin: 0;
   color: var(--admin-text-2);
   font-size: 13px;
-  line-height: var(--lh-ui);
+  line-height: var(--lh-body);
 }
 
 .admin-feedback.is-error {
@@ -1634,7 +1808,7 @@ textarea {
   min-height: 48vh;
   border: 1px solid var(--admin-border);
   border-radius: 10px;
-  background: var(--admin-surface);
+  background: color-mix(in srgb, var(--admin-surface-alt) 78%, var(--admin-surface));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1653,6 +1827,10 @@ textarea {
 
   .admin-form {
     max-width: 100%;
+  }
+
+  .admin-table {
+    min-width: 760px;
   }
 }
 
@@ -1700,8 +1878,13 @@ textarea {
   }
 
   .admin-header-link {
-    min-height: 40px;
+    min-height: 42px;
     padding: 0 12px;
+  }
+
+  .admin-theme-toggle {
+    width: 42px;
+    height: 42px;
   }
 
   .admin-title-block h1,
@@ -1713,9 +1896,14 @@ textarea {
     font-size: 14px;
   }
 
+  .admin-title-block {
+    padding: 16px;
+  }
+
   .admin-filter-row {
     grid-template-columns: 1fr;
     gap: 12px;
+    padding: 10px;
   }
 
   .admin-filter-actions {
@@ -1726,16 +1914,43 @@ textarea {
 
   .admin-primary-btn,
   .admin-secondary-btn {
-    min-height: 52px;
+    min-height: 54px;
   }
 
   .admin-primary-btn.is-large,
   .admin-secondary-btn.is-large {
-    min-height: 54px;
+    min-height: 56px;
   }
 
   .admin-danger-btn {
-    min-height: 54px;
+    min-height: 56px;
+  }
+
+  .admin-active-filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+  }
+
+  .admin-filter-chip {
+    white-space: nowrap;
+    scroll-snap-align: start;
+  }
+
+  .admin-table-shell {
+    padding: 8px;
+  }
+
+  .admin-table {
+    min-width: 700px;
+    border-spacing: 0 6px;
+  }
+
+  .admin-table-meta {
+    justify-content: flex-start;
+    padding: 0 2px 8px;
   }
 
   .admin-form-grid.two-col {
@@ -1749,6 +1964,11 @@ textarea {
 
   .admin-form-actions {
     grid-template-columns: 1fr;
+  }
+
+  .admin-form-summary {
+    flex-direction: column;
+    gap: 6px;
   }
 
   .admin-actions-cell {

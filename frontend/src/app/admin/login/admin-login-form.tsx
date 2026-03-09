@@ -56,11 +56,12 @@ export function AdminLoginFormLocal() {
   }
 
   return (
-    <form className="admin-form" onSubmit={handleSubmit}>
+    <form className="admin-form admin-login-form samfer-animate" onSubmit={handleSubmit}>
       <section className="admin-form-section">
         <h2>
           Login <span>admin</span>
         </h2>
+        <p className="admin-section-text">Use o mesmo login do Supabase que voce cadastrou para o time administrador.</p>
         <div className="admin-form-grid">
           <label className="admin-field">
             <span className="samfer-sr-only">Email</span>

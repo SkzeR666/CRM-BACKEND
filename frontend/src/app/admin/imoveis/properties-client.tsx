@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { PencilLine, Search, Trash2 } from "lucide-react";
+import { PencilLine, Search, Trash2, X } from "lucide-react";
 import { listProjects, deleteProject } from "@/lib/api/projects";
 import { formatPrice } from "@/lib/utils/format-price";
 import type { Project } from "@/types/project";
@@ -43,6 +43,16 @@ function statusLabel(status?: string | null) {
   if (value === "rascunho") return "Rascunho";
   if (value === "ativo") return "Ativo";
   return status;
+}
+
+function statusTone(status?: string | null) {
+  if (!status) return "neutral";
+  const value = status.toLowerCase();
+  if (value === "available" || value === "ativo") return "active";
+  if (value === "reserved") return "warning";
+  if (value === "sold") return "danger";
+  if (value === "draft" || value === "rascunho") return "neutral";
+  return "neutral";
 }
 
 function buildQuery(filters: Filters) {
@@ -142,6 +152,18 @@ export function AdminPropertiesPageClient() {
     router.push("/admin/imoveis");
   }
 
+  function updateFilters(next: Filters) {
+    const query = buildQuery(next);
+    router.push(query ? `/admin/imoveis?${query}` : "/admin/imoveis");
+  }
+
+  function handleRemoveFilter(key: keyof Filters) {
+    updateFilters({
+      ...filters,
+      [key]: "",
+    });
+  }
+
   async function handleDelete(project: Project) {
     const confirmDelete = window.confirm(`Excluir o imovel "${project.title}"?`);
     if (!confirmDelete) return;
@@ -161,6 +183,11 @@ export function AdminPropertiesPageClient() {
   }
 
   const hasFilters = Boolean(filters.q || filters.status || filters.city);
+  const activeFilters = [
+    filters.q ? { key: "q" as const, label: `Busca: ${filters.q}` } : null,
+    filters.status ? { key: "status" as const, label: `Status: ${statusLabel(filters.status)}` } : null,
+    filters.city ? { key: "city" as const, label: `Cidade: ${filters.city}` } : null,
+  ].filter(Boolean) as Array<{ key: keyof Filters; label: string }>;
 
   return (
     <AdminAuthGuard>
@@ -169,14 +196,14 @@ export function AdminPropertiesPageClient() {
           <AdminHeader />
 
           <main className="admin-content">
-            <section className="admin-title-block">
+            <section className="admin-title-block samfer-animate">
               <h1>
                 Painel <span>administrativo</span>
               </h1>
-              <p>Gerencie imoveis, edite informacoes e acompanhe os conteudos da plataforma.</p>
+              <p>Gerencie imoveis, edite informacoes e acompanhe os conteudos da plataforma sem sair do fluxo.</p>
             </section>
 
-            <form className="admin-filter-row" onSubmit={handleApply}>
+            <form className="admin-filter-row samfer-animate" onSubmit={handleApply}>
               <label className="admin-filter-control admin-filter-search">
                 <span className="samfer-sr-only">Buscar imovel</span>
                 <input name="q" defaultValue={filters.q} placeholder="Buscar imovel" />
@@ -222,9 +249,28 @@ export function AdminPropertiesPageClient() {
               </div>
             </form>
 
+            {activeFilters.length ? (
+              <div className="admin-active-filters samfer-animate" aria-label="Filtros ativos">
+                {activeFilters.map((filter) => (
+                  <button
+                    key={filter.key}
+                    type="button"
+                    className="admin-filter-chip"
+                    onClick={() => handleRemoveFilter(filter.key)}
+                  >
+                    <span>{filter.label}</span>
+                    <X size={14} />
+                  </button>
+                ))}
+              </div>
+            ) : null}
+
             {error ? <p className="admin-feedback is-error">{error}</p> : null}
 
-            <section className="admin-table-shell" aria-live="polite">
+            <section className="admin-table-shell samfer-animate" aria-live="polite">
+              <div className="admin-table-meta">
+                <p>{isLoading ? "Carregando..." : `${filteredProjects.length} imovel(is) encontrado(s)`}</p>
+              </div>
               <table className="admin-table">
                 <thead>
                   <tr>
@@ -247,7 +293,9 @@ export function AdminPropertiesPageClient() {
                       <tr key={project.id}>
                         <td>{project.title}</td>
                         <td>{project.city || "-"}</td>
-                        <td>{statusLabel(project.status)}</td>
+                        <td>
+                          <span className={`admin-status-pill is-${statusTone(project.status)}`}>{statusLabel(project.status)}</span>
+                        </td>
                         <td>{typeof project.price === "number" ? formatPrice(project.price) : "Sob consulta"}</td>
                         <td className="admin-actions-cell">
                           <Link href={`/admin/imoveis/${project.id}`} className="admin-row-action" aria-label={`Editar ${project.title}`}>
