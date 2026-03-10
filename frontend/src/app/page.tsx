@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
-import { listProjects } from "@/lib/api/projects";
+import { listPublicProjects } from "@/lib/data/projects";
 import { resolveTheme } from "@/lib/utils/theme";
 import { SamferHeader } from "@/components/samfer/header";
 import { SamferFooter } from "@/components/samfer/footer";
@@ -55,8 +55,8 @@ export default async function HomePage({ searchParams }: Props) {
   const theme = resolveTheme(params.theme);
 
   const [featuredResult, allResult] = await Promise.all([
-    listProjects({ limit: 6, is_featured: true }),
-    listProjects({ limit: 120 }),
+    listPublicProjects({ limit: 6, is_featured: true }),
+    listPublicProjects({ limit: 120 }),
   ]);
 
   const featured = featuredResult.projects.length

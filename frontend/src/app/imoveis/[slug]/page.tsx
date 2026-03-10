@@ -1,7 +1,7 @@
 ﻿import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { listProjects, getProjectBySlug } from "@/lib/api/projects";
+import { getPublicProjectBySlug, listPublicProjects } from "@/lib/data/projects";
 import { formatPrice } from "@/lib/utils/format-price";
 import { resolveTheme } from "@/lib/utils/theme";
 import { SamferHeader } from "@/components/samfer/header";
@@ -22,7 +22,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Pick<Props, "params">): Promise<Metadata> {
   const resolvedParams = await params;
-  const project = await getProjectBySlug(resolvedParams.slug);
+  const project = await getPublicProjectBySlug(resolvedParams.slug);
 
   if (!project) {
     return createPageMetadata({
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: Pick<Props, "params">): Promi
   });
 }
 
-function getFeatureItems(project: NonNullable<Awaited<ReturnType<typeof getProjectBySlug>>>) {
+function getFeatureItems(project: NonNullable<Awaited<ReturnType<typeof getPublicProjectBySlug>>>) {
   return [
     typeof project.bedrooms === "number" && project.bedrooms > 0
       ? `${project.bedrooms} dormitórios`
@@ -66,12 +66,12 @@ export default async function PropertyBySlugPage({ params, searchParams }: Props
   const resolvedSearchParams = await searchParams;
   const theme = resolveTheme(resolvedSearchParams.theme);
 
-  const project = await getProjectBySlug(resolvedParams.slug);
+  const project = await getPublicProjectBySlug(resolvedParams.slug);
   if (!project) notFound();
 
   const [relatedByCityResult, relatedGeneralResult] = await Promise.all([
-    listProjects({ city: project.city ?? undefined, limit: 8 }),
-    listProjects({ limit: 12 }),
+    listPublicProjects({ city: project.city ?? undefined, limit: 8 }),
+    listPublicProjects({ limit: 12 }),
   ]);
 
   const related = [...relatedByCityResult.projects, ...relatedGeneralResult.projects]

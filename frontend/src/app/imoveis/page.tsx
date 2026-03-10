@@ -1,6 +1,6 @@
 ﻿import Link from "next/link";
 import type { Metadata } from "next";
-import { listProjects } from "@/lib/api/projects";
+import { listPublicProjects } from "@/lib/data/projects";
 import { resolveTheme } from "@/lib/utils/theme";
 import { SamferHeader } from "@/components/samfer/header";
 import { SamferFooter } from "@/components/samfer/footer";
@@ -87,7 +87,7 @@ function parsePriceRange(range?: string) {
   };
 }
 
-function sortProjects(projects: Awaited<ReturnType<typeof listProjects>>["projects"], sort?: string) {
+function sortProjects(projects: Awaited<ReturnType<typeof listPublicProjects>>["projects"], sort?: string) {
   const list = [...projects];
 
   if (sort === "price_asc") return list.sort((a, b) => (a.price ?? Number.MAX_SAFE_INTEGER) - (b.price ?? Number.MAX_SAFE_INTEGER));
@@ -128,7 +128,7 @@ export default async function PropertiesPage({ searchParams }: Props) {
   const bedrooms = toNumberOrNull(params.bedrooms);
   const priceRange = parsePriceRange(params.priceRange);
 
-  const serverResult = await listProjects({
+  const serverResult = await listPublicProjects({
     limit: 200,
     city: params.city,
     status: params.status,
@@ -140,7 +140,7 @@ export default async function PropertiesPage({ searchParams }: Props) {
     max_price: priceRange.max_price,
   });
 
-  const allOptionsResult = await listProjects({ limit: 200 });
+  const allOptionsResult = await listPublicProjects({ limit: 200 });
   const projects = sortProjects(serverResult.projects, params.sort);
   const totalPages = Math.max(1, Math.ceil(projects.length / PAGE_SIZE));
   const page = Math.min(currentPage, totalPages);
