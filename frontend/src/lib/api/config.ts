@@ -1,13 +1,10 @@
-const DEFAULT_LOCAL_API_BASE_URL = "http://localhost:4000";
-const DEFAULT_PROD_API_BASE_URL = "https://crm-backend-green.vercel.app";
-
 export function getApiBaseUrl() {
-  const explicit = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
-  if (explicit) return explicit.replace(/\/+$/, "");
+  if (typeof window !== "undefined") return "";
 
-  if (process.env.NODE_ENV === "production") {
-    return DEFAULT_PROD_API_BASE_URL;
-  }
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
+    "http://localhost:3000";
 
-  return DEFAULT_LOCAL_API_BASE_URL;
+  return siteUrl.replace(/\/+$/, "");
 }

@@ -1,58 +1,41 @@
-# CRM Workspace
+# Samfer
 
-Monorepo com 2 apps independentes:
+Projeto unificado em um unico deploy:
 
-- `backend/` API CRM (Next.js, porta 4000)
-- `frontend/` UI/Landing (Next.js, porta 3000)
-
-Nao existe acoplamento de codigo entre eles.
+- landing e area publica
+- area admin
+- rotas `/api/*` do CRM no mesmo app Next.js
 
 ## Rodar local
 
-### Backend
-
 ```bash
-cd backend
-cp .env.example .env.local
-npm install
-npm run dev
-```
-
-### Frontend
-
-```bash
-cd frontend
-cp .env.example .env.local
-npm install
+cp frontend/.env.example frontend/.env.local
+npm install --prefix frontend
 npm run dev
 ```
 
 ## Deploy na Vercel
 
-Crie 2 projetos na Vercel apontando para o mesmo repo:
+Use um unico projeto na Vercel apontando para este repositorio com:
 
-1. Projeto `crm-backend` com Root Directory = `backend`
-2. Projeto `crm-frontend` com Root Directory = `frontend`
+- Root Directory = `frontend`
 
 ### Variaveis de ambiente
 
-Backend (`backend`):
+- `NEXT_PUBLIC_SITE_URL`
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
-- `FRONTEND_ORIGIN` (ex: `https://seu-frontend.vercel.app`)
 
-Frontend (`frontend`):
-- `NEXT_PUBLIC_API_BASE_URL` (ex: `https://seu-backend.vercel.app`)
-- `NEXT_PUBLIC_SITE_URL` (ex: `https://seu-frontend.vercel.app`)
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-
-## Supabase (confirmacao por codigo)
+## Supabase
 
 No painel do Supabase (`Authentication > Providers > Email`):
 
 1. Ative `Email`.
-2. Ative `Confirm email` (codigo/link).
-3. Configure `Site URL` com a URL do frontend publicado.
-4. Adicione o frontend em `Redirect URLs`.
+2. Ative `Confirm email` se quiser validacao por codigo ou link.
+3. Configure `Site URL` com a URL publicada da Vercel.
+4. Adicione essa mesma URL em `Redirect URLs`.
+
+## SQL util
+
+Os scripts de apoio do banco ficam em `sql/`.
